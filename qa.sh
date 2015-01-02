@@ -74,6 +74,28 @@ dbClear(){
 		fi
 }
 
+updateToHeadOption(){
+	read -p "Update to HEAD? (y/n)?" -n 1 -r
+		echo
+		if [[ $REPLY =~ ^[Yy]$ ]]
+		then
+			echo "Yes"
+			echo "Pulling Upstream"
+			echo
+			git pull upstream $v
+			echo
+			echo "Pushing to Origin"
+			echo
+			git push origin $v
+		elif [[ $REPLY =~ ^[Nn]$ ]] 
+		then
+			echo "No"
+		else 
+			echo "please choose Y or N"
+			continue
+		fi
+}
+
 bundleBuild(){
 	cd $dir
 
@@ -87,6 +109,7 @@ bundleBuild(){
 			echo
 			echo -e "\e[31mAny modified files will be cleared, are you sure you want to continue?\e[0m"
 			echo -e "\e[31m[y/n?]\e[0m"
+
 			read -n 1 -r
 				echo
 				if [[ $REPLY =~ ^[Yy]$ ]]
@@ -102,6 +125,7 @@ bundleBuild(){
 					sleep 3
 					continue
 				fi
+				
 			echo "Clearing main branch"
 			git reset --hard
 			echo
@@ -135,7 +159,9 @@ bundleBuild(){
 	echo "Writing ports to ${p}080"
 	sed -i "s/8005/${p}005/; s/8080/${p}080/; s/8009/${p}009/; s/8443/${p}443/" server.xml
 	echo "Remaking MySQL Database"
+	
 	dbClear
+
 	echo "$db has been remade"
 	echo "done"
 	read -rsp $'Press any key to continue...\n' -n1 key
@@ -176,13 +202,9 @@ pluginsDeploy(){
 	cd $dir
 	echo "Plugins Branch Selected: $v"
 	echo
-	echo "Pulling Upstream"
-	echo
-	git pull upstream $v
-	echo
-	echo "Pushing to Origin"
-	echo
-	git push origin $v
+
+	updateToHeadOption
+
 	for p in "${cePlugins[@]}"
 	do
 		echo "Deploying $p"
@@ -193,6 +215,7 @@ pluginsDeploy(){
 		echo
 		cd $dir 
 	done
+
 	if [[ $v == *ee* ]]
 	then
 		for p in "${eePlugins[@]}"
@@ -206,6 +229,7 @@ pluginsDeploy(){
 			cd $dir  
 		done
 	fi
+
 	echo "done"
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
