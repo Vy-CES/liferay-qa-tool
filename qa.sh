@@ -208,9 +208,7 @@ pluginsDeploy(){
 	for p in "${cePlugins[@]}"
 	do
 		echo "Deploying $p"
-		cd $p
-		sleep 2
-		ant clean deploy
+		cd $p && ant clean deploy
 		echo "done"
 		echo
 		cd $dir 
@@ -221,9 +219,7 @@ pluginsDeploy(){
 		for p in "${eePlugins[@]}"
 		do
 			echo "Deploying $p"
-			cd $p
-			sleep 2
-			ant clean deploy
+			cd $p && ant clean deploy
 			echo "done"
 			echo
 			cd $dir  
@@ -281,7 +277,14 @@ clearEnvCmd(){
 		then
 			echo
 			echo "Clearing Plugins"
-			cd $dir/tomcat-7.0.42/webapps/
+
+			if [[ $v == *ee-6.1* ]]
+			then
+				cd $bun_dir/tomcat-7.0.40/webapps
+			else
+				cd $bun_dir/tomcat-7.0.42/webapps
+			fi
+			
 			ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			echo "done"
 		elif [[ $REPLY =~ ^[Nn]$ ]] 
