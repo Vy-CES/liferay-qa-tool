@@ -280,12 +280,11 @@ clearEnvCmd(){
 
 			if [[ $v == *ee-6.1* ]]
 			then
-				cd $bun_dir/tomcat-7.0.40/webapps
+				cd $dir/tomcat-7.0.40/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			else
-				cd $bun_dir/tomcat-7.0.42/webapps
+				cd $dir/tomcat-7.0.42/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			fi
 			
-			ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			echo "done"
 		elif [[ $REPLY =~ ^[Nn]$ ]] 
 		then
