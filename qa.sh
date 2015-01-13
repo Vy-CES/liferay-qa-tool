@@ -151,9 +151,9 @@ bundleBuild(){
 	
 	if [[ $v == *ee-6.1* ]]
 	then
-		cd $bun_dir/tomcat-7.0.40/conf
+		cd $bundleDir/tomcat-7.0.40/conf
 	else
-		cd $bun_dir/tomcat-7.0.42/conf
+		cd $bundleDir/tomcat-7.0.42/conf
 	fi
 
 	echo "Writing ports to ${p}080"
@@ -187,10 +187,10 @@ Which bundle?
 EOF
 	read -n1 -s
 	case "$REPLY" in
-	"1")  dir=$masterSourceDir bun_dir=$masterBundleDir v="master" db=$masterDB p=$masterPort bundleBuild ;;
-	"2")  dir=$ee62xSourceDir bun_dir=$ee62xBundleDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  bundleBuild ;;
-	"3")  dir=$ee70xSourceDir  bun_dir=$ee70xBundleDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort bundleBuild ;;
-	"4")  dir=$ee61xSourceDir  bun_dir=$ee61xBundleDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort bundleBuild ;;
+	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir v="master" db=$masterDB p=$masterPort bundleBuild ;;
+	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  bundleBuild ;;
+	"3")  dir=$ee70xSourceDir  bundleDir=$ee70xBundleDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort bundleBuild ;;
+	"4")  dir=$ee61xSourceDir  bundleDir=$ee61xBundleDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort bundleBuild ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break  ;; 
 	* )   echo "Not a valid option" ;;
