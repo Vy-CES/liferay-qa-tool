@@ -25,9 +25,14 @@ ee62xPort=7
 ee70xPort=8
 ee61xPort=6
 
+# Test Results Location
+# used in the POSHI suite function
+# where you want your test reports to end up
+resultsDir=/home/username/results
+
 # Portal Directories
-sourceDir=/home/username/Liferay/Source/private
-bundleDir=/home/username/Liferay/Source/private
+sourceDir=/opt/dev/projects/github/liferay-portal-ee-master
+bundleDir=/opt/dev/projects/bundles/master-bundles
 
 masterSourceDir=$sourceDir/master-build
 masterBundleDir=$bundleDir/master-bundles
@@ -343,6 +348,136 @@ poshiFormat(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+poshiSuite(){
+	T="$(date +%s)"
+
+	echo "Choose a Test Suite to Run and hit [Enter]:"
+	echo
+	OPTIONS="Suite-1 Suite-2"
+	select opt in $OPTIONS; do
+		if [ "$opt" = "Suite-1" ]; then
+			suiteNumber=1
+			echo "$opt Selected"
+			sleep 2
+			break
+		elif [ "$opt" = "Suite-2" ]; then
+			suiteNumber=2
+			echo "$opt Selected"
+			sleep 2
+			break
+		else
+			echo "Don't be a noob"
+		fi
+	done
+
+	read -p "Do you need to Build Selenium First? (y/n)?" -n 1 -r
+		echo
+		if [[ $REPLY =~ ^[Yy]$ ]]
+		then
+			cd $dir
+			cd portal-impl
+			echo "Building Selenium"
+			ant build-selenium
+			cd $dir
+		elif [[ $REPLY =~ ^[Nn]$ ]] 
+		then
+			echo "No"
+		else 
+			echo "please choose Y or N"
+			sleep 3
+			continue
+		fi
+	echo "Clearing Old Screenshots"
+	cd $dir/portal-web/test-results/functional/screenshots
+	rm *.jpg
+	cd $dir
+
+	if [ -z "$suiteNumber" ]; then 
+		echo "You didn't pick a test suite.";
+		break
+	fi
+
+	# Runs all tests that are listed in the specified suite${suiteNumber}.txt. This file needs to be in your base source directory
+	# The file also must contains an extra blank line at the end to ensure all the tests are read
+	while read testname;
+	do
+		echo "Running $testname"
+		echo
+		ant -f run.xml run -Dtest.class=$testname < /dev/null
+		echo
+		echo "Finished $testname"
+		echo
+		echo "Renaming report.html"
+		time="$(date +"%H:%M")"
+		mv $dir/portal-web/test-results/functional/report.html $dir/portal-web/test-results/functional/${testname}_${time}.html
+		echo "done"
+		echo
+		echo "Zipping Screenshots"
+		echo
+		cd $dir/portal-web/test-results/functional/screenshots
+		zip Pictures$testname.zip *.jpg
+		rm *.jpg
+		echo "done"
+		cd $dir
+		echo
+		continue
+	done<suite$suiteNumber.txt
+
+	echo
+	echo -e "\e[31mALL TESTS COMPLETE\e[0m"
+	echo
+	echo "Zipping up results for you"
+	sleep 2
+
+	date="$(date +"%m-%d-%y")"
+	time="$(date +"%H:%M")"
+
+	info=Suite${suiteNumber}_${date}_${time}
+	cd $dir/portal-web/test-results/functional/screenshots
+	echo "Zipping screenshots"
+	zip Results-Pictures-$info *.zip
+	mv Results-Pictures-$info.zip $dir
+	rm *.zip
+	cd $dir
+	mv Results-Pictures-$info.zip $resultsDir/Results-$info-PICTURES
+	echo "done"
+
+	echo
+	echo "Zipping reports"
+	cd $dir/portal-web/test-results/functional
+
+	mkdir failed
+	grep -l -Z -r 'div class="fail"' . | xargs -0 -I{} mv {} ./failed
+
+	cd $dir/portal-web/test-results/functional
+	zip Results-$info-PASSED *.html
+	mv Results-$info-PASSED.zip $dir
+	rm *.html
+
+	cd failed
+	zip Results-$info-FAILED *.html
+	mv Results-$info-FAILED.zip $dir
+	cd $dir/portal-web/test-results/functional
+	rm -r failed
+
+	echo "Sending your results to $resultsDir"
+	cd $dir
+	unzip Results-$info-PASSED.zip -d $resultsDir/Results-$info-PASSED
+	unzip Results-$info-FAILED.zip -d $resultsDir/Results-$info-FAILED
+	echo "done"
+
+	echo
+	T="$(($(date +%s)-T))"
+	echo "Time in seconds: ${T}"
+	echo
+	printf "Pretty format: %02d:%02d:%02d:%02d\n" "$((T/86400))" "$((T/3600%24))" "$((T/60%60))" "$((T%60))"
+	echo "done"
+	echo
+	echo -e "\e[31mResults can be found in $dir\e[0m"
+	echo -e "\e[31mor in $resultsDir\e[0m"
+	read -rsp $'Press any key to continue...\n' -n1 key
+}
+
 poshiRun(){
 	echo "Running POSHI test for $v"
 	sleep 2
@@ -394,6 +529,7 @@ Choose Your Destiny:
 	Run               (2)
 	Format            (3)
 	Pick New Test     (4)
+	Run Test Suite    (5)
 
 
 	                  (q)uit and go back
@@ -405,6 +541,7 @@ EOF
 	"2")  build="false" poshiRun ;;
 	"3")  poshiFormat ;;
 	"4")  poshiSetTest ;;
+	"5")  poshiSuite ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break  ;; 
 	* )   echo "Not a valid option" ;;
