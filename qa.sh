@@ -101,6 +101,44 @@ updateToHeadOption(){
 		fi
 }
 
+setupDatabaseConnection(){
+	cd $dir
+	if [[ -e test.$username.properties ]] 
+	# if test.username.properties exists(-e)
+	then
+		if grep -q database.mysql.schema test.$username.properties 
+		# if there is a test.username.properties file that already defines the database name
+		then
+			sed -i "s/database.mysql.schema=.*/database.mysql.schema=${db}/" test.$username.properties
+			# basic inline(-i) search and replace
+			# using ".*" regex to denote that it can contain any string in the rest of that line
+		else
+			(echo "" ; echo "database.mysql.schema=${db}") >>test.$username.properties
+			# append the file with the database property after adding an extra line. 
+			# this is to prevent the property being added to the end of a already populated line
+		fi
+	else
+		echo "database.mysql.schema=${db}" >test.$username.properties
+		# create file test.username.properties and add the database.name property
+	fi
+
+	if grep -q database.mysql.username test.$username.properties 
+	then
+		sed -i "s/database.mysql.username=.*/database.mysql.username=${mysqlUsername}/" test.$username.properties
+	else
+		(echo "" ; echo "database.mysql.username=${mysqlUsername}") >>test.$username.properties
+	fi
+
+	if grep -q database.mysql.password test.$username.properties 
+	then
+		sed -i "s/database.mysql.password=.*/database.mysql.password=${mysqlPassword}/" test.$username.properties
+	else
+		(echo "" ; echo "database.mysql.password=${mysqlPassword}") >>test.$username.properties
+	fi
+
+	ant -f build-test.xml prepare-portal-ext-properties
+}
+
 bundleBuild(){
 	cd $dir
 
@@ -163,10 +201,15 @@ bundleBuild(){
 
 	echo "Writing ports to ${p}080"
 	sed -i "s/8005/${p}005/; s/8080/${p}080/; s/8009/${p}009/; s/8443/${p}443/" server.xml
-	echo "Remaking MySQL Database"
 	
-	dbClear
+	if [[ $v != *ee-6.1* ]]
+	then
+		echo "Setting up portal-ext.properties"
+		setupDatabaseConnection
+	fi
 
+	echo "Remaking MySQL Database"
+	dbClear
 	echo "$db has been remade"
 	echo "done"
 	read -rsp $'Press any key to continue...\n' -n1 key
