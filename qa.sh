@@ -32,7 +32,7 @@ resultsDir=/home/username/results
 
 # Portal Directories
 sourceDir=/opt/dev/projects/github/liferay-portal-ee-master
-bundleDir=/opt/dev/projects/bundles/master-bundles
+bundleDir=/opt/dev/projects/bundles
 
 masterSourceDir=$sourceDir/master-build
 masterBundleDir=$bundleDir/master-bundles
