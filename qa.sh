@@ -391,6 +391,30 @@ poshiFormat(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+poshiRunTest(){
+	echo "Running $testname"
+	sleep 2
+	echo
+	echo "Clearing Old Screenshots"
+	cd $dir/portal-web/test-results/functional/screenshots
+	rm *.jpg
+	cd $dir
+	ant -f run.xml run -Dtest.class=$testname < /dev/null
+	echo
+	echo "Finished $testname"
+	echo
+	echo "Renaming report.html"
+	mv $dir/portal-web/test-results/functional/report.html $dir/portal-web/test-results/functional/${v}_$testname.html
+	echo "done"
+	echo
+	echo "Zipping Screenshots"
+	echo
+	cd $dir/portal-web/test-results/functional/screenshots
+	zip Pictures$testname.zip *.jpg
+	rm *.jpg
+	echo "done"
+}
+
 poshiSuite(){
 	T="$(date +%s)"
 
@@ -444,25 +468,8 @@ poshiSuite(){
 	# The file also must contains an extra blank line at the end to ensure all the tests are read
 	while read testname;
 	do
-		echo "Running $testname"
-		echo
-		ant -f run.xml run -Dtest.class=$testname < /dev/null
-		echo
-		echo "Finished $testname"
-		echo
-		echo "Renaming report.html"
-		time="$(date +"%H:%M")"
-		mv $dir/portal-web/test-results/functional/report.html $dir/portal-web/test-results/functional/${testname}_${time}.html
-		echo "done"
-		echo
-		echo "Zipping Screenshots"
-		echo
-		cd $dir/portal-web/test-results/functional/screenshots
-		zip Pictures$testname.zip *.jpg
-		rm *.jpg
-		echo "done"
+		poshiRunTest
 		cd $dir
-		echo
 		continue
 	done<suite$suiteNumber.txt
 
@@ -533,27 +540,7 @@ poshiRun(){
 		ant build-selenium
 	fi
 
-	echo "Running $testname"
-	sleep 2
-	echo
-	echo "Clearing Old Screenshots"
-	cd $dir/portal-web/test-results/functional/screenshots
-	rm *.jpg
-	cd $dir
-	ant -f run.xml run -Dtest.class=$testname < /dev/null
-	echo
-	echo "Finished $testname"
-	echo
-	echo "Renaming report.html"
-	mv $dir/portal-web/test-results/functional/report.html $dir/portal-web/test-results/functional/$testname.html
-	echo "done"
-	echo
-	echo "Zipping Screenshots"
-	echo
-	cd $dir/portal-web/test-results/functional/screenshots
-	zip Pictures$testname.zip *.jpg
-	rm *.jpg
-	echo "done"
+	poshRunTest
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
