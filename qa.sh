@@ -540,7 +540,7 @@ poshiRun(){
 		ant build-selenium
 	fi
 
-	poshRunTest
+	poshiRunTest
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
