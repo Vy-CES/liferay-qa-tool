@@ -31,7 +31,7 @@ ee61xPort=6
 resultsDir=/home/username/results
 
 # Portal Directories
-sourceDir=/opt/dev/projects/github/liferay-portal-ee-master
+sourceDir=/opt/dev/projects/github
 bundleDir=/opt/dev/projects/bundles
 
 masterSourceDir=$sourceDir/master-build
