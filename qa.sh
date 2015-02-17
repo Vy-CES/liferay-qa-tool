@@ -616,6 +616,45 @@ EOF
 done
 }
 
+gitInfo(){
+	cd $eeMasterSourceDir
+	eeMasterPortalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $eeMasterPluginsDir
+	eeMasterPluginsID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee62xSourceDir
+	ee62xPortalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee62xPluginsDir
+	ee62xPluginsID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee70xSourceDir
+	ee70xPortalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee70xPluginsDir
+	ee70xPluginsID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee61xSourceDir
+	ee61xPortalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee61xPluginsDir
+	ee61xPluginsID="$(git log --pretty=format:'%H' -n 1)"
+
+	cat<<EOF
+Master:
+Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $eeMasterPortalID.
+Plugins master GIT ID: $eeMasterPluginsID.
+
+ee-6.2.x:
+Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $ee62xPortalID.
+Plugins master GIT ID: $ee62xPluginsID.
+
+ee-7.0.x:
+Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $ee70xPortalID.
+Plugins master GIT ID: $ee70xPluginsID.
+
+ee-6.1.x:
+Tomcat 7.0.40 + MySQL 5.5. Portal master GIT ID: $ee61xPortalID.
+Plugins master GIT ID: $ee61xPluginsID.
+EOF
+	echo
+	read -rsp $'Press any key to continue...\n' -n1 key
+}
+
 ######################################################################################################################
 # MAIN MENU
 
@@ -636,6 +675,7 @@ Please choose:
 	Clear Enviroment   (2)
 	Run POSHI Test     (3)
 	Deploy Plugins     (4)
+	Git Info           (5)
 
 	                   (q)uit
 -------------------------------------------
@@ -646,6 +686,7 @@ EOF
 	"2")  clearEnv ;;
 	"3")  poshi ;;
 	"4")  plugins ;;
+	"5")  gitInfo ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  exit  ;; 
