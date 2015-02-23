@@ -170,6 +170,8 @@ bundleBuild(){
 				fi
 				
 			echo "Clearing main branch"
+			echo "Resetting Ivy Cache"
+			rm -r $dir/.ivy/cache
 			git reset --hard
 			echo
 			echo "Pulling Upstream"
