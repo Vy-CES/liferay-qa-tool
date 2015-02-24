@@ -28,27 +28,27 @@ ee61xPort=6
 ## Test Results Location ##
 # used in the POSHI suite function
 # where you want your test reports to end up
-resultsDir=/home/username/results
+resultsDir="/home/username/results"
 
 ## Portal Directories ##
-sourceDir=/opt/dev/projects/github
-bundleDir=/opt/dev/projects/bundles
+sourceDir="/opt/dev/projects/github"
+bundleDir="/opt/dev/projects/bundles"
 
-masterSourceDir=$sourceDir/master-build
-masterBundleDir=$bundleDir/master-bundles
-masterPluginsDir=$sourceDir/master-plugins
+masterSourceDir="$sourceDir/master-build"
+masterBundleDir="$bundleDir/master-bundles"
+masterPluginsDir="$sourceDir/master-plugins"
 
-ee62xSourceDir=$sourceDir/ee-6.2.x-build
-ee62xBundleDir=$bundleDir/ee-6.2.x-bundles
-ee62xPluginsDir=$sourceDir/ee-6.2.x-plugins
+ee62xSourceDir="$sourceDir/ee-6.2.x-build"
+ee62xBundleDir="$bundleDir/ee-6.2.x-bundles"
+ee62xPluginsDir="$sourceDir/ee-6.2.x-plugins"
 
-ee70xSourceDir=$sourceDir/ee-7.0.x-build
-ee70xBundleDir=$bundleDir/ee-7.0.x-bundles
-ee70xPluginsDir=$sourceDir/ee-7.0.x-plugins
+ee70xSourceDir="$sourceDir/ee-7.0.x-build"
+ee70xBundleDir="$bundleDir/ee-7.0.x-bundles"
+ee70xPluginsDir="$sourceDir/ee-7.0.x-plugins"
 
-ee61xSourceDir=$sourceDir/ee-6.1.x-build
-ee61xBundleDir=$bundleDir/ee-6.1.x-bundles
-ee61xPluginsDir=$sourceDir/ee-6.1.x-plugins
+ee61xSourceDir="$sourceDir/ee-6.1.x-build"
+ee61xBundleDir="$bundleDir/ee-6.1.x-bundles"
+ee61xPluginsDir="$sourceDir/ee-6.1.x-plugins"
 
 ## Plugins ##
 # This allows you to deploy a group of plugins that you use regularly
