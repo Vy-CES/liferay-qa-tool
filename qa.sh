@@ -284,13 +284,14 @@ plugins(){
 	while :
 	do
 		clear
+		echo "========================================"
+		echo "Deploy Plugins"
+		echo 
+		echo "--Plugins Selected--"
+		echo "CE: ${cePlugins[*]}" | tr " " "\n" | sed 's/.*\///'
+		echo
+		echo "EE: ${eePlugins[*]}" | tr " " "\n" | sed 's/.*\///'
 		cat<<EOF
-========================================
-Deploy Plugins
-
-Plugins that will be deployed:
-CE: ${cePlugins[*]}
-EE: ${eePlugins[*]}
 ----------------------------------------
 Which Bundle?
 
