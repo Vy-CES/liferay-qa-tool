@@ -4,33 +4,33 @@
 # This script can be used to accomplish many repetative bundle tasks that we do in QA.
 # In order to use it, you simply need to set the variables below for your enviroment.
 
-# User Information
+## User Information ##
 name=YourName
 
-# MySQL login 
+## MySQL login ##
 # this can usually be left blank
 mysqlUsername=
 mysqlPassword=
 
-# MySQL Databases
+## MySQL Databases ##
 masterDB=master
 ee62xDB=ee62
 ee70xDB=ee7
 ee61xDB=ee61
 
-# Bundle ports
+## Bundle ports ##
 # e.g. for 9080 put 9
 masterPort=9
 ee62xPort=7
 ee70xPort=8
 ee61xPort=6
 
-# Test Results Location
+## Test Results Location ##
 # used in the POSHI suite function
 # where you want your test reports to end up
 resultsDir=/home/username/results
 
-# Portal Directories
+## Portal Directories ##
 sourceDir=/opt/dev/projects/github
 bundleDir=/opt/dev/projects/bundles
 
@@ -50,18 +50,20 @@ ee61xSourceDir=$sourceDir/ee-6.1.x-build
 ee61xBundleDir=$bundleDir/ee-6.1.x-bundles
 ee61xPluginsDir=$sourceDir/ee-6.1.x-plugins
 
-# Plugins
-#
+## Plugins ##
 # This allows you to deploy a group of plugins that you use regularly
 # There is one array variable for CE plugins and one for EE only plugins.
 # You can list as many as you want.
 # The CE plugins will be deployed on your EE bundles as well.
-#
+
 # ***These must be listed with their parent directory***
 # e.g. webs/kaleo-web
-declare -a cePlugins=("webs/kaleo-web" "portlets/notifications-portlet")
-declare -a eePlugins=("portlets/kaleo-forms-portlet" "portlets/kaleo-designer-portlet")
 
+cePlugins[0]="webs/kaleo-web"
+cePlugins[1]="portlets/calendar-portlet"
+
+eePlugins[0]="portlets/kaleo-forms-portlet"
+eePlugins[1]="portlets/kaleo-designer-portlet"
 
 ######################################################################################################################
 
