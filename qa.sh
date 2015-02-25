@@ -5,7 +5,7 @@
 # In order to use it, you simply need to set the variables below for your enviroment.
 
 ## User Information ##
-name=YourName
+name="YourName"
 
 ## MySQL login ##
 # this can usually be left blank
@@ -13,17 +13,17 @@ mysqlUsername=
 mysqlPassword=
 
 ## MySQL Databases ##
-masterDB=master
-ee62xDB=ee62
-ee70xDB=ee7
-ee61xDB=ee61
+masterDB="master"
+ee62xDB="ee62"
+ee70xDB="ee7"
+ee61xDB="ee61"
 
 ## Bundle ports ##
 # e.g. for 9080 put 9
-masterPort=9
-ee62xPort=7
-ee70xPort=8
-ee61xPort=6
+masterPort="9"
+ee62xPort="7"
+ee70xPort="8"
+ee61xPort="6"
 
 ## Test Results Location ##
 # used in the POSHI suite function
