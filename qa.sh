@@ -554,11 +554,24 @@ poshiRun(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+setPortalUrl(){
+	echo -n "Enter Portal URL and press [ENTER]: "
+	read url
+	cd $dir
+
+	if grep -q "portal.url=" test.$username.properties 
+	then
+		sed -i "s/portal.url=.*/portal.url=${url}/" test.$username.properties
+	else
+		(echo "" ; echo "portal.url=${url}") >>test.$username.properties
+	fi
+}
+
 poshiOption(){
 	while :
 	do
 		clear
-		portalURL=$(cat $dir/test.$username.properties | grep "portal.url=" | grep -v "#")
+		portalURL=$(cat $dir/test.$username.properties | grep "portal.url=")
 		cat<<EOF
 ============================================
 POSHI $v
@@ -572,6 +585,7 @@ Choose Your Destiny:
 	Format            (3)
 	Pick New Test     (4)
 	Run Test Suite    (5)
+	Set Portal URL    (6)
 
 
 	                  (q)uit and go back
@@ -584,6 +598,7 @@ EOF
 	"3")  poshiFormat ;;
 	"4")  poshiSetTest ;;
 	"5")  poshiSuite ;;
+	"6")  setPortalUrl ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break  ;; 
 	* )   echo "Not a valid option" ;;
