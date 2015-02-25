@@ -6,6 +6,8 @@
 
 ## User Information ##
 name="YourName"
+# username is the value used to name your test.${username/computername}.properties
+username="username"
 
 ## MySQL login ##
 # this can usually be left blank
@@ -553,10 +555,12 @@ poshiOption(){
 	while :
 	do
 		clear
+		portalURL=$(cat $dir/test.$username.properties | grep "portal.url=" | grep -v "#")
 		cat<<EOF
 ============================================
 POSHI $v
 $testname
+$portalURL
 --------------------------------------------
 Choose Your Destiny:
 
