@@ -626,10 +626,10 @@ done
 }
 
 gitInfo(){
-	cd $eeMasterSourceDir
-	eeMasterPortalID="$(git log --pretty=format:'%H' -n 1)"
-	cd $eeMasterPluginsDir
-	eeMasterPluginsID="$(git log --pretty=format:'%H' -n 1)"
+	cd $masterSourceDir
+	masterPortalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $masterPluginsDir
+	masterPluginsID="$(git log --pretty=format:'%H' -n 1)"
 	cd $ee62xSourceDir
 	ee62xPortalID="$(git log --pretty=format:'%H' -n 1)"
 	cd $ee62xPluginsDir
@@ -645,8 +645,8 @@ gitInfo(){
 
 	cat<<EOF
 Master:
-Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $eeMasterPortalID.
-Plugins master GIT ID: $eeMasterPluginsID.
+Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $masterPortalID.
+Plugins master GIT ID: $masterPluginsID.
 
 ee-6.2.x:
 Tomcat 7.0.42 + MySQL 5.5. Portal ee-6.2.x GIT ID: $ee62xPortalID.
