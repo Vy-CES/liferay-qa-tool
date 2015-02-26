@@ -221,41 +221,14 @@ bundleBuild(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
-bundle(){
-	while :
-	do
-		clear
-		cat<<EOF
-========================================
-Build Bundle
-----------------------------------------
-Which bundle?
-
-	Master     (1)
-	ee-6.2.x   (2)
-	ee-7.0.x   (3)
-	ee-6.1.x   (4)
-
-	           (q)uit to main menu
-----------------------------------------
-EOF
-	read -n1 -s
-	case "$REPLY" in
-	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir v="master" db=$masterDB p=$masterPort bundleBuild ;;
-	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  bundleBuild ;;
-	"3")  dir=$ee70xSourceDir  bundleDir=$ee70xBundleDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort bundleBuild ;;
-	"4")  dir=$ee61xSourceDir  bundleDir=$ee61xBundleDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort bundleBuild ;;
-	"Q")  echo "case sensitive!!" ;;
-	"q")  break  ;; 
-	* )   echo "Not a valid option" ;;
-	esac
-done
-}
-
 pluginsDeploy(){
 	cd $dir
 	echo "Plugins Branch Selected: $v"
 	echo
+	echo "--Plugins Selected--"
+	echo "CE: ${cePlugins[*]}" | tr " " "\n" | sed 's/.*\///'
+	echo
+	echo "EE: ${eePlugins[*]}" | tr " " "\n" | sed 's/.*\///'
 
 	updateToHeadOption
 
@@ -284,43 +257,7 @@ pluginsDeploy(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
-plugins(){
-	while :
-	do
-		clear
-		echo "========================================"
-		echo "Deploy Plugins"
-		echo 
-		echo "--Plugins Selected--"
-		echo "CE: ${cePlugins[*]}" | tr " " "\n" | sed 's/.*\///'
-		echo
-		echo "EE: ${eePlugins[*]}" | tr " " "\n" | sed 's/.*\///'
-		cat<<EOF
-----------------------------------------
-Which Bundle?
-
-	Master     (1)
-	ee-6.2.x   (2)
-	ee-7.0.x   (3)
-	ee-6.1.x   (4)
-
-	           (q)uit to main menu
-----------------------------------------
-EOF
-	read -n1 -s
-	case "$REPLY" in
-	"1")  dir=$masterPluginsDir v="master" pluginsDeploy ;;
-	"2")  dir=$ee62xPluginsDir v="ee-6.2.x" pluginsDeploy ;;
-	"3")  dir=$ee70xPluginsDir v="ee-7.0.x" pluginsDeploy ;;
-	"3")  dir=$ee61xPluginsDir v="ee-6.1.x" pluginsDeploy ;;
-	"Q")  echo "case sensitive!!" ;;
-	"q")  break  ;; 
-	* )   echo "Not a valid option" ;;
-	esac
-done
-}
-
-clearEnvCmd(){
+clearEnv(){
 	echo "Portal Version Selected: $v"
 	sleep 2
 	echo "Clearing Data and Logs"
@@ -355,37 +292,6 @@ clearEnvCmd(){
 	echo "$db has been remade"
 	echo "done"
 	read -rsp $'Press any key to continue...\n' -n1 key
-}
-
-clearEnv(){
-	while :
-	do
-		clear
-		cat<<EOF
-========================================
-Clear Enviroment
-----------------------------------------
-Which Bundle?
-
-	Master     (1)
-	ee-6.2.x   (2)
-	ee-7.0.x   (3)
-	ee-6.1.x   (4)
-
-	           (q)uit to main menu
-----------------------------------------
-EOF
-	read -n1 -s
-	case "$REPLY" in
-	"1")  dir=$masterBundleDir v="master" db=$masterDB clearEnvCmd ;;
-	"2")  dir=$ee62xBundleDir v="ee-6.2.x" db=$ee62xDB clearEnvCmd ;;
-	"3")  dir=$ee70xBundleDir v="ee-7.0.x" db=$ee70xDB clearEnvCmd ;;
-	"4")  dir=$ee61xBundleDir v="ee-6.1.x" db=$ee61xDB clearEnvCmd ;;
-	"Q")  echo "case sensitive!!" ;;
-	"q")  break  ;; 
-	* )   echo "Not a valid option" ;;
-	esac
-done
 }
 
 poshiFormat(){
@@ -440,7 +346,7 @@ poshiSuite(){
 			sleep 2
 			break
 		else
-			echo "Don't be a noob"
+			echo "Invalid option"
 		fi
 	done
 
@@ -612,35 +518,37 @@ poshiSetTest(){
 	echo "$testname"
 }
 
-poshi(){
+branchMenu(){
 	while :
 	do
 		clear
 		cat<<EOF
-========================================
-POSHI
-----------------------------------------
-Which Branch?
+===========================================
+$v
+-------------------------------------------
+Please choose:
 
-	Master     (1)
-	ee-6.2.x   (2)
-	ee-7.0.x   (3)
-	ee-6.1.x   (4)
+	Build Bundle       (1)
+	Clear Enviroment   (2)
+	Run POSHI Test     (3)
+	Deploy Plugins     (4)
 
-	           (q)uit to main menu
-----------------------------------------
+                       (q)uit to Main Menu
+-------------------------------------------
 EOF
-    read -n1 -s
-    case "$REPLY" in
-    "1")   poshiSetTest ; dir=$masterSourceDir v="master" poshiOption ;;
-	"2")   poshiSetTest ; dir=$ee62xSourceDir v="ee-6.2.x" poshiOption ;;
-	"3")   poshiSetTest ; dir=$ee70xSourceDir v="ee-7.0.x" poshiOption ;;
-	"4")   poshiSetTest ; dir=$ee61xSourceDir v="ee-6.1.x" poshiOption ;;
-	"Q")  echo "case sensitive!!" ;;
-	"q")  break  ;; 
-	* )   echo "Not a valid option" ;;
-	esac
-done
+		read -n1 -s
+		case "$REPLY" in
+		"1")  bundleBuild ;;
+		"2")  clearEnv ;;
+		"3")  poshiSetTest ; poshiOption ;;
+		"4")  pluginsDeploy ;;
+		"5")  gitInfo ;;
+		"Q")  echo "case sensitive!!" ;;
+		"q")  echo "quit" 
+			  exit  ;; 
+		* )   echo "Not a valid option" ;;
+		esac
+	done
 }
 
 gitInfo(){
@@ -683,7 +591,7 @@ EOF
 }
 
 ######################################################################################################################
-# MAIN MENU
+##MAIN MENU##
 
 while :
 do
@@ -692,27 +600,28 @@ do
 
 Liferay Portal QA Tool    
 ===========================================
-Main Menu
+				Main Menu
 
-Hello $name, What would you like to do?
+Hello $name
 -------------------------------------------
-Please choose:
+Please choose a branch:
 
-	Build Bundle       (1)
-	Clear Enviroment   (2)
-	Run POSHI Test     (3)
-	Deploy Plugins     (4)
-	Git Info           (5)
+Master EE          (1)
+ee-6.2.x           (2)
+ee-7.0.x           (3)
+ee-6.1.x           (4)
+
+Print git info     (5)
 
 	                   (q)uit
 -------------------------------------------
 EOF
 	read -n1 -s
 	case "$REPLY" in
-	"1")  bundle ;;
-	"2")  clearEnv ;;
-	"3")  poshi ;;
-	"4")  plugins ;;
+	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir v="master" db=$masterDB p=$masterPort branchMenu ;;
+	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
+	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort branchMenu ;;
+	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort branchMenu ;;
 	"5")  gitInfo ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
