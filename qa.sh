@@ -639,11 +639,10 @@ Please choose a branch:
 	ee-6.2.x           (2)
 	ee-7.0.x           (3)
 	ee-6.1.x           (4)
+	ee-6.2.10          (5)
+	Master Public      (6)
 
-	Print git info     (5)
-
-	ee-6.2.10          (6)
-	Master Public      (7)
+	Print git info     (7)
 
 	                   (q)uit
 -------------------------------------------
@@ -654,9 +653,9 @@ EOF
 	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
 	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort branchMenu ;;
 	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort branchMenu ;;
-	"5")  gitInfo ;;
-	"6")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
-	"7")  dir=$publicMasterSourceDir bundleDir=$publicMasterBundleDir pluginsDir=$masterPluginsDir v="master-public" db=$publicMasterDB p=$publicMasterPort branchMenu ;;
+	"5")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
+	"6")  dir=$publicMasterSourceDir bundleDir=$publicMasterBundleDir pluginsDir=$masterPluginsDir v="master-public" db=$publicMasterDB p=$publicMasterPort branchMenu ;;
+	"7")  gitInfo ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  exit ;; 
