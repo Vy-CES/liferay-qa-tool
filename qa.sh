@@ -5,9 +5,9 @@
 # In order to use it, you simply need to set the variables below for your enviroment.
 
 ## User Information ##
-name="YourName"
+name="Victor"
 # username is the value used to name your test.${username/computername}.properties
-username="username"
+username="vicnate5"
 
 ## MySQL login ##
 # this can usually be left blank
@@ -30,27 +30,27 @@ ee61xPort="6"
 ## Test Results Location ##
 # used in the POSHI suite function
 # where you want your test reports to end up
-resultsDir="/home/username/results"
+resultsDir="/home/vicnate5/Desktop/RESULTS"
 
 ## Portal Directories ##
-sourceDir="/opt/dev/projects/github"
-bundleDir="/opt/dev/projects/bundles"
+sourceDir="/home/vicnate5/liferay"
+bundleDir="/home/vicnate5/bundles"
 
-masterSourceDir="$sourceDir/master-build"
-masterBundleDir="$bundleDir/master-bundles"
-masterPluginsDir="$sourceDir/master-plugins"
+masterSourceDir="$sourceDir/liferay-portal-ee-master"
+masterBundleDir="$bundleDir/master-ee-bundles"
+masterPluginsDir="$sourceDir/liferay-plugins-master"
 
-ee62xSourceDir="$sourceDir/ee-6.2.x-build"
+ee62xSourceDir="$sourceDir/liferay-portal-ee-6.2.x"
 ee62xBundleDir="$bundleDir/ee-6.2.x-bundles"
-ee62xPluginsDir="$sourceDir/ee-6.2.x-plugins"
+ee62xPluginsDir="$sourceDir/liferay-plugins-ee-6.2.x"
 
-ee70xSourceDir="$sourceDir/ee-7.0.x-build"
-ee70xBundleDir="$bundleDir/ee-7.0.x-bundles"
-ee70xPluginsDir="$sourceDir/ee-7.0.x-plugins"
+ee70xSourceDir="$sourceDir/liferay-portal-ee-7.0.x"
+ee70xBundleDir="$bundleDir/ee-7.0.x"
+ee70xPluginsDir="$sourceDir/liferay-plugins-ee-7.0.x"
 
-ee61xSourceDir="$sourceDir/ee-6.1.x-build"
+ee61xSourceDir="$sourceDir/liferay-portal-ee-6.1.x"
 ee61xBundleDir="$bundleDir/ee-6.1.x-bundles"
-ee61xPluginsDir="$sourceDir/ee-6.1.x-plugins"
+ee61xPluginsDir="$sourceDir/liferay-plugins-ee-6.1.x"
 
 ## Plugins ##
 # This allows you to deploy a group of plugins that you use regularly
@@ -63,9 +63,12 @@ ee61xPluginsDir="$sourceDir/ee-6.1.x-plugins"
 
 cePlugins[0]="webs/kaleo-web"
 cePlugins[1]="portlets/calendar-portlet"
+cePlugins[2]="portlets/web-form-portlet"
 
 eePlugins[0]="portlets/kaleo-forms-portlet"
 eePlugins[1]="portlets/kaleo-designer-portlet"
+eePlugins[2]="portlets/reports-portlet"
+eePlugins[3]="webs/jasperreports-web"
 
 ######################################################################################################################
 
