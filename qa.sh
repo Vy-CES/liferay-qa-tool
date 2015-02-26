@@ -260,11 +260,7 @@ pluginsDeploy(){
 
 clearEnv(){
 	echo "Portal Version Selected: $v"
-	sleep 2
-	echo "Clearing Data and Logs"
-	cd $bundleDir
-	rm -r data logs
-
+	echo
 	read -p "Do you want to remove all plugins except marketplace? (y/n)?" -n 1 -r
 		if [[ $REPLY =~ ^[Yy]$ ]]
 		then
@@ -288,6 +284,10 @@ clearEnv(){
 			sleep 3
 			continue
 		fi
+
+	echo "Clearing Data and Logs"
+	cd $bundleDir
+	rm -r data logs
 	echo "Remaking MySQL Database"
 	dbClear
 	echo "$db has been remade"
