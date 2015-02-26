@@ -194,6 +194,12 @@ bundleBuild(){
 			continue
 		fi
 
+	if [[ $v != *ee-6.1* ]]
+	then
+		echo "Setting up portal-ext.properties"
+		setupDatabaseConnection
+	fi
+
 	echo "Building $v"
 	ant -f build-dist.xml unzip-tomcat
 	ant all
@@ -207,13 +213,6 @@ bundleBuild(){
 
 	echo "Writing ports to ${p}080"
 	sed -i "s/8005/${p}005/; s/8080/${p}080/; s/8009/${p}009/; s/8443/${p}443/" server.xml
-	
-	if [[ $v != *ee-6.1* ]]
-	then
-		echo "Setting up portal-ext.properties"
-		setupDatabaseConnection
-	fi
-
 	echo "Remaking MySQL Database"
 	dbClear
 	echo "$db has been remade"
@@ -222,13 +221,15 @@ bundleBuild(){
 }
 
 pluginsDeploy(){
-	cd $dir
+	cd $pluginsDir
 	echo "Plugins Branch Selected: $v"
 	echo
 	echo "--Plugins Selected--"
 	echo "CE: ${cePlugins[*]}" | tr " " "\n" | sed 's/.*\///'
 	echo
 	echo "EE: ${eePlugins[*]}" | tr " " "\n" | sed 's/.*\///'
+	echo
+	echo
 
 	updateToHeadOption
 
@@ -238,7 +239,7 @@ pluginsDeploy(){
 		cd $p && ant clean deploy
 		echo "done"
 		echo
-		cd $dir 
+		cd $pluginsDir 
 	done
 
 	if [[ $v == *ee* ]]
@@ -249,7 +250,7 @@ pluginsDeploy(){
 			cd $p && ant clean deploy
 			echo "done"
 			echo
-			cd $dir  
+			cd $pluginsDir  
 		done
 	fi
 
@@ -261,7 +262,7 @@ clearEnv(){
 	echo "Portal Version Selected: $v"
 	sleep 2
 	echo "Clearing Data and Logs"
-	cd $dir
+	cd $bundleDir
 	rm -r data logs
 
 	read -p "Do you want to remove all plugins except marketplace? (y/n)?" -n 1 -r
@@ -272,9 +273,9 @@ clearEnv(){
 
 			if [[ $v == *ee-6.1* ]]
 			then
-				cd $dir/tomcat-7.0.40/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
+				cd $bundleDir/tomcat-7.0.40/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			else
-				cd $dir/tomcat-7.0.42/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
+				cd $bundleDir/tomcat-7.0.42/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			fi
 			
 			echo "done"
@@ -460,7 +461,7 @@ poshiRun(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
-setPortalUrl(){
+poshiSetUrl(){
 	echo -n "Enter Portal URL and press [ENTER]: "
 	read url
 	cd $dir
@@ -479,34 +480,35 @@ poshiOption(){
 		clear
 		portalURL=$(cat $dir/test.$username.properties | grep "portal.url=")
 		cat<<EOF
-============================================
+========================================
 POSHI $v
 $testname
 $portalURL
---------------------------------------------
+----------------------------------------
 Choose Your Destiny:
 
-	Build and Run     (1)
-	Run               (2)
-	Format            (3)
-	Pick New Test     (4)
-	Run Test Suite    (5)
-	Set Portal URL    (6)
+	Build & Run Test  (1)
+	Run Test          (2)
 
+	Pick New Test     (3)
+	Format Source     (4)
+	Set Portal URL    (5)
 
-	                  (q)uit and go back
----------------------------------------------
+	Run Test Suite    (6)
+	
+	Go Back           (q)uit
+----------------------------------------
 EOF
 	read -n1 -s
 	case "$REPLY" in
 	"1")  build="true" poshiRun ;;
 	"2")  build="false" poshiRun ;;
-	"3")  poshiFormat ;;
-	"4")  poshiSetTest ;;
-	"5")  poshiSuite ;;
-	"6")  setPortalUrl ;;
+	"3")  poshiSetTest ;;
+	"4")  poshiFormat ;;
+	"5")  poshiSetUrl ;;
+	"6")  poshiSuite ;;
 	"Q")  echo "case sensitive!!" ;;
-	"q")  break  ;; 
+	"q")  break ;; 
 	* )   echo "Not a valid option" ;;
 	esac
 done
@@ -533,7 +535,7 @@ Please choose:
 	Run POSHI Test     (3)
 	Deploy Plugins     (4)
 
-                       (q)uit to Main Menu
+	Main Menu          (q)uit
 -------------------------------------------
 EOF
 		read -n1 -s
@@ -545,7 +547,7 @@ EOF
 		"5")  gitInfo ;;
 		"Q")  echo "case sensitive!!" ;;
 		"q")  echo "quit" 
-			  exit  ;; 
+			  break  ;; 
 		* )   echo "Not a valid option" ;;
 		esac
 	done
@@ -600,32 +602,31 @@ do
 
 Liferay Portal QA Tool    
 ===========================================
-				Main Menu
-
-Hello $name
+Main Menu
 -------------------------------------------
+Hello $name 
 Please choose a branch:
 
-Master EE          (1)
-ee-6.2.x           (2)
-ee-7.0.x           (3)
-ee-6.1.x           (4)
+	Master             (1)
+	ee-6.2.x           (2)
+	ee-7.0.x           (3)
+	ee-6.1.x           (4)
 
-Print git info     (5)
+	Print git info     (5)
 
 	                   (q)uit
 -------------------------------------------
 EOF
 	read -n1 -s
 	case "$REPLY" in
-	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir v="master" db=$masterDB p=$masterPort branchMenu ;;
-	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
-	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort branchMenu ;;
-	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort branchMenu ;;
+	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB p=$masterPort branchMenu ;;
+	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
+	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort branchMenu ;;
+	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort branchMenu ;;
 	"5")  gitInfo ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
-		  exit  ;; 
+		  exit ;; 
 	* )   echo "Not a valid option" ;;
 	esac
 done
