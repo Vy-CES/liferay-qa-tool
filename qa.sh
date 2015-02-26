@@ -19,6 +19,8 @@ masterDB="master"
 ee62xDB="ee62"
 ee70xDB="ee7"
 ee61xDB="ee61"
+ee6210DB="ee621"
+publicMasterDB="publicmaster"
 
 ## Bundle ports ##
 # e.g. for 9080 put 9
@@ -26,6 +28,8 @@ masterPort="9"
 ee62xPort="7"
 ee70xPort="8"
 ee61xPort="6"
+ee6210Port="8"
+publicMasterPort="6"
 
 ## Test Results Location ##
 # used in the POSHI suite function
@@ -51,6 +55,13 @@ ee70xPluginsDir="$sourceDir/liferay-plugins-ee-7.0.x"
 ee61xSourceDir="$sourceDir/liferay-portal-ee-6.1.x"
 ee61xBundleDir="$bundleDir/ee-6.1.x-bundles"
 ee61xPluginsDir="$sourceDir/liferay-plugins-ee-6.1.x"
+
+ee6210SourceDir="$sourceDir/liferay-portal-ee-6.2.10"
+ee6210BundleDir="$bundleDir/ee-6.2.10-bundles"
+ee6210PluginsDir="$sourceDir/liferay-plugins-ee-6.2.10"
+
+publicMasterSourceDir="$sourceDir/liferay-portal-master"
+publicMasterBundleDir="$bundleDir/master-ce-bundles"
 
 ## Plugins ##
 # This allows you to deploy a group of plugins that you use regularly
@@ -573,6 +584,12 @@ gitInfo(){
 	ee61xPortalID="$(git log --pretty=format:'%H' -n 1)"
 	cd $ee61xPluginsDir
 	ee61xPluginsID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee6210SourceDir
+	ee6210PortalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee6210PluginsDir
+	ee6210PluginsID="$(git log --pretty=format:'%H' -n 1)"
+	cd $publicMasterSourceDir
+	publicMasterPortalID="$(git log --pretty=format:'%H' -n 1)"
 
 	cat<<EOF
 Master:
@@ -590,6 +607,14 @@ Plugins ee-7.0.x GIT ID: $ee70xPluginsID.
 ee-6.1.x:
 Tomcat 7.0.40 + MySQL 5.5. Portal ee-6.1.x GIT ID: $ee61xPortalID.
 Plugins ee-6.1.x GIT ID: $ee61xPluginsID.
+
+ee-6.2.10:
+Tomcat 7.0.42 + MySQL 5.5. Portal ee-6.2.10 GIT ID: $ee6210PortalID.
+Plugins ee-6.2.10 GIT ID: $ee6210PluginsID.
+
+Master PUBLIC:
+Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $publicMasterPortalID.
+Plugins master GIT ID: $masterPluginsID.
 EOF
 	echo
 	read -rsp $'Press any key to continue...\n' -n1 key
@@ -617,6 +642,9 @@ Please choose a branch:
 
 	Print git info     (5)
 
+	ee-6.2.10          (6)
+	Master Public      (7)
+
 	                   (q)uit
 -------------------------------------------
 EOF
@@ -627,6 +655,8 @@ EOF
 	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort branchMenu ;;
 	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort branchMenu ;;
 	"5")  gitInfo ;;
+	"6")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
+	"7")  dir=$publicMasterSourceDir bundleDir=$publicMasterBundleDir pluginsDir=$masterPluginsDir v="master-public" db=$publicMasterDB p=$publicMasterPort branchMenu ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  exit ;; 
