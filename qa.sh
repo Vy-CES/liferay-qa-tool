@@ -81,6 +81,10 @@ eePlugins[1]="portlets/kaleo-designer-portlet"
 eePlugins[2]="portlets/reports-portlet"
 eePlugins[3]="webs/jasperreports-web"
 
+## Bundle build sound ##
+soundDir="/home/vicnate5/Dropbox/Work/Scripts"
+soundFile="bundleFinished.mp3"
+
 ######################################################################################################################
 
 
@@ -231,6 +235,8 @@ bundleBuild(){
 	dbClear
 	echo "$db has been remade"
 	echo "done"
+	cd $soundDir
+	mpg123 $soundFile &> /dev/null
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
