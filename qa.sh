@@ -524,10 +524,13 @@ branchMenu(){
 		clear
 		cd $dir
 		portalID="$(git log --pretty=format:'%H' -n 1)"
+		gitBranch="$(git rev-parse --abbrev-ref HEAD)"
 		cat<<EOF
 ===========================================
 $v
-$portalID
+
+Git ID: $portalID
+Git Branch: $gitBranch
 -------------------------------------------
 Please choose:
 
@@ -605,7 +608,7 @@ Liferay Portal QA Tool
 Main Menu
 -------------------------------------------
 Hello $name 
-Please choose a branch:
+Please choose a branch version:
 
 	(1) Master
 	(2) ee-6.2.x
