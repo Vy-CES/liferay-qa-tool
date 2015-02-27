@@ -24,7 +24,7 @@ publicMasterDB="publicmaster"
 
 ## Bundle ports ##
 # e.g. for 9080 put 9
-masterPort="9"
+masterPort="8"
 ee62xPort="7"
 ee70xPort="8"
 ee61xPort="6"
@@ -265,6 +265,19 @@ bundleBuild(){
 	echo "Remaking MySQL Database"
 	dbClear
 	echo "$db has been remade"
+
+	if [[ $v != *ee-6.1* ]]
+	then
+		echo "Adding virtual hosts property"
+		cd $bundleDir/tomcat-7.0.42/webapps/ROOT/WEB-INF/classes/
+		ip=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
+
+		if ! grep -q "virtual.hosts.valid.hosts" ./portal-ext.properties 
+		then
+			(echo "" ; echo "virtual.hosts.valid.hosts=localhost,127.0.0.1,$ip") >> portal-ext.properties
+		fi
+	fi
+
 	echo "done"
 	cd $soundDir
 	mpg123 $soundFile &> /dev/null
@@ -356,7 +369,28 @@ poshiFormat(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+poshiBuildSeleniumOption(){
+	read -p "Do you need to Build Selenium First? (y/n)?" -n 1 -r
+	echo
+	if [[ $REPLY =~ ^[Yy]$ ]]
+	then
+		cd $dir/portal-impl
+		echo "Building Selenium"
+		ant build-selenium
+		cd $dir
+	elif [[ $REPLY =~ ^[Nn]$ ]] 
+	then
+		echo "No"
+	else 
+		echo "please choose Y or N"
+		sleep 3
+		continue
+	fi
+}
+
 poshiRunTest(){
+	poshiBuildSeleniumOption
+
 	echo "Running $testname"
 	sleep 2
 	echo
@@ -364,7 +398,15 @@ poshiRunTest(){
 	cd $dir/portal-web/test-results/functional/screenshots
 	rm *.jpg
 	cd $dir
-	ant -f run.xml run -Dtest.class=$testname < /dev/null
+
+	if [ "$mobile" = "true" ]
+	then
+		sed -i 's/sleep seconds="120"/sleep seconds="30"/' build-test.xml
+		ant -f run.xml run -Dtest.class=$testname -Dmobile.device.enabled=true < /dev/null
+	else
+		ant -f run.xml run -Dtest.class=$testname < /dev/null
+	fi
+	
 	echo
 	echo "Finished $testname"
 	echo
@@ -402,23 +444,8 @@ poshiSuite(){
 		fi
 	done
 
-	read -p "Do you need to Build Selenium First? (y/n)?" -n 1 -r
-		echo
-		if [[ $REPLY =~ ^[Yy]$ ]]
-		then
-			cd $dir
-			cd portal-impl
-			echo "Building Selenium"
-			ant build-selenium
-			cd $dir
-		elif [[ $REPLY =~ ^[Nn]$ ]] 
-		then
-			echo "No"
-		else 
-			echo "please choose Y or N"
-			sleep 3
-			continue
-		fi
+	poshiBuildSeleniumOption
+
 	echo "Clearing Old Screenshots"
 	cd $dir/portal-web/test-results/functional/screenshots
 	rm *.jpg
@@ -497,14 +524,6 @@ poshiRun(){
 	echo "Running POSHI test for $v"
 	sleep 2
 
-	if [ "$build" = "true" ]
-	then
-		echo "Building Selenium"
-		sleep 1
-		cd $dir/portal-impl
-		ant build-selenium
-	fi
-
 	poshiRunTest
 
 	echo "Copying your results to $resultsDir"
@@ -538,8 +557,8 @@ $portalURL
 ----------------------------------------
 Choose Your Destiny:
 
-	(1) Build & Run Test
-	(2) Run Test
+	(1) Run Test
+	(2) Run Mobile Test
 	(3) Pick New Test
 	(4) Format Source
 	(5) Set Portal URL
@@ -550,8 +569,8 @@ Choose Your Destiny:
 EOF
 	read -n1 -s
 	case "$REPLY" in
-	"1")  build="true" poshiRun ;;
-	"2")  build="false" poshiRun ;;
+	"1")  mobile="false" poshiRun ;;
+	"2")  mobile="true" poshiRun ;;
 	"3")  poshiSetTest ;;
 	"4")  poshiFormat ;;
 	"5")  poshiSetUrl ;;
