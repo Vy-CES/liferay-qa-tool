@@ -489,11 +489,9 @@ Choose Your Destiny:
 
 	Build & Run Test  (1)
 	Run Test          (2)
-
 	Pick New Test     (3)
 	Format Source     (4)
 	Set Portal URL    (5)
-
 	Run Test Suite    (6)
 	
 	Go Back           (q)uit
