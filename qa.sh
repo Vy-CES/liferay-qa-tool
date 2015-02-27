@@ -85,6 +85,37 @@ eePlugins[3]="webs/jasperreports-web"
 soundDir="/home/vicnate5/Dropbox/Work/Scripts"
 soundFile="bundleFinished.mp3"
 
+## Jenkins Results Links ##
+baseJenkinsmaster="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28master%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
+baseJenkinsee62x="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-6.2.x%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
+baseJenkinsee70x="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-7.0.x%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
+baseJenkinsee61x="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-6.1.x%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
+baseJenkinsee6210="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-6.2.10%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
+
+jenkinsUrlmaster[0]="$baseJenkinsmaster-workflow%5D(master)/lastCompletedBuild/testReport/"
+jenkinsUrlmaster[1]="$baseJenkinsmaster-web-forms-and-data-lists%5D(master)/lastCompletedBuild/testReport/"
+jenkinsUrlmaster[2]="$baseJenkinsmaster-calendar%5D(master)/lastCompletedBuild/testReport/"
+
+jenkinsUrlee62x[0]="$baseJenkinsee62x-workflow%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
+jenkinsUrlee62x[1]="$baseJenkinsee62x-web-forms-and-data-lists%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
+jenkinsUrlee62x[2]="$baseJenkinsee62x-calendar%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
+jenkinsUrlee62x[3]="$baseJenkinsee62x-business-productivity-ee%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
+
+jenkinsUrlee70x[0]="$baseJenkinsee70x-workflow%5D(ee-7.0.x)/lastCompletedBuild/testReport/"
+jenkinsUrlee70x[1]="$baseJenkinsee70x-web-forms-and-data-lists%5D(ee-7.0.x)/lastCompletedBuild/testReport/"
+jenkinsUrlee70x[2]="$baseJenkinsee70x-calendar%5D(ee-7.0.x)/lastCompletedBuild/testReport/"
+jenkinsUrlee70x[3]="$baseJenkinsee70x-business-productivity-ee%5D(ee-7.0.x)/lastCompletedBuild/testReport/"
+
+jenkinsUrlee61x[0]="$baseJenkinsee61x-workflow%5D(ee-6.1.x)/lastCompletedBuild/testReport/"
+jenkinsUrlee61x[1]="$baseJenkinsee61x-web-forms-and-data-lists%5D(ee-6.1.x)/lastCompletedBuild/testReport/"
+jenkinsUrlee61x[2]="$baseJenkinsee61x-calendar%5D(ee-6.1.x)/lastCompletedBuild/testReport/"
+jenkinsUrlee61x[3]="$baseJenkinsee61x-business-productivity-ee%5D(ee-6.1.x)/lastCompletedBuild/testReport/"
+
+jenkinsUrlee6210[0]="$baseJenkinsee6210-workflow%5D(ee-6.2.10)/lastCompletedBuild/testReport/"
+jenkinsUrlee6210[1]="$baseJenkinsee6210-web-forms-and-data-lists%5D(ee-6.2.10)/lastCompletedBuild/testReport/"
+jenkinsUrlee6210[2]="$baseJenkinsee6210-calendar%5D(ee-6.2.10)/lastCompletedBuild/testReport/"
+jenkinsUrlee6210[3]="$baseJenkinsee6210-business-productivity-ee%5D(ee-6.2.10)/lastCompletedBuild/testReport/"
+
 ######################################################################################################################
 
 
@@ -540,6 +571,15 @@ poshiSetTest(){
 	echo "$testname"
 }
 
+openJenkinsURL(){
+	jenkinsUrl=jenkinsUrl$jb[@]
+
+	for url in ${!jenkinsUrl}
+		do
+			xdg-open $url &> /dev/null
+		done
+}
+
 branchMenu(){
 	while :
 	do
@@ -554,22 +594,23 @@ Please choose:
 	Clear Enviroment   (2)
 	Run POSHI Test     (3)
 	Deploy Plugins     (4)
+	Jenkins Results    (5)
 
 	Main Menu          (q)uit
 -------------------------------------------
 EOF
-		read -n1 -s
-		case "$REPLY" in
-		"1")  bundleBuild ;;
-		"2")  clearEnv ;;
-		"3")  poshiSetTest ; poshiOption ;;
-		"4")  pluginsDeploy ;;
-		"5")  gitInfo ;;
-		"Q")  echo "case sensitive!!" ;;
-		"q")  echo "quit" 
-			  break  ;; 
-		* )   echo "Not a valid option" ;;
-		esac
+	read -n1 -s
+	case "$REPLY" in
+	"1")  bundleBuild ;;
+	"2")  clearEnv ;;
+	"3")  poshiSetTest ; poshiOption ;;
+	"4")  pluginsDeploy ;;
+	"5")  openJenkinsURL ;;
+	"Q")  echo "case sensitive!!" ;;
+	"q")  echo "quit" 
+		  break  ;; 
+	* )   echo "Not a valid option" ;;
+	esac
 	done
 }
 
@@ -655,12 +696,12 @@ Please choose a branch:
 EOF
 	read -n1 -s
 	case "$REPLY" in
-	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB p=$masterPort branchMenu ;;
-	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
-	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort branchMenu ;;
-	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort branchMenu ;;
-	"5")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
-	"6")  dir=$publicMasterSourceDir bundleDir=$publicMasterBundleDir pluginsDir=$masterPluginsDir v="master-public" db=$publicMasterDB p=$publicMasterPort branchMenu ;;
+	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB p=$masterPort jb="master" branchMenu ;;
+	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort jb="ee62x"  branchMenu ;;
+	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort jb="ee70x" branchMenu ;;
+	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort jb="ee61x" branchMenu ;;
+	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB p=$ee6210Port jb="ee6210"  branchMenu ;;
+	"6")  dir=$publicMasterSourceDir bundleDir=$publicMasterBundleDir pluginsDir=$masterPluginsDir v="master-public" db=$publicMasterDB p=$publicMasterPort jb="master" branchMenu ;;
 	"7")  gitInfo ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
