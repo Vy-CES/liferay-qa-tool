@@ -544,7 +544,6 @@ EOF
 		"2")  clearEnv ;;
 		"3")  poshiSetTest ; poshiOption ;;
 		"4")  pluginsDeploy ;;
-		"5")  gitInfo ;;
 		"Q")  echo "case sensitive!!" ;;
 		"q")  echo "quit" 
 			  break  ;; 
