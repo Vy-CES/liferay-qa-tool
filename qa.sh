@@ -522,9 +522,12 @@ branchMenu(){
 	while :
 	do
 		clear
+		cd $dir
+		portalID="$(git log --pretty=format:'%H' -n 1)"
 		cat<<EOF
 ===========================================
 $v
+$portalID
 -------------------------------------------
 Please choose:
 
