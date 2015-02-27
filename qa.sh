@@ -538,14 +538,14 @@ $portalURL
 ----------------------------------------
 Choose Your Destiny:
 
-	Build & Run Test  (1)
-	Run Test          (2)
-	Pick New Test     (3)
-	Format Source     (4)
-	Set Portal URL    (5)
-	Run Test Suite    (6)
+	(1) Build & Run Test
+	(2) Run Test
+	(3) Pick New Test
+	(4) Format Source
+	(5) Set Portal URL
+	(6) Run Test Suite
 	
-	Go Back           (q)uit
+	(q)uit - go back
 ----------------------------------------
 EOF
 	read -n1 -s
@@ -588,13 +588,13 @@ $v
 -------------------------------------------
 Please choose:
 
-	Build Bundle       (1)
-	Clear Enviroment   (2)
-	Run POSHI Test     (3)
-	Deploy Plugins     (4)
-	Jenkins Results    (5)
+	(1) Build Bundle
+	(2) Clear Enviroment
+	(3) Run POSHI Test
+	(4) Deploy Plugins
+	(5) Jenkins Results
 
-	Main Menu          (q)uit
+	(q)uit - Main Menu
 -------------------------------------------
 EOF
 	read -n1 -s
@@ -680,16 +680,16 @@ Main Menu
 Hello $name 
 Please choose a branch:
 
-	Master             (1)
-	ee-6.2.x           (2)
-	ee-7.0.x           (3)
-	ee-6.1.x           (4)
-	ee-6.2.10          (5)
-	Master Public      (6)
+	(1) Master
+	(2) ee-6.2.x
+	(3) ee-7.0.x
+	(4) ee-6.1.x
+	(5) ee-6.2.10
+	(6) Master Public
 
-	Print git info     (7)
+	(7) Print git info
 
-	                   (q)uit
+	(q)uit
 -------------------------------------------
 EOF
 	read -n1 -s
