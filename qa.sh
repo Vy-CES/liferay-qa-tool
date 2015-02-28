@@ -4,6 +4,10 @@
 # This script can be used to accomplish many repetative bundle tasks that we do in QA.
 # In order to use it, you simply need to set the variables below for your enviroment.
 
+######################################################################################################################
+#ENVIROMENT VARIABLES#################################################################################################
+######################################################################################################################
+
 ## User Information ##
 name="Victor"
 # username is the value used to name your test.${username/computername}.properties
@@ -13,6 +17,25 @@ username="vicnate5"
 # this can usually be left blank
 mysqlUsername=
 mysqlPassword=
+
+## POSHI Suite Function ##
+# There is a function in this tool that runs all tests that are listed in the specified file:
+# suite1.txt
+# or
+# suite2.txt 
+#
+# If you would like to use this function
+# these files needs to be in your base source directory of the branch you want to use.
+#
+# You can list out as many tests as you like in one of these files, one test per line.
+# Example:
+#
+# -suite1.txt-
+# PortalSmoke#Smoke
+# WebContent#AddWebContent
+#
+# These files also must contains a single blank line at the end of the file 
+# to ensure all the tests are read.
 
 ## MySQL Databases ##
 masterDB="master"
@@ -32,7 +55,6 @@ ee6210Port="8"
 publicMasterPort="6"
 
 ## Test Results Location ##
-# used in the POSHI suite function
 # where you want your test reports to end up
 resultsDir="/home/vicnate5/Desktop/RESULTS"
 
@@ -67,7 +89,7 @@ publicMasterBundleDir="$bundleDir/master-ce-bundles"
 # This allows you to deploy a group of plugins that you use regularly
 # There is one array variable for CE plugins and one for EE only plugins.
 # You can list as many as you want.
-# The CE plugins will be deployed on your EE bundles as well.
+# The CE plugins will be deployed on your EE bundles as well but not vis versa.
 
 # ***These must be listed with their parent directory***
 # e.g. webs/kaleo-web
@@ -117,8 +139,8 @@ jenkinsUrlee6210[2]="$baseJenkinsee6210-calendar%5D(ee-6.2.10)/lastCompletedBuil
 jenkinsUrlee6210[3]="$baseJenkinsee6210-business-productivity-ee%5D(ee-6.2.10)/lastCompletedBuild/testReport/"
 
 ######################################################################################################################
-
-
+#FUNCTIONS############################################################################################################
+######################################################################################################################
 dbClear(){
 		if [[ -n "$mysqlUsername" ]]; then
 			if [[ -n "$mysqlPassword" ]]
@@ -457,8 +479,6 @@ poshiSuite(){
 		break
 	fi
 
-	# Runs all tests that are listed in the specified suite${suiteNumber}.txt. This file needs to be in your base source directory
-	# The file also must contains an extra blank line at the end to ensure all the tests are read
 	while read testname;
 	do
 		poshiRunTest
@@ -692,7 +712,8 @@ EOF
 }
 
 ######################################################################################################################
-##MAIN MENU##
+##MAIN MENU###########################################################################################################
+######################################################################################################################
 
 while :
 do
