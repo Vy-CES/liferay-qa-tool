@@ -22,7 +22,7 @@ ee61xDB="ee61"
 
 ## Bundle ports ##
 # e.g. for 9080 put 9
-masterPort="8"
+masterPort="9"
 ee62xPort="7"
 ee70xPort="8"
 ee61xPort="6"
@@ -350,6 +350,7 @@ poshiRunTest(){
 
 	if [ "$mobile" = "true" ]
 	then
+		sed -i "s/address}:8080/address}:${p}080/" build-test.xml
 		sed -i 's/sleep seconds="120"/sleep seconds="30"/' build-test.xml
 		ant -f run.xml run -Dtest.class=$testname -Dmobile.device.enabled=true < /dev/null
 	else
