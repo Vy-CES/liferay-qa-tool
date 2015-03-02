@@ -141,6 +141,7 @@ jenkinsUrlee6210[3]="$baseJenkinsee6210-business-productivity-ee%5D(ee-6.2.10)/l
 ######################################################################################################################
 #FUNCTIONS############################################################################################################
 ######################################################################################################################
+
 dbClear(){
 		if [[ -n "$mysqlUsername" ]]; then
 			if [[ -n "$mysqlPassword" ]]
@@ -326,8 +327,6 @@ pluginsDeploy(){
 	echo
 	echo "EE: ${eePlugins[*]}" | tr " " "\n" | sed 's/.*\///'
 	echo
-	echo
-
 	updateToHeadOption
 
 	for p in "${cePlugins[@]}"
@@ -423,7 +422,6 @@ poshiBuildSeleniumOption(){
 
 poshiRunTest(){
 	poshiBuildSeleniumOption
-
 	echo "Running $testname"
 	sleep 2
 	echo
@@ -478,8 +476,7 @@ poshiSuite(){
 		fi
 	done
 
-	poshiBuildSeleniumOption
-	
+	poshiBuildSeleniumOption	
 	cd $dir
 
 	while read testname;
@@ -547,9 +544,7 @@ poshiSuite(){
 poshiRun(){
 	echo "Running POSHI test for $v"
 	sleep 2
-
 	poshiRunTest
-
 	echo "Copying your results to $resultsDir"
 	cp $dir/portal-web/test-results/functional/${v}_$testname.html $resultsDir/
 	read -rsp $'Press any key to continue...\n' -n1 key
