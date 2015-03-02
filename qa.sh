@@ -517,6 +517,76 @@ poshiSetUrl(){
 	fi
 }
 
+poshiSetTest(){
+	echo -n "Enter full test name and press [ENTER]: "
+	read testname
+	echo "$testname"
+}
+
+openJenkinsURL(){
+	jenkinsUrl=jenkinsUrl$jb[@]
+
+	for url in ${!jenkinsUrl}
+		do
+			xdg-open $url &> /dev/null
+		done
+}
+
+gitInfoTemplate(){
+	cd $dir
+	portalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $pluginsDir
+	pluginsID="$(git log --pretty=format:'%H' -n 1)"
+	echo
+	echo "$v:"
+	echo "Tomcat 7.0.42 + MySQL 5.5. Portal $v GIT ID: $portalID."
+	echo "Plugins $v GIT ID: $pluginsID."
+	echo
+	read -rsp $'Press any key to continue...\n' -n1 key
+}
+
+gitInfoFull(){
+	cd $masterSourceDir
+	masterPortalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $masterPluginsDir
+	masterPluginsID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee62xSourceDir
+	ee62xPortalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee62xPluginsDir
+	ee62xPluginsID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee70xSourceDir
+	ee70xPortalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee70xPluginsDir
+	ee70xPluginsID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee61xSourceDir
+	ee61xPortalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $ee61xPluginsDir
+	ee61xPluginsID="$(git log --pretty=format:'%H' -n 1)"
+	cat<<EOF
+Master:
+Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $masterPortalID.
+Plugins master GIT ID: $masterPluginsID.
+
+ee-6.2.x:
+Tomcat 7.0.42 + MySQL 5.5. Portal ee-6.2.x GIT ID: $ee62xPortalID.
+Plugins ee-6.2.x GIT ID: $ee62xPluginsID.
+
+ee-7.0.x:
+Tomcat 7.0.42 + MySQL 5.5. Portal ee-7.0.x GIT ID: $ee70xPortalID.
+Plugins ee-7.0.x GIT ID: $ee70xPluginsID.
+
+ee-6.1.x:
+Tomcat 7.0.40 + MySQL 5.5. Portal ee-6.1.x GIT ID: $ee61xPortalID.
+Plugins ee-6.1.x GIT ID: $ee61xPluginsID.
+EOF
+	echo
+	read -rsp $'Press any key to continue...\n' -n1 key
+}
+
+######################################################################################################################
+##SUB MENUS###########################################################################################################
+######################################################################################################################
+
 poshiOption(){
 	while :
 	do
@@ -556,12 +626,6 @@ EOF
 done
 }
 
-poshiSetTest(){
-	echo -n "Enter full test name and press [ENTER]: "
-	read testname
-	echo "$testname"
-}
-
 branchMenu(){
 	while :
 	do
@@ -582,62 +646,25 @@ Please choose:
 	(2) Clear Enviroment
 	(3) Run POSHI Test
 	(4) Deploy Plugins
+	(5) Git Info Template
 
 	(q)uit - Main Menu
 -------------------------------------------
 EOF
-		read -n1
-		echo
-		case "$REPLY" in
-		"1")  bundleBuild ;;
-		"2")  clearEnv ;;
-		"3")  poshiSetTest ; poshiOption ;;
-		"4")  pluginsDeploy ;;
-		"Q")  echo "case sensitive!!" ;;
-		"q")  echo "quit" 
-			  break  ;; 
-		* )   echo "Not a valid option" ;;
-		esac
-	done
-}
-
-gitInfo(){
-	cd $masterSourceDir
-	masterPortalID="$(git log --pretty=format:'%H' -n 1)"
-	cd $masterPluginsDir
-	masterPluginsID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee62xSourceDir
-	ee62xPortalID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee62xPluginsDir
-	ee62xPluginsID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee70xSourceDir
-	ee70xPortalID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee70xPluginsDir
-	ee70xPluginsID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee61xSourceDir
-	ee61xPortalID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee61xPluginsDir
-	ee61xPluginsID="$(git log --pretty=format:'%H' -n 1)"
-
-	cat<<EOF
-Master:
-Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $masterPortalID.
-Plugins master GIT ID: $masterPluginsID.
-
-ee-6.2.x:
-Tomcat 7.0.42 + MySQL 5.5. Portal ee-6.2.x GIT ID: $ee62xPortalID.
-Plugins ee-6.2.x GIT ID: $ee62xPluginsID.
-
-ee-7.0.x:
-Tomcat 7.0.42 + MySQL 5.5. Portal ee-7.0.x GIT ID: $ee70xPortalID.
-Plugins ee-7.0.x GIT ID: $ee70xPluginsID.
-
-ee-6.1.x:
-Tomcat 7.0.40 + MySQL 5.5. Portal ee-6.1.x GIT ID: $ee61xPortalID.
-Plugins ee-6.1.x GIT ID: $ee61xPluginsID.
-EOF
+	read -n1
 	echo
-	read -rsp $'Press any key to continue...\n' -n1 key
+	case "$REPLY" in
+	"1")  bundleBuild ;;
+	"2")  clearEnv ;;
+	"3")  poshiSetTest ; poshiOption ;;
+	"4")  pluginsDeploy ;;
+	"5")  gitInfoTemplate ;;
+	"Q")  echo "case sensitive!!" ;;
+	"q")  echo "quit" 
+		  break  ;; 
+	* )   echo "Not a valid option" ;;
+	esac
+	done
 }
 
 ######################################################################################################################
@@ -673,7 +700,7 @@ EOF
 	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
 	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort branchMenu ;;
 	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort branchMenu ;;
-	"5")  gitInfo ;;
+	"5")  gitInfoFull ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  exit ;; 
