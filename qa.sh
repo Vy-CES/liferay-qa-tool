@@ -568,45 +568,6 @@ poshiSetUrl(){
 	fi
 }
 
-poshiOption(){
-	while :
-	do
-		clear
-		portalURL=$(cat $dir/test.$username.properties | grep "portal.url=")
-		cat<<EOF
-========================================
-POSHI $v
-$testname
-$portalURL
-----------------------------------------
-Choose Your Destiny:
-
-	(1) Run Test
-	(2) Run Mobile Test
-	(3) Pick New Test
-	(4) Format Source
-	(5) Set Portal URL
-	(6) Run Test Suite
-	
-	(q)uit - go back
-----------------------------------------
-EOF
-	read -n1
-	echo
-	case "$REPLY" in
-	"1")  mobile="false" poshiRun ;;
-	"2")  mobile="true" poshiRun ;;
-	"3")  poshiSetTest ;;
-	"4")  poshiFormat ;;
-	"5")  poshiSetUrl ;;
-	"6")  poshiSuite ;;
-	"Q")  echo "case sensitive!!" ;;
-	"q")  break ;; 
-	* )   echo "Not a valid option" ;;
-	esac
-done
-}
-
 poshiSetTest(){
 	echo -n "Enter full test name and press [ENTER]: "
 	read testname
@@ -622,48 +583,20 @@ openJenkinsURL(){
 		done
 }
 
-branchMenu(){
-	while :
-	do
-		clear
-		cd $dir
-		portalID="$(git log --pretty=format:'%H' -n 1)"
-		gitBranch="$(git rev-parse --abbrev-ref HEAD)"
-		cat<<EOF
-===========================================
-$v
-
-Git ID: $portalID
-Git Branch: $gitBranch
--------------------------------------------
-Please choose:
-
-	(1) Build Bundle
-	(2) Clear Enviroment
-	(3) Run POSHI Test
-	(4) Deploy Plugins
-	(5) Jenkins Results
-
-	(q)uit - Main Menu
--------------------------------------------
-EOF
-	read -n1
+gitInfoTemplate(){
+	cd $dir
+	portalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $pluginsDir
+	pluginsID="$(git log --pretty=format:'%H' -n 1)"
 	echo
-	case "$REPLY" in
-	"1")  bundleBuild ;;
-	"2")  clearEnv ;;
-	"3")  poshiSetTest ; poshiOption ;;
-	"4")  pluginsDeploy ;;
-	"5")  openJenkinsURL ;;
-	"Q")  echo "case sensitive!!" ;;
-	"q")  echo "quit" 
-		  break  ;; 
-	* )   echo "Not a valid option" ;;
-	esac
-	done
+	echo "$v:"
+	echo "Tomcat 7.0.42 + MySQL 5.5. Portal $v GIT ID: $portalID."
+	echo "Plugins $v GIT ID: $pluginsID."
+	echo
+	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
-gitInfo(){
+gitInfoFull(){
 	cd $masterSourceDir
 	masterPortalID="$(git log --pretty=format:'%H' -n 1)"
 	cd $masterPluginsDir
@@ -717,6 +650,97 @@ EOF
 }
 
 ######################################################################################################################
+##SUB MENUS###########################################################################################################
+######################################################################################################################
+
+poshiOption(){
+	while :
+	do
+		clear
+		portalURL=$(cat $dir/test.$username.properties | grep "portal.url=")
+		cat<<EOF
+========================================
+POSHI $v
+$testname
+$portalURL
+----------------------------------------
+Choose Your Destiny:
+
+	(1) Run Test
+	(2) Run Mobile Test
+	(3) Pick New Test
+	(4) Format Source
+	(5) Set Portal URL
+	(6) Run Test Suite
+	
+	(q)uit - go back
+----------------------------------------
+EOF
+	read -n1
+	echo
+	case "$REPLY" in
+	"1")  mobile="false" poshiRun ;;
+	"2")  mobile="true" poshiRun ;;
+	"3")  poshiSetTest ;;
+	"4")  poshiFormat ;;
+	"5")  poshiSetUrl ;;
+	"6")  poshiSuite ;;
+	"Q")  echo "case sensitive!!" ;;
+	"q")  break ;; 
+	* )   echo "Not a valid option" ;;
+	esac
+done
+}
+
+branchMenu(){
+	while :
+	do
+		clear
+		if [ "$public" = "true" ]
+		then
+			public="public"
+		fi
+
+		cd $dir
+		portalID="$(git log --pretty=format:'%H' -n 1)"
+		gitBranch="$(git rev-parse --abbrev-ref HEAD)"
+		cat<<EOF
+===========================================
+$v $public
+
+Git ID: $portalID
+Git Branch: $gitBranch
+-------------------------------------------
+Please choose:
+
+	(1) Build Bundle
+	(2) Clear Enviroment
+	(3) Run POSHI Test
+	(4) Deploy Plugins
+	(5) Git Info Template
+	(6) Jenkins Results
+
+	(q)uit - Main Menu
+-------------------------------------------
+EOF
+	read -n1
+	echo
+	case "$REPLY" in
+	"1")  bundleBuild ;;
+	"2")  clearEnv ;;
+	"3")  poshiSetTest ; poshiOption ;;
+	"4")  pluginsDeploy ;;
+	"5")  gitInfoTemplate ;;
+	"6")  openJenkinsURL ;;
+	"Q")  echo "case sensitive!!" ;;
+	"q")  echo "quit" 
+		  break  ;; 
+	* )   echo "Not a valid option" ;;
+	esac
+	done
+}
+
+######################################################################################################################
 ##MAIN MENU###########################################################################################################
 ######################################################################################################################
 
@@ -752,8 +776,8 @@ EOF
 	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort jb="ee70x" branchMenu ;;
 	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort jb="ee61x" branchMenu ;;
 	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB p=$ee6210Port jb="ee6210"  branchMenu ;;
-	"6")  dir=$publicMasterSourceDir bundleDir=$publicMasterBundleDir pluginsDir=$masterPluginsDir v="master-public" db=$publicMasterDB p=$publicMasterPort jb="master" branchMenu ;;
-	"7")  gitInfo ;;
+	"6")  dir=$publicMasterSourceDir bundleDir=$publicMasterBundleDir pluginsDir=$masterPluginsDir v="master" db=$publicMasterDB p=$publicMasterPort public="true" jb="master" branchMenu ;;
+	"7")  gitInfoFull ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  exit ;; 
