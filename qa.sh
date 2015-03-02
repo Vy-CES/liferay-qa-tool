@@ -537,7 +537,7 @@ Choose Your Destiny:
 	(q)uit - go back
 ----------------------------------------
 EOF
-	read -n1 -s
+	read -n1
 	case "$REPLY" in
 	"1")  mobile="false" poshiRun ;;
 	"2")  mobile="true" poshiRun ;;
@@ -582,7 +582,7 @@ Please choose:
 	(q)uit - Main Menu
 -------------------------------------------
 EOF
-		read -n1 -s
+		read -n1
 		case "$REPLY" in
 		"1")  bundleBuild ;;
 		"2")  clearEnv ;;
@@ -661,7 +661,7 @@ Please choose a branch version:
 	(q)uit
 -------------------------------------------
 EOF
-	read -n1 -s
+	read -n1
 	case "$REPLY" in
 	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB p=$masterPort branchMenu ;;
 	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
