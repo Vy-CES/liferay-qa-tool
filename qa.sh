@@ -223,30 +223,41 @@ bundleBuild(){
 		then
 			echo "Switching to branch $v"
 			git checkout $v
-			git status
+			echo "Checking for modified files"
 			echo
-			echo -e "\e[31mAny modified files will be cleared, are you sure you want to continue?\e[0m"
-			echo -e "\e[31m[y/n?]\e[0m"
-
-			read -n 1 -r
+			modified=$(git ls-files -m)
+			if [ -n "$modified" ]
+			then
+				echo -e "\e[31mModified Files:\e[0m"
+				echo $modified
 				echo
-				if [[ $REPLY =~ ^[Yy]$ ]]
-				then
-					echo "Sweetness"
-				elif [[ $REPLY =~ ^[Nn]$ ]] 
-				then
-					echo "No"
-					echo "Come back when you have committed or stashed your modified files."
-					break
-				else 
-					echo "please choose y or n"
-					sleep 3
-					continue
-				fi
-				
-			echo "Clearing main branch"
-			echo "Resetting Ivy Cache"
+				echo -e "\e[31mAny modified files will be cleared, are you sure you want to continue?\e[0m"
+				echo -e "\e[31m[y/n?]\e[0m"
+
+				read -n 1 -r
+					echo
+					if [[ $REPLY =~ ^[Yy]$ ]]
+					then
+						echo "Sweetness"
+					elif [[ $REPLY =~ ^[Nn]$ ]] 
+					then
+						echo "No"
+						echo "Come back when you have committed or stashed your modified files."
+						sleep 3
+						continue
+					else 
+						echo "please choose y or n"
+						sleep 3
+						continue
+					fi
+			else
+				echo "No modified files"
+			fi
+
+			echo	
+			echo "Clearing Ivy Cache"
 			rm -r $dir/.ivy/cache
+			echo "Resetting main branch"
 			git reset --hard
 			echo
 			echo "Pulling Upstream"
@@ -263,7 +274,7 @@ bundleBuild(){
 			echo "please choose y or n"
 			sleep 3
 			continue
-		fi
+	fi
 
 	if [[ $v != *ee-6.1* ]]
 	then
@@ -468,16 +479,8 @@ poshiSuite(){
 	done
 
 	poshiBuildSeleniumOption
-
-	echo "Clearing Old Screenshots"
-	cd $dir/portal-web/test-results/functional/screenshots
-	rm *.jpg
+	
 	cd $dir
-
-	if [ -z "$suiteNumber" ]; then 
-		echo "You didn't pick a test suite.";
-		break
-	fi
 
 	while read testname;
 	do
@@ -589,6 +592,7 @@ Choose Your Destiny:
 ----------------------------------------
 EOF
 	read -n1
+	echo
 	case "$REPLY" in
 	"1")  mobile="false" poshiRun ;;
 	"2")  mobile="true" poshiRun ;;
@@ -644,6 +648,7 @@ Please choose:
 -------------------------------------------
 EOF
 	read -n1
+	echo
 	case "$REPLY" in
 	"1")  bundleBuild ;;
 	"2")  clearEnv ;;
@@ -740,6 +745,7 @@ Please choose a branch version:
 -------------------------------------------
 EOF
 	read -n1
+	echo
 	case "$REPLY" in
 	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB p=$masterPort jb="master" branchMenu ;;
 	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort jb="ee62x"  branchMenu ;;
