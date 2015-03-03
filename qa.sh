@@ -138,6 +138,12 @@ jenkinsUrlee6210[1]="$baseJenkinsee6210-web-forms-and-data-lists%5D(ee-6.2.10)/l
 jenkinsUrlee6210[2]="$baseJenkinsee6210-calendar%5D(ee-6.2.10)/lastCompletedBuild/testReport/"
 jenkinsUrlee6210[3]="$baseJenkinsee6210-business-productivity-ee%5D(ee-6.2.10)/lastCompletedBuild/testReport/"
 
+## Run.xml Location ##
+runXMLDir=/home/vicnate5/Dropbox/Work/files
+
+## test.properties Location ##
+testPropsDir=/home/vicnate5/Dropbox/Work/files
+
 ######################################################################################################################
 #FUNCTIONS############################################################################################################
 ######################################################################################################################
@@ -178,6 +184,10 @@ updateToHeadOption(){
 }
 
 setupDatabaseConnection(){
+	echo "Adding properties files"
+	cp $testPropsDir/test.$username.properties $dir/
+	echo app.server.parent.dir=$bundleDir >app.server.$username.properties
+	echo "Configuring test.$username.properties for MySQL"
 	cd $dir
 	if [[ -e test.$username.properties ]] 
 	# if test.username.properties exists(-e)
@@ -212,6 +222,9 @@ setupDatabaseConnection(){
 		(echo "" ; echo "database.mysql.password=${mysqlPassword}") >>test.$username.properties
 	fi
 
+	echo "Adding portal URL"
+	(echo "" ; echo "portal.url=http://localhost:${p}080") >>test.$username.properties
+	echo "Creating portal-ext.properties"
 	ant -f build-test.xml prepare-portal-ext-properties
 }
 
@@ -425,9 +438,10 @@ poshiRunTest(){
 	echo "Running $testname"
 	sleep 2
 	echo
+	echo "Importing run.xml"
+	cp $runXMLDir/run.xml $dir/
 	echo "Clearing Old Screenshots"
-	cd $dir/portal-web/test-results/functional/screenshots
-	rm *.jpg
+	cd $dir/portal-web/test-results/functional/screenshots && rm *.jpg
 	cd $dir
 
 	if [ "$mobile" = "true" ]
@@ -543,7 +557,6 @@ poshiSuite(){
 
 poshiRun(){
 	echo "Running POSHI test for $v"
-	sleep 2
 	poshiRunTest
 	echo "Copying your results to $resultsDir"
 	cp $dir/portal-web/test-results/functional/${v}_$testname.html $resultsDir/
