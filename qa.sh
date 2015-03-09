@@ -370,7 +370,6 @@ poshiBuildSeleniumOption(){
 }
 
 poshiRunTest(){
-	poshiBuildSeleniumOption
 	echo "Running $testname"
 	sleep 2
 	echo
@@ -492,7 +491,7 @@ poshiSuite(){
 
 poshiRun(){
 	echo "Running POSHI test for $v"
-	sleep 2
+	poshiBuildSeleniumOption
 	poshiRunTest
 	echo "Copying your results to $resultsDir"
 	cp $dir/portal-web/test-results/functional/${v}_$testname.html $resultsDir/
