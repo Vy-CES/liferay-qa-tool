@@ -442,6 +442,7 @@ poshiRunTest(){
 	echo "Clearing Old Screenshots"
 	cd $dir/portal-web/test-results/functional/screenshots && rm *.jpg
 	cd $dir
+	sed -i "s/8080/${p}080/" run.xml
 
 	if [ "$mobile" = "true" ]
 	then
