@@ -223,7 +223,7 @@ setupDatabaseConnection(){
 	fi
 
 	echo "Adding portal URL"
-	(echo "" ; echo "portal.url=http://localhost:${p}080") >>test.$username.properties
+	(echo "" ; echo "test.url=http://localhost:${p}080") >>test.$username.properties
 	echo "Creating portal-ext.properties"
 	ant -f build-test.xml prepare-portal-ext-properties
 }
@@ -568,11 +568,11 @@ poshiSetUrl(){
 	read url
 	cd $dir
 
-	if grep -q "portal.url=" test.$username.properties 
+	if grep -q "test.url=" test.$username.properties 
 	then
-		sed -i "s/portal.url=.*/portal.url=${url}/" test.$username.properties
+		sed -i "s/test.url=.*/test.url=${url}/" test.$username.properties
 	else
-		(echo "" ; echo "portal.url=${url}") >>test.$username.properties
+		(echo "" ; echo "test.url=${url}") >>test.$username.properties
 	fi
 }
 
@@ -665,12 +665,12 @@ poshiOption(){
 	while :
 	do
 		clear
-		portalURL=$(cat $dir/test.$username.properties | grep "portal.url=")
+		testURL=$(cat $dir/test.$username.properties | grep "test.url=")
 		cat<<EOF
 ========================================
 POSHI $v
 $testname
-$portalURL
+$testURL
 ----------------------------------------
 Choose Your Destiny:
 
