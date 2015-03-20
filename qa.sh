@@ -542,6 +542,75 @@ poshiSuite(){
 	unzip Results-$info-FAILED.zip -d $resultsDir/Results-$info-FAILED
 	echo "done"
 
+	## TO RUN ON ANOTHER ENVIROMENT
+
+	# sleep 2
+	
+	# Needs to be replaced with VIX API cuz this doesn't actually shutdown the VM
+	# killall -9 vmplayer	
+
+	# vmplayer /home/vicnate5/VMs/posgresql/vm-winxp.vmx &> /dev/null &
+	# sleep 60
+
+	# vmplayer /home/vicnate5/VMs/CentOS\ 5/vm-centos5.vmx &> /vdev/null &
+	# sleep 20
+
+	# STILL DOESNT WORK
+	# url="172.16.19.254:8080"
+	# sed -i "s/test.url=.*/test.url=$url/" /home/vicnate5/liferay/liferay-portal-ee-6.2.x/test.vicnate5.properties
+
+	# cd $dir
+
+	# while read testname;
+	# do
+	# 	poshiRunTest
+	# 	cd $dir
+	# 	continue
+	# done<suite$suiteNumber.txt
+
+	# echo
+	# echo -e "\e[31mALL TESTS COMPLETE\e[0m"
+	# echo
+	# echo "Zipping up results for you"
+	# sleep 2
+
+	# date="$(date +"%m-%d-%y")"
+	# time="$(date +"%H:%M")"
+
+	# info=Suite${suiteNumber}_${date}_${time}
+	# cd $dir/portal-web/test-results/functional/screenshots
+	# echo "Zipping screenshots"
+	# zip Results-Pictures-$info *.zip
+	# mv Results-Pictures-$info.zip $dir
+	# rm *.zip
+	# cd $dir
+	# mv Results-Pictures-$info.zip $resultsDir/Results-$info-PICTURES
+	# echo "done"
+
+	# echo
+	# echo "Zipping reports"
+	# cd $dir/portal-web/test-results/functional
+
+	# mkdir failed
+	# grep -l -Z -r 'div class="fail"' . | xargs -0 -I{} mv {} ./failed
+
+	# cd $dir/portal-web/test-results/functional
+	# zip Results-$info-PASSED *.html
+	# mv Results-$info-PASSED.zip $dir
+	# rm *.html
+
+	# cd failed
+	# zip Results-$info-FAILED *.html
+	# mv Results-$info-FAILED.zip $dir
+	# cd $dir/portal-web/test-results/functional
+	# rm -r failed
+
+	# echo "Sending your results to $resultsDir"
+	# cd $dir
+	# unzip Results-$info-PASSED.zip -d $resultsDir/Results-$info-PASSED
+	# unzip Results-$info-FAILED.zip -d $resultsDir/Results-$info-FAILED
+	# echo "done"
+
 	echo
 	T="$(($(date +%s)-T))"
 	echo "Time in seconds: ${T}"
