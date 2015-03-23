@@ -43,7 +43,7 @@ ee62xDB="ee62"
 ee70xDB="ee7"
 ee61xDB="ee61"
 ee6210DB="ee621"
-publicMasterDB="publicmaster"
+eeMasterDB="eeMaster"
 
 ## Bundle ports ##
 # e.g. for 9080 put 9
@@ -52,7 +52,7 @@ ee62xPort="7"
 ee70xPort="8"
 ee61xPort="6"
 ee6210Port="8"
-publicMasterPort="6"
+eeMasterPort="6"
 
 ## Test Results Location ##
 # where you want your test reports to end up
@@ -62,8 +62,8 @@ resultsDir="/home/vicnate5/Desktop/RESULTS"
 sourceDir="/home/vicnate5/liferay"
 bundleDir="/home/vicnate5/bundles"
 
-masterSourceDir="$sourceDir/liferay-portal-ee-master"
-masterBundleDir="$bundleDir/master-ee-bundles"
+masterSourceDir="$sourceDir/liferay-portal-master"
+masterBundleDir="$bundleDir/master-ce-bundles"
 masterPluginsDir="$sourceDir/liferay-plugins-master"
 
 ee62xSourceDir="$sourceDir/liferay-portal-ee-6.2.x"
@@ -82,8 +82,8 @@ ee6210SourceDir="$sourceDir/liferay-portal-ee-6.2.10"
 ee6210BundleDir="$bundleDir/ee-6.2.10-bundles"
 ee6210PluginsDir="$sourceDir/liferay-plugins-ee-6.2.10"
 
-publicMasterSourceDir="$sourceDir/liferay-portal-master"
-publicMasterBundleDir="$bundleDir/master-ce-bundles"
+eeMasterSourceDir="$sourceDir/liferay-portal-ee-master"
+eeMasterBundleDir="$bundleDir/master-ee-bundles"
 
 ## Plugins ##
 # This allows you to deploy a group of plugins that you use regularly
@@ -694,8 +694,8 @@ gitInfoFull(){
 	ee6210PortalID="$(git log --pretty=format:'%H' -n 1)"
 	cd $ee6210PluginsDir
 	ee6210PluginsID="$(git log --pretty=format:'%H' -n 1)"
-	cd $publicMasterSourceDir
-	publicMasterPortalID="$(git log --pretty=format:'%H' -n 1)"
+	cd $eeMasterSourceDir
+	eeMasterPortalID="$(git log --pretty=format:'%H' -n 1)"
 
 	cat<<EOF
 Master:
@@ -718,8 +718,8 @@ ee-6.2.10:
 Tomcat 7.0.42 + MySQL 5.5. Portal ee-6.2.10 GIT ID: $ee6210PortalID.
 Plugins ee-6.2.10 GIT ID: $ee6210PluginsID.
 
-Master PUBLIC:
-Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $publicMasterPortalID.
+Master EE:
+Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $eeMasterPortalID.
 Plugins master GIT ID: $masterPluginsID.
 EOF
 	echo
@@ -838,7 +838,7 @@ Please choose a branch version:
 	(3) ee-7.0.x
 	(4) ee-6.1.x
 	(5) ee-6.2.10
-	(6) Master Public
+	(6) Master EE
 
 	(7) Print git info
 
@@ -848,12 +848,12 @@ EOF
 	read -n1
 	echo
 	case "$REPLY" in
-	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB p=$masterPort jb="master" branchMenu ;;
+	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB p=$masterPort jb="master" public="true" branchMenu ;;
 	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort jb="ee62x"  branchMenu ;;
 	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort jb="ee70x" branchMenu ;;
 	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort jb="ee61x" branchMenu ;;
 	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB p=$ee6210Port jb="ee6210"  branchMenu ;;
-	"6")  dir=$publicMasterSourceDir bundleDir=$publicMasterBundleDir pluginsDir=$masterPluginsDir v="master" db=$publicMasterDB p=$publicMasterPort public="true" jb="master" branchMenu ;;
+	"6")  dir=$eeMasterSourceDir bundleDir=$eeMasterBundleDir pluginsDir=$masterPluginsDir v="master" db=$eeMasterDB p=$eeMasterPort jb="master" branchMenu ;;
 	"7")  gitInfoFull ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
