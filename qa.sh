@@ -747,7 +747,7 @@ Choose Your Destiny:
 	(2) Run Mobile Test
 	(3) Pick New Test
 	(4) Format Source
-	(5) Set Portal URL
+	(5) (Not Working) Set Portal URL 
 	(6) Run Test Suite
 	
 	(q)uit - go back
@@ -760,7 +760,7 @@ EOF
 	"2")  mobile="true" poshiRun ;;
 	"3")  poshiSetTest ;;
 	"4")  poshiFormat ;;
-	"5")  poshiSetUrl ;;
+	"5")  #poshiSetUrl ;;
 	"6")  poshiSuite ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break ;; 
