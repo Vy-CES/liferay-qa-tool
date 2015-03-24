@@ -726,6 +726,10 @@ EOF
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+bashTester(){
+	
+}
+
 ######################################################################################################################
 ##SUB MENUS###########################################################################################################
 ######################################################################################################################
@@ -841,6 +845,7 @@ Please choose a branch version:
 	(6) Master EE
 
 	(7) Print git info
+	(8) TESTER
 
 	(q)uit
 -------------------------------------------
@@ -855,6 +860,7 @@ EOF
 	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB p=$ee6210Port jb="ee6210"  branchMenu ;;
 	"6")  dir=$eeMasterSourceDir bundleDir=$eeMasterBundleDir pluginsDir=$masterPluginsDir v="master" db=$eeMasterDB p=$eeMasterPort jb="master" branchMenu ;;
 	"7")  gitInfoFull ;;
+	"8")  bashTester ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  exit ;; 
