@@ -108,8 +108,8 @@ soundDir="/home/vicnate5/Dropbox/Work/Scripts"
 soundFile="bundleFinished.mp3"
 
 ## Jenkins Results Links ##
-baseJenkinsmaster="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28master%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
-baseJenkinsee62x="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-6.2.x%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
+baseJenkinsmaster="http://test-2-1.liferay.com/view/test-portal-branch-upstream-frontend-tomcat-mysql%28master%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
+baseJenkinsee62x="http://test-2-2.liferay.com/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-6.2.x%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
 baseJenkinsee70x="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-7.0.x%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
 baseJenkinsee61x="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-6.1.x%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
 baseJenkinsee6210="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-6.2.10%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
