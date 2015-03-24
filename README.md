@@ -3,7 +3,7 @@ liferay-qa-tool
 
 Make your life easier in Liferay QA
 
-This script is a menu based terminal program to accomplish many of the repetative tasks we do in Liferay QA. Please contact Victor if you have any feed back.
+This script is a menu based terminal program to accomplish many of the repetative tasks we do in Liferay QA. Please contact Victor if you have any questions/feedback.
 
 **Please use the "win" branch if you are on a windows operating system.**
 
