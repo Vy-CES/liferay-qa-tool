@@ -611,7 +611,7 @@ EOF
 	"2")  mobile="true" poshiRun ;;
 	"3")  poshiSetTest ;;
 	"4")  poshiFormat ;;
-	"5")  #poshiSetUrl ;;
+	"5")   ;;
 	"6")  poshiSuite ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break ;; 
