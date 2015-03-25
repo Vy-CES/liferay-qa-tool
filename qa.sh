@@ -726,8 +726,38 @@ EOF
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+addKnownIssues(){
+	echo -n "Enter Ticket to Add and press [ENTER]: "
+	read ticket
+	cd $dir
+
+	local IFS=#
+	while read testcase testcommand;
+	do
+		testcasefile=$(find . -name "$testcase.testcase")
+		sed -i "s/name=\"${testcommand}\"/known-issues=\"${ticket}\"\ name=\"${testcommand}\"/" $testcasefile
+		cd $dir
+		continue
+	done<on.txt
+}
+
+removeKnownIssues(){
+	echo -n "Enter Ticket to Remove and press [ENTER]: "
+	read ticket
+	cd $dir
+
+	local IFS=#
+	while read testcase testcommand;
+	do
+		testcasefile=$(find . -name "$testcase.testcase")
+		sed -i "s/known-issues=\"${ticket}\"\name=\"${testcommand}\"/name=\"${testcommand}\"/" $testcasefile
+		cd $dir
+		continue
+	done<off.txt
+}
+
 bashTester(){
-	
+	echo
 }
 
 ######################################################################################################################
@@ -800,6 +830,8 @@ Please choose:
 	(4) Deploy Plugins
 	(5) Git Info Template
 	(6) Jenkins Results
+	(7) Add Known Issues
+	(8) Remove Known Issues
 
 	(q)uit - Main Menu
 -------------------------------------------
@@ -813,6 +845,8 @@ EOF
 	"4")  pluginsDeploy ;;
 	"5")  gitInfoTemplate ;;
 	"6")  openJenkinsURL ;;
+	"7")  addKnownIssues ;;
+	"8")  removeKnownIssues ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  break  ;; 
