@@ -727,6 +727,8 @@ EOF
 }
 
 jenkinsToJiraUrlCoverter(){
+	echo
+	echo
 	vim $resultsDir/jenkinsLinks.txt
 
 	while read url;
