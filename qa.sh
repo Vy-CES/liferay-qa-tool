@@ -727,23 +727,26 @@ EOF
 }
 
 jenkinsToJiraUrlCoverter(){
-	echo -n "Jenkins URL to convert: "
-	read url
+	vim $resultsDir/jenkinsLinks.txt
 
-	local IFS=/ 
-	read -a elements <<< "$url"
+	while read url;
+	do
+		local IFS=/ 
+		read -a elements <<< "$url"
 
-	testCaseFromUrl=${elements[11]}
-	testFromUrl=${elements[12]}
+		testCaseFromUrl=${elements[11]}
+		testFromUrl=${elements[12]}
 
-	testCase=${testCaseFromUrl%TestCase}
-	testCommand=${testFromUrl#test}
+		testCase=${testCaseFromUrl%TestCase}
+		testCommand=${testFromUrl#test}
 
-	fullTest="${testCase}#${testCommand}"
-	newUrl="[${fullTest}|${url}]"
+		fullTest="${testCase}#${testCommand}"
+		newUrl="[${fullTest}|${url}]"
+		echo "$newUrl"
+		continue
+	done<$resultsDir/jenkinsLinks.txt
+
 	echo
-	echo
-	echo "$newUrl"
 	echo
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
