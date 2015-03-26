@@ -726,7 +726,31 @@ EOF
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+jenkinsToJiraUrlCoverter(){
+	echo -n "Jenkins URL to convert: "
+	read url
+
+	local IFS=/ 
+	read -a elements <<< "$url"
+
+	testCaseFromUrl=${elements[11]}
+	testFromUrl=${elements[12]}
+
+	testCase=${testCaseFromUrl%TestCase}
+	testCommand=${testFromUrl#test}
+
+	fullTest="${testCase}#${testCommand}"
+	newUrl="[${fullTest}|${url}]"
+	echo
+	echo
+	echo "$newUrl"
+	echo
+	read -rsp $'Press any key to continue...\n' -n1 key
+}
+
 addKnownIssues(){
+	cd $dir
+	cat addki.txt
 	echo -n "Enter Ticket to Add and press [ENTER]: "
 	read ticket
 	cd $dir
@@ -738,13 +762,17 @@ addKnownIssues(){
 		sed -i "s/name=\"${testcommand}\"/known-issues=\"${ticket}\"\ name=\"${testcommand}\"/" $testcasefile
 		cd $dir
 		continue
-	done<on.txt
+	done<addki.txt
+	echo "done"
+	echo "known-issues $ticket added"
+	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
 removeKnownIssues(){
+	cd $dir
+	cat removeki.txt
 	echo -n "Enter Ticket to Remove and press [ENTER]: "
 	read ticket
-	cd $dir
 
 	local IFS=#
 	while read testcase testcommand;
@@ -753,7 +781,10 @@ removeKnownIssues(){
 		sed -i "s/known-issues=\"${ticket}\"\name=\"${testcommand}\"/name=\"${testcommand}\"/" $testcasefile
 		cd $dir
 		continue
-	done<off.txt
+	done<removeki.txt
+	echo "done"
+	echo "known-issues $ticket removed"
+	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
 bashTester(){
@@ -865,13 +896,13 @@ do
 	cat<<EOF
 
 Liferay Portal QA Tool    
-===========================================
+=====================================================
 Main Menu
--------------------------------------------
+-----------------------------------------------------
 Hello $name 
 Please choose a branch version:
 
-	(1) Master
+	(1) Master             (c) Jenkins-JIRA Coverter
 	(2) ee-6.2.x
 	(3) ee-7.0.x
 	(4) ee-6.1.x
@@ -882,7 +913,7 @@ Please choose a branch version:
 	(8) TESTER
 
 	(q)uit
--------------------------------------------
+-----------------------------------------------------
 EOF
 	read -n1
 	echo
@@ -895,6 +926,7 @@ EOF
 	"6")  dir=$eeMasterSourceDir bundleDir=$eeMasterBundleDir pluginsDir=$masterPluginsDir v="master" db=$eeMasterDB p=$eeMasterPort jb="master" branchMenu ;;
 	"7")  gitInfoFull ;;
 	"8")  bashTester ;;
+	"c")  jenkinsToJiraUrlCoverter ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  exit ;; 
