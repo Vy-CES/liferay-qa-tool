@@ -726,6 +726,23 @@ EOF
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+lpsConverter(){
+	echo
+	echo
+	vim $resultsDir/lps.txt
+
+	while read lps;
+	do
+		url="https://issues.liferay.com/browse/${lps}"
+		echo "$url"
+		continue
+	done<$resultsDir/lps.txt
+
+	echo
+	echo
+	read -rsp $'Press any key to continue...\n' -n1 key
+}
+
 jenkinsToJiraUrlCoverter(){
 	echo
 	echo
@@ -908,7 +925,7 @@ Hello $name
 Please choose a branch version:
 
 	(1) Master             (c) Jenkins-JIRA Coverter
-	(2) ee-6.2.x
+	(2) ee-6.2.x           (l) LPS Coverter
 	(3) ee-7.0.x
 	(4) ee-6.1.x
 	(5) ee-6.2.10
@@ -932,6 +949,7 @@ EOF
 	"7")  gitInfoFull ;;
 	"8")  bashTester ;;
 	"c")  jenkinsToJiraUrlCoverter ;;
+	"l")  lpsConverter ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  exit ;; 
