@@ -632,6 +632,13 @@ poshiRun(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+poshiRunnerRun(){
+	echo "POSHI Runner test for $v"
+	cd $dir/modules/test/poshi-runner/
+	ant start-poshi-runner -Dtest.name=$testname < /dev/null
+	read -rsp $'Press any key to continue...\n' -n1 key
+}
+
 poshiSetUrl(){
 	echo -n "Enter Portal URL and press [ENTER]: "
 	read url
@@ -830,7 +837,7 @@ $testURL
 ----------------------------------------
 Choose Your Destiny:
 
-	(1) Run Test
+	(1) Run Test          (r) Poshi Runner
 	(2) Run Mobile Test
 	(3) Pick New Test
 	(4) Format Source
@@ -849,6 +856,7 @@ EOF
 	"4")  poshiFormat ;;
 	"5")   ;;
 	"6")  poshiSuite ;;
+	"r")  poshiRunnerRun ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break ;; 
 	* )   echo "Not a valid option" ;;
