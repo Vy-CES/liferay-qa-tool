@@ -179,6 +179,7 @@ updateToHeadOption(){
 			echo "No"
 		else 
 			echo "please choose Y or N"
+			sleep 1
 			continue
 		fi
 }
@@ -261,7 +262,7 @@ bundleBuild(){
 						continue
 					else 
 						echo "please choose y or n"
-						sleep 3
+						sleep 1
 						continue
 					fi
 			else
@@ -286,7 +287,7 @@ bundleBuild(){
 			echo "No"
 		else 
 			echo "please choose y or n"
-			sleep 3
+			sleep 1
 			continue
 	fi
 
@@ -390,7 +391,7 @@ clearEnv(){
 			echo "Plugins untouched"
 		else 
 			echo "please choose y or n"
-			sleep 3
+			sleep 1
 			continue
 		fi
 
@@ -428,7 +429,7 @@ poshiBuildSeleniumOption(){
 		echo "No"
 	else 
 		echo "please choose Y or N"
-		sleep 3
+		sleep 1
 		continue
 	fi
 }
