@@ -778,8 +778,11 @@ jenkinsToJiraUrlCoverter(){
 }
 
 addKnownIssues(){
-	cd $dir
-	cat addki.txt
+	echo
+	echo
+	vim $resultsDir/addki.txt
+	echo
+	echo
 	echo -n "Enter Ticket to Add and press [ENTER]: "
 	read ticket
 	cd $dir
@@ -791,15 +794,18 @@ addKnownIssues(){
 		sed -i "s/name=\"${testcommand}\"/known-issues=\"${ticket}\"\ name=\"${testcommand}\"/" $testcasefile
 		cd $dir
 		continue
-	done<addki.txt
+	done<$resultsDir/addki.txt
 	echo "done"
 	echo "known-issues $ticket added"
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
 removeKnownIssues(){
-	cd $dir
-	cat removeki.txt
+	echo
+	echo
+	vim $resultsDir/removeki.txt
+	echo
+	echo
 	echo -n "Enter Ticket to Remove and press [ENTER]: "
 	read ticket
 
@@ -810,7 +816,7 @@ removeKnownIssues(){
 		sed -i "s/known-issues=\"${ticket}\"\name=\"${testcommand}\"/name=\"${testcommand}\"/" $testcasefile
 		cd $dir
 		continue
-	done<removeki.txt
+	done<$resultsDir/removeki.txt
 	echo "done"
 	echo "known-issues $ticket removed"
 	read -rsp $'Press any key to continue...\n' -n1 key
