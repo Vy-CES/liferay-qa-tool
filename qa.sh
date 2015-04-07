@@ -815,7 +815,7 @@ removeKnownIssues(){
 	while read testcase testcommand;
 	do
 		testcasefile=$(find . -name "$testcase.testcase")
-		sed -i "s/known-issues=\"${ticket}\"\name=\"${testcommand}\"/name=\"${testcommand}\"/" $testcasefile
+		sed -i "s/known-issues=\"${ticket}\"\ name=\"${testcommand}\"/name=\"${testcommand}\"/" $testcasefile
 		cd $dir
 		continue
 	done<$resultsDir/removeki.txt
