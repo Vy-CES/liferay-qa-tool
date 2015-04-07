@@ -490,6 +490,7 @@ poshiSuite(){
 		fi
 	done
 
+	vim $dir/suite$suiteNumber.txt
 	poshiBuildSeleniumOption	
 	cd $dir
 
