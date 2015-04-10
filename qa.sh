@@ -110,35 +110,21 @@ soundFile="bundleFinished.mp3"
 ## Jenkins Results Links ##
 baseJenkinsmaster="http://test-2-1.liferay.com/view/test-portal-branch-upstream-frontend-tomcat-mysql%28master%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
 baseJenkinsee62x="http://test-2-2.liferay.com/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-6.2.x%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
-baseJenkinsee70x="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-7.0.x%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
-baseJenkinsee61x="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-6.1.x%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
-baseJenkinsee6210="http://build-1/1/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-6.2.10%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
 
-jenkinsUrlmaster[0]="$baseJenkinsmaster-workflow%5D(master)/lastCompletedBuild/testReport/"
-jenkinsUrlmaster[1]="$baseJenkinsmaster-web-forms-and-data-lists%5D(master)/lastCompletedBuild/testReport/"
-jenkinsUrlmaster[2]="$baseJenkinsmaster-calendar%5D(master)/lastCompletedBuild/testReport/"
-jenkinsUrlmaster[3]="$baseJenkinsmaster-known-issues%5D(master)/lastCompletedBuild/testReport/"
+endJenkinsmaster="%5D(master)/lastCompletedBuild/testReport/"
+endJenkinsee62x="%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
 
-jenkinsUrlee62x[0]="$baseJenkinsee62x-workflow%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
-jenkinsUrlee62x[1]="$baseJenkinsee62x-web-forms-and-data-lists%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
-jenkinsUrlee62x[2]="$baseJenkinsee62x-calendar%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
-jenkinsUrlee62x[3]="$baseJenkinsee62x-business-productivity-ee%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
-jenkinsUrlee62x[4]="$baseJenkinsee62x-known-issues%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
+jenkinsUrlmaster[0]="$baseJenkinsmaster-workflow$endJenkinsmaster"
+jenkinsUrlmaster[1]="$baseJenkinsmaster-web-forms-and-data-lists$endJenkinsmaster"
+jenkinsUrlmaster[2]="$baseJenkinsmaster-calendar$endJenkinsmaster"
+jenkinsUrlmaster[3]="$baseJenkinsmaster-known-issues$endJenkinsmaster"
 
-jenkinsUrlee70x[0]="$baseJenkinsee70x-workflow%5D(ee-7.0.x)/lastCompletedBuild/testReport/"
-jenkinsUrlee70x[1]="$baseJenkinsee70x-web-forms-and-data-lists%5D(ee-7.0.x)/lastCompletedBuild/testReport/"
-jenkinsUrlee70x[2]="$baseJenkinsee70x-calendar%5D(ee-7.0.x)/lastCompletedBuild/testReport/"
-jenkinsUrlee70x[3]="$baseJenkinsee70x-business-productivity-ee%5D(ee-7.0.x)/lastCompletedBuild/testReport/"
+jenkinsUrlee62x[0]="$baseJenkinsee62x-workflow$endJenkinsee62x"
+jenkinsUrlee62x[1]="$baseJenkinsee62x-web-forms-and-data-lists$endJenkinsee62x"
+jenkinsUrlee62x[2]="$baseJenkinsee62x-calendar$endJenkinsee62x"
+jenkinsUrlee62x[3]="$baseJenkinsee62x-business-productivity-ee$endJenkinsee62x"
+jenkinsUrlee62x[4]="$baseJenkinsee62x-known-issues$endJenkinsee62x"
 
-jenkinsUrlee61x[0]="$baseJenkinsee61x-workflow%5D(ee-6.1.x)/lastCompletedBuild/testReport/"
-jenkinsUrlee61x[1]="$baseJenkinsee61x-web-forms-and-data-lists%5D(ee-6.1.x)/lastCompletedBuild/testReport/"
-jenkinsUrlee61x[2]="$baseJenkinsee61x-calendar%5D(ee-6.1.x)/lastCompletedBuild/testReport/"
-jenkinsUrlee61x[3]="$baseJenkinsee61x-business-productivity-ee%5D(ee-6.1.x)/lastCompletedBuild/testReport/"
-
-jenkinsUrlee6210[0]="$baseJenkinsee6210-workflow%5D(ee-6.2.10)/lastCompletedBuild/testReport/"
-jenkinsUrlee6210[1]="$baseJenkinsee6210-web-forms-and-data-lists%5D(ee-6.2.10)/lastCompletedBuild/testReport/"
-jenkinsUrlee6210[2]="$baseJenkinsee6210-calendar%5D(ee-6.2.10)/lastCompletedBuild/testReport/"
-jenkinsUrlee6210[3]="$baseJenkinsee6210-business-productivity-ee%5D(ee-6.2.10)/lastCompletedBuild/testReport/"
 
 ## Run.xml Location ##
 runXMLDir=/home/vicnate5/Dropbox/Work/files
