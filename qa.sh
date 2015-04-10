@@ -117,11 +117,13 @@ baseJenkinsee6210="http://build-1/1/view/test-portal-branch-upstream-frontend-to
 jenkinsUrlmaster[0]="$baseJenkinsmaster-workflow%5D(master)/lastCompletedBuild/testReport/"
 jenkinsUrlmaster[1]="$baseJenkinsmaster-web-forms-and-data-lists%5D(master)/lastCompletedBuild/testReport/"
 jenkinsUrlmaster[2]="$baseJenkinsmaster-calendar%5D(master)/lastCompletedBuild/testReport/"
+jenkinsUrlmaster[3]="$baseJenkinsmaster-known-issues%5D(master)/lastCompletedBuild/testReport/"
 
 jenkinsUrlee62x[0]="$baseJenkinsee62x-workflow%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
 jenkinsUrlee62x[1]="$baseJenkinsee62x-web-forms-and-data-lists%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
 jenkinsUrlee62x[2]="$baseJenkinsee62x-calendar%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
 jenkinsUrlee62x[3]="$baseJenkinsee62x-business-productivity-ee%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
+jenkinsUrlee62x[4]="$baseJenkinsee62x-known-issues%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
 
 jenkinsUrlee70x[0]="$baseJenkinsee70x-workflow%5D(ee-7.0.x)/lastCompletedBuild/testReport/"
 jenkinsUrlee70x[1]="$baseJenkinsee70x-web-forms-and-data-lists%5D(ee-7.0.x)/lastCompletedBuild/testReport/"
