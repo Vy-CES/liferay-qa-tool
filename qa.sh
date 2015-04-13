@@ -254,8 +254,8 @@ bundleBuild(){
 		cd $bundleDir/tomcat-7.0.62/conf
 	fi
 
-	echo "Writing ports to ${p}080"
-	sed -i "s/8005/${p}005/; s/8080/${p}080/; s/8009/${p}009/; s/8443/${p}443/" server.xml
+	echo "Writing ports to ${port}080"
+	sed -i "s/8005/${port}005/; s/8080/${port}080/; s/8009/${port}009/; s/8443/${port}443/" server.xml
 	echo "Remaking MySQL Database"
 	dbClear
 	echo "$db has been remade"
@@ -388,7 +388,7 @@ poshiRunTest(){
 
 	if [ "$mobile" = "true" ]
 	then
-		sed -i "s/address}:8080/address}:${p}080/" build-test.xml
+		sed -i "s/address}:8080/address}:${port}080/" build-test.xml
 		sed -i 's/sleep seconds="120"/sleep seconds="30"/' build-test.xml
 		ant -f run.xml run -Dtest.class=$testname -Dmobile.device.enabled=true < /dev/null
 	else
@@ -736,11 +736,11 @@ EOF
 	read -n1
 	echo
 	case "$REPLY" in
-	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB p=$masterPort branchMenu ;;
-	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
-	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort branchMenu ;;
-	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort branchMenu ;;
-	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB p=$ee6210Port branchMenu ;;
+	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB port=$masterPort branchMenu ;;
+	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB port=$ee62xPort  branchMenu ;;
+	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB port=$ee70xPort branchMenu ;;
+	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB port=$ee61xPort branchMenu ;;
+	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB port=$ee6210Port branchMenu ;;
 	"6")  gitInfoFull ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
