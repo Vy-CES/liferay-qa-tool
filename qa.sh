@@ -212,7 +212,7 @@ setupDatabaseConnection(){
 	fi
 
 	echo "Adding portal URL"
-	(echo "" ; echo "test.url=http://localhost:${p}080") >>test.$username.properties
+	(echo "" ; echo "test.url=http://localhost:${port}080") >>test.$username.properties
 	echo "Creating portal-ext.properties"
 	ant -f build-test.xml prepare-portal-ext-properties
 }
@@ -296,8 +296,8 @@ bundleBuild(){
 		cd $bundleDir/tomcat-7.0.42/conf
 	fi
 
-	echo "Writing ports to ${p}080"
-	sed -i "s/8005/${p}005/; s/8080/${p}080/; s/8009/${p}009/; s/8443/${p}443/" server.xml
+	echo "Writing ports to ${port}080"
+	sed -i "s/8005/${port}005/; s/8080/${port}080/; s/8009/${port}009/; s/8443/${port}443/" server.xml
 	echo "Remaking MySQL Database"
 	dbClear
 	echo "$db has been remade"
@@ -434,7 +434,7 @@ poshiRunTest(){
 
 	if [ "$mobile" = "true" ]
 	then
-		sed -i "s/address}:8080/address}:${p}080/" build-test.xml
+		sed -i "s/address}:8080/address}:${port}080/" build-test.xml
 		sed -i 's/sleep seconds="120"/sleep seconds="30"/' build-test.xml
 		ant -f run.xml run -Dtest.class=$testname -Dmobile.device.enabled=true < /dev/null
 	else
@@ -944,12 +944,12 @@ EOF
 	read -n1
 	echo
 	case "$REPLY" in
-	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB p=$masterPort jb="master" public="true" branchMenu ;;
-	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort jb="ee62x"  branchMenu ;;
-	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort jb="ee70x" branchMenu ;;
-	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort jb="ee61x" branchMenu ;;
-	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB p=$ee6210Port jb="ee6210"  branchMenu ;;
-	"6")  dir=$eeMasterSourceDir bundleDir=$eeMasterBundleDir pluginsDir=$masterPluginsDir v="master" db=$eeMasterDB p=$eeMasterPort jb="master" branchMenu ;;
+	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB port=$masterPort jb="master" public="true" branchMenu ;;
+	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB port=$ee62xPort jb="ee62x"  branchMenu ;;
+	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB port=$ee70xPort jb="ee70x" branchMenu ;;
+	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB port=$ee61xPort jb="ee61x" branchMenu ;;
+	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB port=$ee6210Port jb="ee6210"  branchMenu ;;
+	"6")  dir=$eeMasterSourceDir bundleDir=$eeMasterBundleDir pluginsDir=$masterPluginsDir v="master" db=$eeMasterDB port=$eeMasterPort jb="master" branchMenu ;;
 	"7")  gitInfoFull ;;
 	"8")  bashTester ;;
 	"c")  jenkinsToJiraUrlCoverter ;;
