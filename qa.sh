@@ -56,7 +56,7 @@ eeMasterPort="6"
 
 ## Test Results Location ##
 # where you want your test reports to end up
-resultsDir="/home/vicnate5/Desktop/RESULTS"
+resultsDir="/home/vicnate5/RESULTS"
 
 ## Portal Directories ##
 sourceDir="/home/vicnate5/liferay"
