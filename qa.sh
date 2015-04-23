@@ -63,7 +63,7 @@ sourceDir="/home/vicnate5/liferay"
 bundleDir="/home/vicnate5/bundles"
 
 masterSourceDir="$sourceDir/liferay-portal-master"
-masterBundleDir="$bundleDir/master-ce-bundles"
+masterBundleDir="$bundleDir/master-bundles"
 masterPluginsDir="$sourceDir/liferay-plugins-master"
 
 ee62xSourceDir="$sourceDir/liferay-portal-ee-6.2.x"
