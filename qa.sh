@@ -42,6 +42,7 @@ masterDB="master"
 ee62xDB="ee62"
 ee70xDB="ee7"
 ee61xDB="ee61"
+ee6210DB="ee6"
 
 ## Bundle ports ##
 # e.g. for 9080 put 9
@@ -49,6 +50,7 @@ masterPort="9"
 ee62xPort="7"
 ee70xPort="8"
 ee61xPort="6"
+ee6210Port="8"
 
 ## Test Results Location ##
 # where you want your test reports to end up
@@ -73,6 +75,10 @@ ee70xPluginsDir="$sourceDir/ee-7.0.x-plugins"
 ee61xSourceDir="$sourceDir/ee-6.1.x-build"
 ee61xBundleDir="$bundleDir/ee-6.1.x-bundles"
 ee61xPluginsDir="$sourceDir/ee-6.1.x-plugins"
+
+ee6210SourceDir="$sourceDir/ee-6.2.10-build"
+ee6210BundleDir="$bundleDir/ee-6.2.10-bundles"
+ee6210PluginsDir="$sourceDir/ee-6.2.10-plugins"
 
 ## Plugins ##
 # This allows you to deploy a group of plugins that you use regularly
@@ -681,8 +687,9 @@ Please choose a branch version:
 	(2) ee-6.2.x
 	(3) ee-7.0.x
 	(4) ee-6.1.x
+	(5) ee-6.2.10
 
-	(7) Print git info
+	(6) Print git info
 
 	(q)uit
 -------------------------------------------
@@ -694,7 +701,8 @@ EOF
 	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB p=$ee62xPort  branchMenu ;;
 	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB p=$ee70xPort branchMenu ;;
 	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB p=$ee61xPort branchMenu ;;
-	"5")  gitInfoFull ;;
+	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB p=$ee6210Port branchMenu ;;
+	"6")  gitInfoFull ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  exit ;; 
