@@ -445,7 +445,8 @@ poshiRunTest(){
 	echo "Finished $testname"
 	echo
 	echo "Renaming report.html"
-	mv $dir/portal-web/test-results/functional/report.html $dir/portal-web/test-results/functional/${v}_$testname.html
+	time="$(date +"%H.%M")"
+	mv $dir/portal-web/test-results/functional/report.html $dir/portal-web/test-results/functional/${v}_$testname.${time}.html
 	echo "done"
 	echo
 	echo "Zipping Screenshots"
@@ -618,7 +619,7 @@ poshiRun(){
 	poshiBuildSeleniumOption
 	poshiRunTest
 	echo "Copying your results to $resultsDir"
-	cp $dir/portal-web/test-results/functional/${v}_$testname.html $resultsDir/
+	cp $dir/portal-web/test-results/functional/${v}_$testname.${time}.html $resultsDir/
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
