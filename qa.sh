@@ -638,7 +638,7 @@ poshiSetUrl(){
 
 	if grep -q "test.url=" test.$username.properties 
 	then
-		sed -i "s/test.url=.*/test.url=${url}/" test.$username.properties
+		sed -i "s~test.url=.*~test.url=${url}~" test.$username.properties
 	else
 		(echo "" ; echo "test.url=${url}") >>test.$username.properties
 	fi
@@ -839,7 +839,7 @@ Choose Your Destiny:
 	(2) Run Mobile Test
 	(3) Pick New Test
 	(4) Format Source
-	(5) (Not Working) Set Portal URL 
+	(5) Set Test URL 
 	(6) Run Test Suite
 	
 	(q)uit - go back
@@ -852,7 +852,7 @@ EOF
 	"2")  mobile="true" poshiRun ;;
 	"3")  poshiSetTest ;;
 	"4")  poshiFormat ;;
-	"5")   ;;
+	"5")  poshiSetUrl ;;
 	"6")  poshiSuite ;;
 	"r")  poshiRunnerRun ;;
 	"Q")  echo "case sensitive!!" ;;
