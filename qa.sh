@@ -511,7 +511,7 @@ poshiSetUrl(){
 
 	if grep -q "portal.url=" test.$username.properties 
 	then
-		sed -i "s/portal.url=.*/portal.url=${url}/" test.$username.properties
+		sed -i "s~test.url=.*~test.url=${url}~" test.$username.properties
 	else
 		(echo "" ; echo "portal.url=${url}") >>test.$username.properties
 	fi
@@ -591,12 +591,12 @@ poshiOption(){
 	while :
 	do
 		clear
-		portalURL=$(cat $dir/test.$username.properties | grep "portal.url=")
+		testURL=$(cat $dir/test.$username.properties | grep "test.url=")
 		cat<<EOF
 ========================================
 POSHI $v
 $testname
-$portalURL
+$testURL
 ----------------------------------------
 Choose Your Destiny:
 
@@ -604,7 +604,7 @@ Choose Your Destiny:
 	(2) Run Mobile Test
 	(3) Pick New Test
 	(4) Format Source
-	(5) (Not Working) Set Portal URL 
+	(5) Set Test URL 
 	(6) Run Test Suite
 	
 	(q)uit - go back
@@ -617,7 +617,7 @@ EOF
 	"2")  mobile="true" poshiRun ;;
 	"3")  poshiSetTest ;;
 	"4")  poshiFormat ;;
-	"5")   ;;
+	"5")  poshiSetUrl ;;
 	"6")  poshiSuite ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break ;; 
