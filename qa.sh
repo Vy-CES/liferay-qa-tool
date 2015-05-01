@@ -95,6 +95,9 @@ cePlugins[1]="portlets/calendar-portlet"
 eePlugins[0]="portlets/kaleo-forms-portlet"
 eePlugins[1]="portlets/kaleo-designer-portlet"
 
+## Git Tools PRs
+gitpr=/home/vicnate5/liferay/git-tools/git-pull-request/git-pull-request.sh
+
 ######################################################################################################################
 #FUNCTIONS############################################################################################################
 ######################################################################################################################
@@ -353,7 +356,6 @@ poshiFormat(){
 	ant format-source
 	echo
 	echo "done"
-	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
 poshiBuildSeleniumOption(){
@@ -583,6 +585,104 @@ EOF
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+getQATicketNumber(){
+	cd $dir
+	local IFS="-" 
+	read -a elements <<< "$(git rev-parse --abbrev-ref HEAD)"
+
+	if [[ $v != *ee-* ]]
+	then
+		ticket=${elements[2]}
+	else
+		ticket=${elements[3]}
+	fi
+
+	echo "$ticket"
+}
+
+qaPullRequest(){
+	local ticket=$(getQATicketNumber)
+	echo
+	cd $dir
+	git status
+	echo
+	echo "Committing under ticket: LRQA-$ticket"
+	echo "Only PNGs, functions, paths, macros, and testcases will be commited"
+	echo
+	echo "Is this all correct?"
+	echo "[y/n?]"
+	read -n 1 -r
+		echo
+		if [[ $REPLY =~ ^[Yy]$ ]]
+		then
+
+			echo "Format Source?"
+			echo "[y/n?]"
+			read -n 1 -r
+				echo
+				if [[ $REPLY =~ ^[Yy]$ ]]
+				then
+					echo -e "\e[31mFormatting Source\e[0m"
+					poshiFormat
+				else
+					echo "No"
+				fi
+
+			cd $dir
+			echo
+			echo "Committing any Sikuli pictures"
+			git add *.png
+			git commit -m "LRQA-${ticket} dependencies"
+			echo
+			git add *.path *.function
+
+			if [[ -n $(git diff --name-only --cached | grep ".function$") ]]
+			then
+				if [[ -n $(git diff --name-only --cached | grep ".paths$") ]]
+				then
+					echo "Committing functions and paths"
+					git commit -m "LRQA-${ticket} functions, paths"
+				else
+					echo "Committing functions"
+					git commit -m "LRQA-${ticket} functions"
+				fi
+			else
+				echo "Committing paths"
+				git commit -m "LRQA-${ticket} paths"
+			fi
+
+			echo
+			echo "Committing macros"
+			git add *.macro
+			git commit -m "LRQA-${ticket} macros"
+			echo
+			echo "Committing testcases"
+			git add *.testcase
+			git commit *.testcase -m "LRQA-${ticket} tests"
+
+			echo "Submit a Pull Request?"
+			echo "[y/n?]"
+			read -n 1 -r
+				if [[ $REPLY =~ ^[Yy]$ ]]
+				then
+					$gitpr submit --update-branch=${v} "https://issues.liferay.com/browse/LRQA-${ticket}" "${v}-qa-${ticket}"
+				else
+					echo "No"
+				fi
+
+		elif [[ $REPLY =~ ^[Nn]$ ]]
+		then
+			echo "No"
+			echo "Come back when you fixed."
+			break
+		else 
+			echo "please choose y or n"
+			sleep 1
+			break
+		fi
+	read -rsp $'Press any key to continue...\n' -n1 key
+}
+
 ######################################################################################################################
 ##SUB MENUS###########################################################################################################
 ######################################################################################################################
@@ -601,7 +701,7 @@ $testURL
 Choose Your Destiny:
 
 	(1) Run Test
-	(2) Run Mobile Test
+	(2) Run Mobile Test   (c) Commit and PR
 	(3) Pick New Test
 	(4) Format Source
 	(5) Set Test URL 
@@ -619,6 +719,7 @@ EOF
 	"4")  poshiFormat ;;
 	"5")  poshiSetUrl ;;
 	"6")  poshiSuite ;;
+	"c")  qaPullRequest ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break ;; 
 	* )   echo "Not a valid option" ;;
