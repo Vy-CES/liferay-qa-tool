@@ -786,6 +786,23 @@ getQATicketNumber(){
 
 qaPullRequest(){
 	local ticket=$(getQATicketNumber)
+	git log -n 4
+	echo
+	echo -e "\e[31mTicket: LRQA-${ticket}\e[0m"
+	echo "Submit a Pull Request?"
+	echo "[y/n?]"
+	read -n 1 -r
+		if [[ $REPLY =~ ^[Yy]$ ]]
+		then
+			$gitpr submit --update-branch=${v} "https://issues.liferay.com/browse/LRQA-${ticket}" "${v}-qa-${ticket}"
+		else
+			echo "No"
+		fi
+	read -rsp $'Press any key to continue...\n' -n1 key
+}
+
+qaCommit(){
+	local ticket=$(getQATicketNumber)
 	echo
 	cd $dir
 	git status
@@ -799,14 +816,15 @@ qaPullRequest(){
 		echo
 		if [[ $REPLY =~ ^[Yy]$ ]]
 		then
-
 			echo "Format Source?"
 			echo "[y/n?]"
 			read -n 1 -r
 				echo
 				if [[ $REPLY =~ ^[Yy]$ ]]
 				then
+					echo
 					echo -e "\e[31mFormatting Source\e[0m"
+					echo
 					poshiFormat
 				else
 					echo "No"
@@ -843,17 +861,6 @@ qaPullRequest(){
 			echo "Committing testcases"
 			git add *.testcase
 			git commit *.testcase -m "LRQA-${ticket} tests"
-
-			echo "Submit a Pull Request?"
-			echo "[y/n?]"
-			read -n 1 -r
-				if [[ $REPLY =~ ^[Yy]$ ]]
-				then
-					$gitpr submit --update-branch=${v} "https://issues.liferay.com/browse/LRQA-${ticket}" "${v}-qa-${ticket}"
-				else
-					echo "No"
-				fi
-
 		elif [[ $REPLY =~ ^[Nn]$ ]]
 		then
 			echo "No"
@@ -889,8 +896,8 @@ $testURL
 Choose Your Destiny:
 
 	(1) Run Test          (r) Poshi Runner
-	(2) Run Mobile Test   (c) Commit and PR
-	(3) Pick New Test
+	(2) Run Mobile Test   (c) Commit
+	(3) Pick New Test     (p) Pull Request
 	(4) Format Source
 	(5) Set Test URL 
 	(6) Run Test Suite
@@ -908,7 +915,8 @@ EOF
 	"5")  poshiSetUrl ;;
 	"6")  poshiSuite ;;
 	"r")  poshiRunnerRun ;;
-	"c")  qaPullRequest ;;
+	"c")  qaCommit ;;
+	"p")  qaPullRequest ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break ;; 
 	* )   echo "Not a valid option" ;;
@@ -939,7 +947,7 @@ Please choose:
 
 	(1) Build Bundle
 	(2) Clear Enviroment
-	(3) Run POSHI Test
+	(3) POSHI
 	(4) Deploy Plugins
 	(5) Git Info Template
 	(6) Jenkins Results
