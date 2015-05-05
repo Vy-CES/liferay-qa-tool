@@ -675,54 +675,7 @@ gitInfoTemplate(){
 }
 
 gitInfoFull(){
-	cd $masterSourceDir
-	masterPortalID="$(git log --pretty=format:'%H' -n 1)"
-	cd $masterPluginsDir
-	masterPluginsID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee62xSourceDir
-	ee62xPortalID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee62xPluginsDir
-	ee62xPluginsID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee70xSourceDir
-	ee70xPortalID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee70xPluginsDir
-	ee70xPluginsID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee61xSourceDir
-	ee61xPortalID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee61xPluginsDir
-	ee61xPluginsID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee6210SourceDir
-	ee6210PortalID="$(git log --pretty=format:'%H' -n 1)"
-	cd $ee6210PluginsDir
-	ee6210PluginsID="$(git log --pretty=format:'%H' -n 1)"
-	cd $eeMasterSourceDir
-	eeMasterPortalID="$(git log --pretty=format:'%H' -n 1)"
-
-	cat<<EOF
-Master:
-Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $masterPortalID.
-Plugins master GIT ID: $masterPluginsID.
-
-ee-6.2.x:
-Tomcat 7.0.42 + MySQL 5.5. Portal ee-6.2.x GIT ID: $ee62xPortalID.
-Plugins ee-6.2.x GIT ID: $ee62xPluginsID.
-
-ee-7.0.x:
-Tomcat 7.0.42 + MySQL 5.5. Portal ee-7.0.x GIT ID: $ee70xPortalID.
-Plugins ee-7.0.x GIT ID: $ee70xPluginsID.
-
-ee-6.1.x:
-Tomcat 7.0.40 + MySQL 5.5. Portal ee-6.1.x GIT ID: $ee61xPortalID.
-Plugins ee-6.1.x GIT ID: $ee61xPluginsID.
-
-ee-6.2.10:
-Tomcat 7.0.42 + MySQL 5.5. Portal ee-6.2.10 GIT ID: $ee6210PortalID.
-Plugins ee-6.2.10 GIT ID: $ee6210PluginsID.
-
-Master EE:
-Tomcat 7.0.42 + MySQL 5.5. Portal master GIT ID: $eeMasterPortalID.
-Plugins master GIT ID: $masterPluginsID.
-EOF
+	python /home/vicnate5/Dropbox/Work/Scripts/git_info.py
 	echo
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
