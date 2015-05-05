@@ -876,9 +876,8 @@ Choose Your Destiny:
 	(1) Run Test          (r) Poshi Runner
 	(2) Run Mobile Test   (c) Commit
 	(3) Pick New Test     (p) Pull Request
-	(4) Format Source
+	(4) Format Source     (s) Run Test Suite
 	(5) Set Test URL 
-	(6) Run Test Suite
 	
 	(q)uit - go back
 ----------------------------------------
@@ -891,7 +890,7 @@ EOF
 	"3")  poshiSetTest ;;
 	"4")  poshiFormat ;;
 	"5")  poshiSetUrl ;;
-	"6")  poshiSuite ;;
+	"s")  poshiSuite ;;
 	"r")  poshiRunnerRun ;;
 	"c")  qaCommit ;;
 	"p")  qaPullRequest ;;
@@ -915,24 +914,22 @@ branchMenu(){
 		portalID="$(git log --pretty=format:'%H' -n 1)"
 		gitBranch="$(git rev-parse --abbrev-ref HEAD)"
 		cat<<EOF
-===========================================
+============================================
 $v $public
 
 Git ID: $portalID
 Git Branch: $gitBranch
--------------------------------------------
+--------------------------------------------
 Please choose:
 
-	(1) Build Bundle
-	(2) Clear Enviroment
+	(1) Build Bundle     (r) Jenkins Results
+	(2) Clear Enviroment (a) Add Known Issues
 	(3) POSHI
 	(4) Deploy Plugins
 	(5) Git Info Template
-	(6) Jenkins Results
-	(7) Add Known Issues
 
 	(q)uit - Main Menu
--------------------------------------------
+--------------------------------------------
 EOF
 	read -n1
 	echo
@@ -942,8 +939,8 @@ EOF
 	"3")  poshiSetTest ; poshiOption ;;
 	"4")  pluginsDeploy ;;
 	"5")  gitInfoTemplate ;;
-	"6")  openJenkinsURL ;;
-	"7")  addKnownIssues ;;
+	"r")  openJenkinsURL ;;
+	"a")  addKnownIssues ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  break  ;; 
@@ -970,13 +967,10 @@ Please choose a branch version:
 
 	(1) Master             (c) Jenkins-JIRA Coverter
 	(2) ee-6.2.x           (l) LPS Coverter
-	(3) ee-7.0.x
+	(3) ee-7.0.x           (g) Print git info
 	(4) ee-6.1.x
-	(5) ee-6.2.10
+	(5) ee-6.2.10          (t) TESTER
 	(6) Master EE
-
-	(7) Print git info
-	(8) TESTER
 
 	(q)uit
 -----------------------------------------------------
@@ -990,8 +984,8 @@ EOF
 	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB port=$ee61xPort jb="ee61x" branchMenu ;;
 	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB port=$ee6210Port jb="ee6210"  branchMenu ;;
 	"6")  dir=$eeMasterSourceDir bundleDir=$eeMasterBundleDir pluginsDir=$masterPluginsDir v="master" db=$eeMasterDB port=$eeMasterPort jb="master" branchMenu ;;
-	"7")  gitInfoFull ;;
-	"8")  bashTester ;;
+	"g")  gitInfoFull ;;
+	"t")  bashTester ;;
 	"c")  jenkinsToJiraUrlCoverter ;;
 	"l")  lpsConverter ;;
 	"Q")  echo "case sensitive!!" ;;
