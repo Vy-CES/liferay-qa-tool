@@ -251,7 +251,7 @@ bundleBuild(){
 	then
 		cd $bundleDir/tomcat-7.0.40/conf
 	else
-		cd $bundleDir/tomcat-7.0.42/conf
+		cd $bundleDir/tomcat-7.0.62/conf
 	fi
 
 	echo "Writing ports to ${p}080"
@@ -263,7 +263,7 @@ bundleBuild(){
 	if [[ $v != *ee-6.1* ]]
 	then
 		echo "Adding virtual hosts property"
-		cd $bundleDir/tomcat-7.0.42/webapps/ROOT/WEB-INF/classes/
+		cd $bundleDir/tomcat-7.0.62/webapps/ROOT/WEB-INF/classes/
 		ip=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
 
 		if ! grep -q "virtual.hosts.valid.hosts" ./portal-ext.properties 
@@ -325,7 +325,7 @@ clearEnv(){
 			then
 				cd $bundleDir/tomcat-7.0.40/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			else
-				cd $bundleDir/tomcat-7.0.42/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
+				cd $bundleDir/tomcat-7.0.62/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			fi
 			
 			echo "done"
@@ -541,7 +541,7 @@ gitInfoTemplate(){
 	pluginsID="$(git log --pretty=format:'%H' -n 1)"
 	echo
 	echo "$v:"
-	echo "Tomcat 7.0.42 + MySQL 5.5. Portal $v GIT ID: $portalID."
+	echo "Tomcat 7.0.62 + MySQL 5.5. Portal $v GIT ID: $portalID."
 	echo "Plugins $v GIT ID: $pluginsID."
 	echo
 	read -rsp $'Press any key to continue...\n' -n1 key
