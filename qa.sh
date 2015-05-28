@@ -139,16 +139,16 @@ gitpr=/home/vicnate5/liferay/git-tools/git-pull-request/git-pull-request.sh
 ######################################################################################################################
 
 dbClear(){
-		if [[ -n "$mysqlUsername" ]]; then
-			if [[ -n "$mysqlPassword" ]]
-			then
-				mysql -u $mysqlUsername -p $mysqlPassword -e "drop database if exists $db; create database $db char set utf8;"
-			else
-				mysql -u $mysqlUsername -e "drop database if exists $db; create database $db char set utf8;"
-			fi
+	if [[ -n "$mysqlUsername" ]]; then
+		if [[ -n "$mysqlPassword" ]]
+		then
+			mysql -u $mysqlUsername -p $mysqlPassword -e "drop database if exists $db; create database $db char set utf8;"
 		else
-			mysql -e "drop database if exists $db; create database $db char set utf8;"
+			mysql -u $mysqlUsername -e "drop database if exists $db; create database $db char set utf8;"
 		fi
+	else
+		mysql -e "drop database if exists $db; create database $db char set utf8;"
+	fi
 }
 
 updateToHeadOption(){
