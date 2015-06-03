@@ -56,11 +56,11 @@ eeMasterPort="6"
 
 ## Test Results Location ##
 # where you want your test reports to end up
-resultsDir="/home/vicnate5/RESULTS"
+resultsDir="/Users/vicnate5/RESULTS"
 
 ## Portal Directories ##
-sourceDir="/home/vicnate5/liferay"
-bundleDir="/home/vicnate5/bundles"
+sourceDir="/Users/vicnate5/Liferay"
+bundleDir="/Users/vicnate5/bundles"
 
 masterSourceDir="$sourceDir/liferay-portal-master"
 masterBundleDir="$bundleDir/master-bundles"
@@ -104,7 +104,7 @@ eePlugins[2]="portlets/reports-portlet"
 eePlugins[3]="webs/jasperreports-web"
 
 ## Bundle build sound ##
-soundDir="/home/vicnate5/Dropbox/Work/Scripts"
+soundDir="/Users/vicnate5/Dropbox/Work/Scripts"
 soundFile="bundleFinished.mp3"
 
 ## Jenkins Results Links ##
@@ -126,13 +126,13 @@ jenkinsUrlee62x[3]="$baseJenkinsee62x-business-productivity-ee$endJenkinsee62x"
 jenkinsUrlee62x[4]="$baseJenkinsee62x-known-issues$endJenkinsee62x"
 
 ## Run.xml Location ##
-runXMLDir=/home/vicnate5/Dropbox/Work/files
+runXMLDir=/Users/vicnate5/Dropbox/Work/files
 
 ## test.properties Location ##
-testPropsDir=/home/vicnate5/Dropbox/Work/files
+testPropsDir=/Users/vicnate5/Dropbox/Work/files
 
 ## Git Tools PRs
-gitpr=/home/vicnate5/liferay/git-tools/git-pull-request/git-pull-request.sh
+gitpr=/Users/vicnate5/Liferay/git-tools/git-pull-request/git-pull-request.sh
 
 ######################################################################################################################
 #FUNCTIONS############################################################################################################
