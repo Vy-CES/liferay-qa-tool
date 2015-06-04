@@ -304,17 +304,18 @@ bundleBuild(){
 	dbClear
 	echo "$db has been remade"
 
-	if [[ $v != *ee-6.1* ]]
-	then
-		echo "Adding virtual hosts property"
-		cd $bundleDir/tomcat-7.0.62/webapps/ROOT/WEB-INF/classes/
-		ip=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
+	# if [[ $v != *ee-6.1* ]]
+	
+	# then
+	# 	echo "Adding virtual hosts property"
+	# 	cd $bundleDir/tomcat-7.0.62/webapps/ROOT/WEB-INF/classes/
+	# 	ip=$(ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
 
-		if ! grep -q "virtual.hosts.valid.hosts" ./portal-ext.properties 
-		then
-			(echo "" ; echo "virtual.hosts.valid.hosts=localhost,127.0.0.1,$ip") >> portal-ext.properties
-		fi
-	fi
+	# 	if ! grep -q "virtual.hosts.valid.hosts" ./portal-ext.properties 
+	# 	then
+	# 		(echo "" ; echo "virtual.hosts.valid.hosts=localhost,127.0.0.1,$ip") >> portal-ext.properties
+	# 	fi
+	# fi
 
 	echo "done"
 	cd $soundDir
