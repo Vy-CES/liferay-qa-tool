@@ -299,7 +299,7 @@ bundleBuild(){
 	fi
 
 	echo "Writing ports to ${port}080"
-	sed -i "s/8005/${port}005/; s/8080/${port}080/; s/8009/${port}009/; s/8443/${port}443/g" server.xml
+	sed -ie "s/8005/${port}005/; s/8080/${port}080/; s/8009/${port}009/; s/8443/${port}443/g" server.xml
 	echo "Remaking MySQL Database"
 	dbClear
 	echo "$db has been remade"
