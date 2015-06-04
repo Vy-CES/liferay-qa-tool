@@ -657,7 +657,7 @@ openJenkinsURL(){
 
 	for url in ${!jenkinsUrl}
 		do
-			xdg-open $url &> /dev/null
+			open $url &> /dev/null
 		done
 }
 
