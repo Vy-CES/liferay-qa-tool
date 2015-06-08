@@ -629,7 +629,7 @@ poshiRunnerRun(){
 	echo "POSHI Runner test for $v"
 	cd $dir/modules/test/poshi-runner/
 	echo "Editing poshi-runner.properties"
-	sed -i "s/8080/${port}080/" ./classes/poshi-runner.properties
+	sed -i "s/8080/${port}080/" $dir/modules/test/poshi-runner/classes/poshi-runner.properties
 	ant start-poshi-runner -Dtest.name=$testname < /dev/null
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
