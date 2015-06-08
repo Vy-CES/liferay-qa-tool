@@ -186,7 +186,7 @@ setupDatabaseConnection(){
 		if grep -q database.mysql.schema test.$username.properties 
 		# if there is a test.username.properties file that already defines the database name
 		then
-			sed -i "s/database.mysql.schema=.*/database.mysql.schema=${db}/" test.$username.properties
+			gsed -i "s/database.mysql.schema=.*/database.mysql.schema=${db}/" test.$username.properties
 			# basic inline(-i) search and replace
 			# using ".*" regex to denote that it can contain any string in the rest of that line
 		else
@@ -201,14 +201,14 @@ setupDatabaseConnection(){
 
 	if grep -q database.mysql.username test.$username.properties 
 	then
-		sed -i "s/database.mysql.username=.*/database.mysql.username=${mysqlUsername}/" test.$username.properties
+		gsed -i "s/database.mysql.username=.*/database.mysql.username=${mysqlUsername}/" test.$username.properties
 	else
 		(echo "" ; echo "database.mysql.username=${mysqlUsername}") >>test.$username.properties
 	fi
 
 	if grep -q database.mysql.password test.$username.properties 
 	then
-		sed -i "s/database.mysql.password=.*/database.mysql.password=${mysqlPassword}/" test.$username.properties
+		gsed -i "s/database.mysql.password=.*/database.mysql.password=${mysqlPassword}/" test.$username.properties
 	else
 		(echo "" ; echo "database.mysql.password=${mysqlPassword}") >>test.$username.properties
 	fi
@@ -299,7 +299,7 @@ bundleBuild(){
 	fi
 
 	echo "Writing ports to ${port}080"
-	sed -i "s/8005/${port}005/; s/8080/${port}080/; s/8009/${port}009/; s/8443/${port}443/g" server.xml
+	gsed -i "s/8005/${port}005/; s/8080/${port}080/; s/8009/${port}009/; s/8443/${port}443/g" server.xml
 	echo "Remaking MySQL Database"
 	dbClear
 	echo "$db has been remade"
@@ -436,8 +436,8 @@ poshiRunTest(){
 
 	if [ "$mobile" = "true" ]
 	then
-		sed -i "s/address}:8080/address}:${port}080/" build-test.xml
-		sed -i 's/sleep seconds="120"/sleep seconds="30"/' build-test.xml
+		gsed -i "s/address}:8080/address}:${port}080/" build-test.xml
+		gsed -i 's/sleep seconds="120"/sleep seconds="30"/' build-test.xml
 		ant -f run.xml run -Dtest.class=$testname -Dmobile.device.enabled=true < /dev/null
 	else
 		ant -f run.xml run -Dtest.class=$testname < /dev/null
@@ -550,7 +550,7 @@ poshiSuite(){
 
 	# STILL DOESNT WORK
 	# url="172.16.19.254:8080"
-	# sed -i "s/test.url=.*/test.url=$url/" /home/vicnate5/liferay/liferay-portal-ee-6.2.x/test.vicnate5.properties
+	# gsed -i "s/test.url=.*/test.url=$url/" /home/vicnate5/liferay/liferay-portal-ee-6.2.x/test.vicnate5.properties
 
 	# cd $dir
 
@@ -629,7 +629,7 @@ poshiRunnerRun(){
 	echo "POSHI Runner test for $v"
 	cd $dir/modules/test/poshi-runner/
 	echo "Editing poshi-runner.properties"
-	sed -i "s/8080/${port}080/" $dir/modules/test/poshi-runner/classes/poshi-runner.properties
+	gsed -i "s/8080/${port}080/" $dir/modules/test/poshi-runner/classes/poshi-runner.properties
 	ant start-poshi-runner -Dtest.name=$testname < /dev/null
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
@@ -641,7 +641,7 @@ poshiSetUrl(){
 
 	if grep -q "test.url=" test.$username.properties 
 	then
-		sed -i "s~test.url=.*~test.url=${url}~" test.$username.properties
+		gsed -i "s~test.url=.*~test.url=${url}~" test.$username.properties
 	else
 		(echo "" ; echo "test.url=${url}") >>test.$username.properties
 	fi
@@ -739,7 +739,7 @@ addKnownIssues(){
 	while read testcase testcommand;
 	do
 		testcasefile=$(find . -name "$testcase.testcase")
-		sed -i "s/name=\"${testcommand}\"/known-issues=\"${ticket}\"\ name=\"${testcommand}\"/" $testcasefile
+		gsed -i "s/name=\"${testcommand}\"/known-issues=\"${ticket}\"\ name=\"${testcommand}\"/" $testcasefile
 		cd $dir
 		continue
 	done<$resultsDir/addki.txt
