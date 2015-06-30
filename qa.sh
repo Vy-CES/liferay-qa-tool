@@ -239,11 +239,11 @@ bundleBuild(){
 			modified=$(git ls-files -m)
 			if [ -n "$modified" ]
 			then
-				echo -e "\e[31mModified Files:\e[0m"
+				printf "\e[31mModified Files:\e[0m"
 				echo $modified
 				echo
-				echo -e "\e[31mAny modified files will be cleared, are you sure you want to continue?\e[0m"
-				echo -e "\e[31m[y/n?]\e[0m"
+				printf "\e[31mAny modified files will be cleared, are you sure you want to continue?\e[0m"
+				printf "\e[31m[y/n?]\e[0m"
 
 				read -n 1 -r
 					echo
@@ -516,7 +516,7 @@ poshiSuite(){
 	done<suite$suiteNumber.txt
 
 	echo
-	echo -e "\e[31mALL TESTS COMPLETE\e[0m"
+	printf "\e[31mALL TESTS COMPLETE\e[0m"
 	echo
 	echo "Zipping up results for you"
 	sleep 2
@@ -585,7 +585,7 @@ poshiSuite(){
 	# done<suite$suiteNumber.txt
 
 	# echo
-	# echo -e "\e[31mALL TESTS COMPLETE\e[0m"
+	# printf "\e[31mALL TESTS COMPLETE\e[0m"
 	# echo
 	# echo "Zipping up results for you"
 	# sleep 2
@@ -634,8 +634,8 @@ poshiSuite(){
 	printf "Pretty format: %02d:%02d:%02d:%02d\n" "$((T/86400))" "$((T/3600%24))" "$((T/60%60))" "$((T%60))"
 	echo "done"
 	echo
-	echo -e "\e[31mResults can be found in $dir\e[0m"
-	echo -e "\e[31mor in $resultsDir\e[0m"
+	printf "\e[31mResults can be found in $dir\e[0m"
+	printf "\e[31mor in $resultsDir\e[0m"
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
@@ -790,7 +790,7 @@ qaPullRequest(){
 	local ticket=$(getQATicketNumber)
 	git log -n 4
 	echo
-	echo -e "\e[31mTicket: LRQA-${ticket}\e[0m"
+	printf "\e[31mTicket: LRQA-${ticket}\e[0m"
 	echo "Submit a Pull Request?"
 	echo "[y/n?]"
 	read -n 1 -r
