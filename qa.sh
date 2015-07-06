@@ -658,6 +658,7 @@ poshiRunnerRun(){
 	echo "Finished $testname"
 	echo
 	prTestName=$(echo $testname | sed 's/#/_/')
+	open $dir/modules/test/poshi-runner/test-results/$prTestName/index.html
 	echo "Renaming index.html"
 	time="$(date +"%H.%M")"
 	mv $dir/modules/test/poshi-runner/test-results/$prTestName/index.html $dir/modules/test/poshi-runner/test-results/$prTestName/${v}_$prTestName.${time}.html
