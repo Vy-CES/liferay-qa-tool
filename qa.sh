@@ -661,7 +661,7 @@ poshiRunnerRun(){
 	open $dir/modules/test/poshi-runner/test-results/$prTestName/index.html
 	echo "Renaming index.html"
 	time="$(date +"%H.%M")"
-	mv $dir/modules/test/poshi-runner/test-results/$prTestName/index.html $dir/modules/test/poshi-runner/test-results/$prTestName/${v}_$prTestName.${time}.html
+	cp $dir/modules/test/poshi-runner/test-results/$prTestName/index.html $dir/modules/test/poshi-runner/test-results/$prTestName/${v}_$prTestName.${time}.html
 	echo "Copying your results to $resultsDir"
 	cp $dir/modules/test/poshi-runner/test-results/$prTestName/${v}_$prTestName.${time}.html $resultsDir/
 	echo "done"
