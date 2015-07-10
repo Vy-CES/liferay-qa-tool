@@ -101,13 +101,13 @@ ce62xPluginsDir="$sourceDir/liferay-plugins-6.2.x"
 # e.g. webs/kaleo-web
 
 cePlugins[0]="webs/kaleo-web"
-cePlugins[1]="portlets/calendar-portlet"
-cePlugins[2]="portlets/web-form-portlet"
+cePlugins[1]="portlets/web-form-portlet"
 
 eePlugins[0]="portlets/kaleo-forms-portlet"
 eePlugins[1]="portlets/kaleo-designer-portlet"
 eePlugins[2]="portlets/reports-portlet"
 eePlugins[3]="webs/jasperreports-web"
+eePlugins[4]="portlets/calendar-portlet"
 
 ## Bundle build sound ##
 soundDir="/Users/vicnate5/Dropbox/Work/Scripts"
