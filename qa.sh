@@ -650,20 +650,15 @@ poshiRun(){
 
 poshiRunnerRun(){
 	echo "POSHI Runner test for $v"
-	cd $dir/modules/test/poshi-runner/
+	cd $masterSourceDir/modules/test/poshi-runner/
 	echo "Editing poshi-runner.properties"
-	gsed -i "s/8080/${port}080/" $dir/modules/test/poshi-runner/classes/poshi-runner.properties
+	gsed -i "s/8080/${port}080/" $masterSourceDir/modules/test/poshi-runner/classes/poshi-runner.properties
 	ant start-poshi-runner -Dtest.name=$testname < /dev/null
 	echo
 	echo "Finished $testname"
 	echo
 	prTestName=$(echo $testname | sed 's/#/_/')
-	open $dir/modules/test/poshi-runner/test-results/$prTestName/index.html
-	echo "Renaming index.html"
-	time="$(date +"%H.%M")"
-	cp $dir/modules/test/poshi-runner/test-results/$prTestName/index.html $dir/modules/test/poshi-runner/test-results/$prTestName/${v}_$prTestName.${time}.html
-	echo "Copying your results to $resultsDir"
-	cp $dir/modules/test/poshi-runner/test-results/$prTestName/${v}_$prTestName.${time}.html $resultsDir/
+	open $masterSourceDir/modules/test/poshi-runner/test-results/$prTestName/index.html
 	echo "done"
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
