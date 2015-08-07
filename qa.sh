@@ -652,13 +652,29 @@ poshiRunnerRun(){
 	echo "POSHI Runner test for $v"
 	cd $masterSourceDir/modules/test/poshi-runner/
 	echo "Editing poshi-runner.properties"
-	gsed -i "s/8080/${port}080/" $masterSourceDir/modules/test/poshi-runner/classes/poshi-runner.properties
+	prProperties=$masterSourceDir/modules/test/poshi-runner/classes/poshi-runner.properties
+	gsed -i "s/8080/${port}080/" $prProperties
+	gsed -i "s/test.assert.liferay.errors=true/test.assert.liferay.errors=false/" $prProperties
+
+	if [[ $v != *master* ]]
+	then
+		gsed -i "s~test.base.dir.name=../../../portal-web/test/functional/com/liferay/portalweb/~test.base.dir.name=$dir/portal-web/test/functional/com/liferay/portalweb/~" $masterSourceDir/modules/test/poshi-runner/build.xml
+		gsed -i "s/plugins.deployment.type/database.sharding/" $masterSourceDir/modules/test/poshi-runner/build.xml
+	fi
+
 	ant start-poshi-runner -Dtest.name=$testname < /dev/null
 	echo
 	echo "Finished $testname"
 	echo
 	prTestName=$(echo $testname | sed 's/#/_/')
 	open $masterSourceDir/modules/test/poshi-runner/test-results/$prTestName/index.html
+
+	if [[ $v != *master* ]]
+	then
+		gsed -i "s~test.base.dir.name=$dir/portal-web/test/functional/com/liferay/portalweb/~test.base.dir.name=../../../portal-web/test/functional/com/liferay/portalweb/~" $masterSourceDir/modules/test/poshi-runner/build.xml
+		gsed -i "s/database.sharding/plugins.deployment.type/" $masterSourceDir/modules/test/poshi-runner/build.xml
+	fi
+
 	echo "done"
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
