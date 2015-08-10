@@ -653,7 +653,7 @@ poshiRunnerRun(){
 	cd $masterSourceDir/modules/test/poshi-runner/
 	echo "Editing poshi-runner.properties"
 	prProperties=$masterSourceDir/modules/test/poshi-runner/classes/poshi-runner.properties
-	gsed -i "s/8080/${port}080/" $prProperties
+	gsed -i "s~portal.url=http://localhost:.*080~portal.url=http://localhost:${port}080~" $prProperties
 	gsed -i "s/test.assert.liferay.errors=true/test.assert.liferay.errors=false/" $prProperties
 
 	if [[ $v != *master* ]]
