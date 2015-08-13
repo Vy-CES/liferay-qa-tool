@@ -658,7 +658,7 @@ poshiRunnerRun(){
 
 	if [[ $v != *master* ]]
 	then
-		gsed -i "s~test.base.dir.name=../../../portal-web/test/functional/com/liferay/portalweb/~test.base.dir.name=$dir/portal-web/test/functional/com/liferay/portalweb/~" $masterSourceDir/modules/test/poshi-runner/build.xml
+		gsed -i "s~test.base.dir.name=.*~test.base.dir.name=$dir/portal-web/test/functional/com/liferay/portalweb/~" $masterSourceDir/modules/test/poshi-runner/build.xml
 		gsed -i "s/plugins.deployment.type/database.sharding/" $masterSourceDir/modules/test/poshi-runner/build.xml
 	fi
 
@@ -671,7 +671,7 @@ poshiRunnerRun(){
 
 	if [[ $v != *master* ]]
 	then
-		gsed -i "s~test.base.dir.name=$dir/portal-web/test/functional/com/liferay/portalweb/~test.base.dir.name=../../../portal-web/test/functional/com/liferay/portalweb/~" $masterSourceDir/modules/test/poshi-runner/build.xml
+		gsed -i 's~test.base.dir.name=.*~test.base.dir.name=${lp.portal.project.dir}/portal-web/test/functional/com/liferay/portalweb/~' $masterSourceDir/modules/test/poshi-runner/build.xml
 		gsed -i "s/database.sharding/plugins.deployment.type/" $masterSourceDir/modules/test/poshi-runner/build.xml
 	fi
 
