@@ -45,6 +45,7 @@ ee61xDB="ee61"
 ee6210DB="ee621"
 eeMasterDB="eeMaster"
 ce62xDB="ce62"
+ce70xDB="ce7"
 
 ## Bundle ports ##
 # e.g. for 9080 put 9
@@ -55,6 +56,7 @@ ee61xPort="6"
 ee6210Port="8"
 eeMasterPort="6"
 ce62xPort="8"
+ce70xPort="5"
 
 ## Test Results Location ##
 # where you want your test reports to end up
@@ -90,6 +92,10 @@ eeMasterBundleDir="$bundleDir/master-ee-bundles"
 ce62xSourceDir="$sourceDir/liferay-portal-6.2.x"
 ce62xBundleDir="$bundleDir/6.2.x-bundles"
 ce62xPluginsDir="$sourceDir/liferay-plugins-6.2.x"
+
+ce70xSourceDir="$sourceDir/liferay-portal-7.0.x"
+ce70xBundleDir="$bundleDir/7.0.x"
+ce70xPluginsDir="$sourceDir/liferay-plugins-7.0.x"
 
 ## Plugins ##
 # This allows you to deploy a group of plugins that you use regularly
@@ -943,7 +949,7 @@ Please choose a branch version:
 	(4) ee-6.1.x
 	(5) ee-6.2.10          (t) TESTER
 	(6) Master EE
-	(7) 6.2.x
+	(7) 6.2.x              (m) 7.0.x
 
 	(q)uit
 -----------------------------------------------------
@@ -958,6 +964,7 @@ EOF
 	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB port=$ee6210Port jb="ee6210"  branchMenu ;;
 	"6")  dir=$eeMasterSourceDir bundleDir=$eeMasterBundleDir pluginsDir=$masterPluginsDir v="master" db=$eeMasterDB port=$eeMasterPort jb="master" branchMenu ;;
 	"7")  dir=$ce62xSourceDir bundleDir=$ce62xBundleDir pluginsDir=$ce62xPluginsDir v="6.2.x" db=$ce62xDB port=$ce62xPort jb="62x"  branchMenu ;;
+	"m")  dir=$ce70xSourceDir bundleDir=$ce70xBundleDir pluginsDir=$ce70xPluginsDir v="7.0.x" db=$ce70xDB port=$ce70xPort jb="70x" branchMenu ;;
 	"g")  gitInfoFull ;;
 	"t")  bashTester ;;
 	"c")  jenkinsToJiraUrlCoverter ;;
