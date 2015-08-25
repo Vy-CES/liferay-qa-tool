@@ -331,7 +331,7 @@ bundleBuild(){
 
 	echo "done"
 	cd $soundDir
-	mpg123 $soundFile &> /dev/null
+	afplay $soundFile &> /dev/null
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
