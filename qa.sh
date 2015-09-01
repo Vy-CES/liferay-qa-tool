@@ -674,6 +674,13 @@ poshiRunnerRun(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+poshiValidate(){
+	cd $dir
+	ant -f build-test.xml run-poshi-validation
+	echo "done"
+	read -rsp $'Press any key to continue...\n' -n1 key
+}
+
 poshiSetUrl(){
 	echo -n "Enter Portal URL and press [ENTER]: "
 	read url
@@ -842,7 +849,7 @@ $testURL
 Choose Your Destiny:
 
 	(1) Run Test          (r) Poshi Runner
-	(2) Run Mobile Test
+	(2) Run Mobile Test   (v) Validate
 	(3) Pick New Test     (p) Pull Request
 	(4) Format Source     (s) Run Test Suite
 	(5) Set Test URL 
@@ -861,6 +868,7 @@ EOF
 	"s")  poshiSuite ;;
 	"r")  poshiRunnerRun ;;
 	"p")  qaPullRequest ;;
+	"v")  poshiValidate ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break ;; 
 	* )   echo "Not a valid option" ;;
