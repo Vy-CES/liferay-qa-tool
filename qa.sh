@@ -463,6 +463,9 @@ poshiRunTest(){
 	cd $dir/portal-web/test-results/functional/screenshots && rm *.jpg
 	cd $dir
 
+	echo "Disabling Poshi Runner"
+	gsed -i "s~test.poshi.runner.enabled=.*~test.poshi.runner.enabled=false~" test.$username.properties
+
 	if [ "$mobile" = "true" ]
 	then
 		gsed -i "s/address}:8080/address}:${port}080/" build-test.xml
@@ -656,31 +659,17 @@ poshiRun(){
 
 poshiRunnerRun(){
 	echo "POSHI Runner test for $v"
-	cd $masterSourceDir/modules/test/poshi-runner/
-	echo "Editing poshi-runner.properties"
-	prProperties=$masterSourceDir/modules/test/poshi-runner/classes/poshi-runner.properties
-	gsed -i "s~portal.url=http://localhost:.*080~portal.url=http://localhost:${port}080~" $prProperties
-	gsed -i "s/test.assert.liferay.errors=true/test.assert.liferay.errors=false/" $prProperties
-
-	if [[ $v != *master* ]]
-	then
-		gsed -i "s~test.base.dir.name=.*~test.base.dir.name=$dir/portal-web/test/functional/com/liferay/portalweb/~" $masterSourceDir/modules/test/poshi-runner/build.xml
-		gsed -i "s/plugins.deployment.type/database.sharding/" $masterSourceDir/modules/test/poshi-runner/build.xml
-	fi
-
-	ant start-poshi-runner -Dtest.name=$testname < /dev/null
+	cd $dir
+	echo
+	echo "Enabling Poshi Runner"
+	echo
+	gsed -i "s~test.poshi.runner.enabled=.*~test.poshi.runner.enabled=true~" test.$username.properties
+	ant -f run.xml run -Dtest.class=$testname < /dev/null
 	echo
 	echo "Finished $testname"
 	echo
 	prTestName=$(echo $testname | sed 's/#/_/')
-	open $masterSourceDir/modules/test/poshi-runner/test-results/$prTestName/index.html
-
-	if [[ $v != *master* ]]
-	then
-		gsed -i 's~test.base.dir.name=.*~test.base.dir.name=${lp.portal.project.dir}/portal-web/test/functional/com/liferay/portalweb/~' $masterSourceDir/modules/test/poshi-runner/build.xml
-		gsed -i "s/database.sharding/plugins.deployment.type/" $masterSourceDir/modules/test/poshi-runner/build.xml
-	fi
-
+	open $dir/portal-web/test-results/$prTestName/index.html
 	echo "done"
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
