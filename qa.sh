@@ -272,8 +272,8 @@ bundleBuild(){
 			fi
 
 			echo	
-			echo "Clearing Ivy Cache"
-			rm -r $dir/.ivy/cache
+			echo "Clearing Gradle Cache"
+			rm -r $dir/.gradle/caches
 			echo "Resetting main branch"
 			git reset --hard
 			echo
