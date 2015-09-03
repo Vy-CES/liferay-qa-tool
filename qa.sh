@@ -457,8 +457,8 @@ poshiRunTest(){
 	echo "Running $testname"
 	sleep 2
 	echo
-	echo "Importing run.xml"
-	cp $runXMLDir/run.xml $dir/
+#	echo "Importing run.xml"
+	#cp $runXMLDir/run.xml $dir/
 	echo "Clearing Old Screenshots"
 	cd $dir/portal-web/test-results/functional/screenshots && rm *.jpg
 	cd $dir
@@ -659,6 +659,9 @@ poshiRun(){
 
 poshiRunnerRun(){
 	echo "POSHI Runner test for $v"
+	echo
+	echo "importing run.xml"
+	cp $runXMLDir/run.xml $dir/
 	cd $dir
 	echo
 	echo "Enabling Poshi Runner"
