@@ -659,15 +659,12 @@ poshiRun(){
 
 poshiRunnerRun(){
 	echo "POSHI Runner test for $v"
-	echo
-	echo "importing run.xml"
-	cp $runXMLDir/run.xml $dir/
 	cd $dir
 	echo
 	echo "Enabling Poshi Runner"
 	echo
 	gsed -i "s~test.poshi.runner.enabled=.*~test.poshi.runner.enabled=true~" test.$username.properties
-	ant -f run.xml run -Dtest.class=$testname < /dev/null
+	ant -f build-test.xml run-selenium-test -Dtest.class=$testname < /dev/null
 	echo
 	echo "Finished $testname"
 	echo
