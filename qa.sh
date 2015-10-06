@@ -848,8 +848,8 @@ $testURL
 ----------------------------------------
 Choose Your Destiny:
 
-	(1) Run Test          (r) Poshi Runner
-	(2) Run Mobile Test   (v) Validate
+	(1)                   (r) Poshi Runner
+	(2)                   (v) Validate
 	(3) Pick New Test     (p) Pull Request
 	(4) Format Source     (s) Run Test Suite
 	(5) Set Test URL 
@@ -860,8 +860,6 @@ EOF
 	read -n1
 	echo
 	case "$REPLY" in
-	"1")  mobile="false" poshiRun ;;
-	"2")  mobile="true" poshiRun ;;
 	"3")  poshiSetTest ;;
 	"4")  poshiFormat ;;
 	"5")  poshiSetUrl ;;
