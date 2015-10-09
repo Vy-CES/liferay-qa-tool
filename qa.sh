@@ -772,6 +772,29 @@ jenkinsToJiraUrlCoverter(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
+updateFixPriorities(){
+	echo
+	echo
+	vim $resultsDir/addki.txt
+	echo
+	echo
+	echo -n "Enter Priority and press [ENTER]: "
+	read priority
+	cd $dir
+
+	local IFS=#
+	while read testcase testcommand;
+	do
+		testcasefile=$(find . -name "$testcase.testcase")
+		gsed -i "s/name=\"${testcommand}\" priority=\".*\"/name=\"${testcommand}\" priority=\"${priority}\"/" $testcasefile
+		cd $dir
+		continue
+	done<$resultsDir/addki.txt
+	echo "done"
+	echo "$priority's added"
+	read -rsp $'Press any key to continue...\n' -n1 key
+}
+
 addKnownIssues(){
 	echo
 	echo
@@ -897,7 +920,7 @@ Please choose:
 
 	(1) Build Bundle     (r) Jenkins Results
 	(2) Clear Enviroment (a) Add Known Issues
-	(3) POSHI
+	(3) POSHI            (f) Update FP
 	(4) Deploy Plugins
 	(5) Git Info Template
 
@@ -914,6 +937,7 @@ EOF
 	"5")  gitInfoTemplate ;;
 	"r")  openJenkinsURL ;;
 	"a")  addKnownIssues ;;
+	"f")  updateFixPriorities ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  break  ;; 
