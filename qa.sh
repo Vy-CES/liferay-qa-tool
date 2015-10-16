@@ -779,11 +779,11 @@ $testURL
 ----------------------------------------
 Choose Your Destiny:
 
-	(1)                   (r) Poshi Runner
-	(2)                   (v) Validate
-	(3) Pick New Test     (p) Pull Request
-	(4) Format Source     (s) Run Test Suite
-	(5) Set Test URL 
+	(1) Poshi Runner      (p) Pull Request
+	(2) Validate          (s) Run Test Suite
+	(3) Pick New Test
+	(4) Format Source
+	(5) Set Test URL
 	
 	(q)uit - go back
 ----------------------------------------
@@ -791,13 +791,13 @@ EOF
 	read -n1
 	echo
 	case "$REPLY" in
+	"1")  poshiRunnerRun ;;
+	"2")  poshiValidate ;;
 	"3")  poshiSetTest ;;
 	"4")  poshiFormat ;;
 	"5")  poshiSetUrl ;;
 	"s")  poshiSuite ;;
-	"r")  poshiRunnerRun ;;
 	"p")  qaPullRequest ;;
-	"v")  poshiValidate ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break ;; 
 	* )   echo "Not a valid option" ;;
@@ -826,9 +826,9 @@ Git Branch: $gitBranch
 --------------------------------------------
 Please choose:
 
-	(1) Build Bundle
-	(2) Clear Enviroment (a) Add Known Issues
-	(3) POSHI            (f) Update FP
+	(1) Build Bundle     (a) Add Known Issues
+	(2) Clear Enviroment (f) Update FP
+	(3) POSHI
 	(4) Deploy Plugins
 	(5) Git Info Template
 
@@ -869,13 +869,13 @@ Main Menu
 Hello $name 
 Please choose a branch version:
 
-	(1) Master
+	(1) Master        (r) 7.0.x
 	(2) ee-6.2.x
 	(3) ee-7.0.x
 	(4) ee-6.1.x
 	(5) ee-6.2.10
 	(6) Master EE
-	(7) 6.2.x              (m) 7.0.x
+	(7) 6.2.x
 
 	(q)uit
 -----------------------------------------------------
@@ -890,7 +890,7 @@ EOF
 	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB port=$ee6210Port jb="ee6210"  branchMenu ;;
 	"6")  dir=$eeMasterSourceDir bundleDir=$eeMasterBundleDir pluginsDir=$masterPluginsDir v="master" db=$eeMasterDB port=$eeMasterPort jb="master" branchMenu ;;
 	"7")  dir=$ce62xSourceDir bundleDir=$ce62xBundleDir pluginsDir=$ce62xPluginsDir v="6.2.x" db=$ce62xDB port=$ce62xPort jb="62x"  branchMenu ;;
-	"m")  dir=$ce70xSourceDir bundleDir=$ce70xBundleDir pluginsDir=$ce70xPluginsDir v="7.0.x" db=$ce70xDB port=$ce70xPort jb="70x" branchMenu ;;
+	"r")  dir=$ce70xSourceDir bundleDir=$ce70xBundleDir pluginsDir=$ce70xPluginsDir v="7.0.x" db=$ce70xDB port=$ce70xPort jb="70x" branchMenu ;;
 	"l")  lpsConverter ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
