@@ -541,7 +541,7 @@ poshiSuite(){
 	cd $dir/portal-web/test-results/functional
 
 	mkdir failed
-	grep -l -Z -r 'div class="fail"' . | xargs -I{} mv "{}" ./failed
+	grep -l -Z -r 'div class="fail"' . | xargs -0 -i{} mv {} ./failed
 
 	cd $dir/portal-web/test-results/functional
 	zip Results-$info-PASSED *.html
