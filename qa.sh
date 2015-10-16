@@ -701,23 +701,6 @@ gitInfoFull(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
-lpsConverter(){
-	echo
-	echo
-	vim $resultsDir/lps.txt
-
-	while read lps;
-	do
-		url="https://issues.liferay.com/browse/${lps}"
-		echo "$url"
-		continue
-	done<$resultsDir/lps.txt
-
-	echo
-	echo
-	read -rsp $'Press any key to continue...\n' -n1 key
-}
-
 updateFixPriorities(){
 	echo
 	echo
@@ -908,7 +891,7 @@ Hello $name
 Please choose a branch version:
 
 	(1) Master
-	(2) ee-6.2.x           (l) LPS Coverter
+	(2) ee-6.2.x
 	(3) ee-7.0.x           (g) Print git info
 	(4) ee-6.1.x
 	(5) ee-6.2.10          (t) TESTER
