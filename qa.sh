@@ -364,21 +364,6 @@ pluginsDeploy(){
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
-clearSafari(){
-	rm -rf ~/Library/Caches/com.apple.Safari
-	rm -rf ~/Library/Caches/Metadata/Safari/History
-	rm -rf ~/Library/Safari/Databases
-	rm -f ~/Library/Safari/Form\ Values
-	rm -f ~/Library/Safari/Downloads.plist
-	rm -f ~/Library/Safari/History.plist
-	rm -f ~/Library/Safari/HistoryIndex.plist
-	rm -f ~/Library/Safari/LastSession.plist
-	rm -rf ~/Library/Safari/LocalStorage
-	rm -rf ~/Library/Safari/TopSites.plist
-	rm -rf ~/Library/Safari/WebpageIcons.db
-	rm -rf ~/Library/Saved\ Application\ State/com.apple.Safari.savedState
-}
-
 clearEnv(){
 	echo "Portal Version Selected: $v"
 	echo
@@ -406,8 +391,6 @@ clearEnv(){
 			continue
 		fi
 
-	echo "Clearing Safari Data"
-	clearSafari
 	echo "Clearing Data and Logs"
 	cd $bundleDir
 	rm -r data logs
