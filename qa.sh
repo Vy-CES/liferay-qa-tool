@@ -236,8 +236,6 @@ bundleBuild(){
 		echo
 		if [[ $REPLY = y ]]
 		then
-			echo "Switching to branch $v"
-			git checkout $v
 			echo "Checking for modified files"
 			echo
 			modified=$(git ls-files -m)
@@ -269,6 +267,8 @@ bundleBuild(){
 				echo "No modified files"
 			fi
 
+			echo "Switching to branch $v"
+			git checkout $v
 			echo	
 			echo "Clearing Gradle Cache"
 			rm -r $dir/.gradle/caches
