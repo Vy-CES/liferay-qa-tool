@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Welcome to the Liferay QA Tool - VICTOR'S VERSION
+# Welcome to the Liferay QA Tool
 # This script can be used to accomplish many repetative bundle tasks that we do in QA.
 # In order to use it, you simply need to set the variables below for your enviroment.
 
