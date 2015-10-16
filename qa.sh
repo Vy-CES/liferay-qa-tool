@@ -794,7 +794,7 @@ EOF
 	"3")  poshiSetTest ;;
 	"4")  poshiFormat ;;
 	"5")  poshiSetUrl ;;
-	"s")  poshiSuite ;;
+	#"s")  poshiSuite ;;
 	"p")  qaPullRequest ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break ;; 
