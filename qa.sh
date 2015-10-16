@@ -135,20 +135,16 @@ gitpr="/Users/vicnate5/Liferay/git-tools/git-pull-request/git-pull-request.sh"
 
 if [[ ${OS} == "osx" ]]
 then
-	sed=gsed
-else
-	sed=sed
-fi
-
-if [[ ${OS} == "osx" ]]
-then
 	open=open
+	sed=gsed
 elif [[ ${OS} == "linux" ]]
 then
 	open=xdg-open
+	sed=sed
 elif [[ ${OS} == "windows" ]]
 then
 	open=start
+	sed=sed
 fi
 
 
