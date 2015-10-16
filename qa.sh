@@ -124,13 +124,13 @@ soundDir="/Users/vicnate5/Dropbox/Work/Scripts"
 soundFile="bundleFinished.mp3"
 
 ## Run.xml Location ##
-runXMLDir=/Users/vicnate5/Dropbox/Work/files
+runXMLDir="/Users/vicnate5/Dropbox/Work/files"
 
 ## test.properties Location ##
-testPropsDir=/Users/vicnate5/Dropbox/Work/files
+testPropsDir="/Users/vicnate5/Dropbox/Work/files"
 
 ## Git Tools PRs
-gitpr=/Users/vicnate5/Liferay/git-tools/git-pull-request/git-pull-request.sh
+gitpr="/Users/vicnate5/Liferay/git-tools/git-pull-request/git-pull-request.sh"
 
 ######################################################################################################################
 #FUNCTIONS############################################################################################################
