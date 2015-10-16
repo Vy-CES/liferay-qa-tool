@@ -13,6 +13,10 @@ name="Victor"
 # username is the value used to name your test.${username/computername}.properties
 username="vicnate5"
 
+## Operating System ##
+# set to "windows", "osx", or "linux"
+OS="osx"
+
 ## MySQL login ##
 # this can usually be left blank
 mysqlUsername=
@@ -132,6 +136,13 @@ gitpr=/Users/vicnate5/Liferay/git-tools/git-pull-request/git-pull-request.sh
 #FUNCTIONS############################################################################################################
 ######################################################################################################################
 
+if [[ ${OS} == "osx" ]]
+then
+	sed=gsed
+else
+	sed=sed
+fi
+
 dbClear(){
 	if [[ -n "$mysqlUsername" ]]; then
 		if [[ -n "$mysqlPassword" ]]
@@ -180,7 +191,7 @@ setupDatabaseConnection(){
 		if grep -q database.mysql.schema test.$username.properties 
 		# if there is a test.username.properties file that already defines the database name
 		then
-			gsed -i "s/database.mysql.schema=.*/database.mysql.schema=${db}/" test.$username.properties
+			${sed} -i "s/database.mysql.schema=.*/database.mysql.schema=${db}/" test.$username.properties
 			# basic inline(-i) search and replace
 			# using ".*" regex to denote that it can contain any string in the rest of that line
 		else
@@ -195,14 +206,14 @@ setupDatabaseConnection(){
 
 	if grep -q database.mysql.username test.$username.properties 
 	then
-		gsed -i "s/database.mysql.username=.*/database.mysql.username=${mysqlUsername}/" test.$username.properties
+		${sed} -i "s/database.mysql.username=.*/database.mysql.username=${mysqlUsername}/" test.$username.properties
 	else
 		(echo "" ; echo "database.mysql.username=${mysqlUsername}") >>test.$username.properties
 	fi
 
 	if grep -q database.mysql.password test.$username.properties 
 	then
-		gsed -i "s/database.mysql.password=.*/database.mysql.password=${mysqlPassword}/" test.$username.properties
+		${sed} -i "s/database.mysql.password=.*/database.mysql.password=${mysqlPassword}/" test.$username.properties
 	else
 		(echo "" ; echo "database.mysql.password=${mysqlPassword}") >>test.$username.properties
 	fi
@@ -293,7 +304,7 @@ bundleBuild(){
 	fi
 
 	echo "Writing ports to ${port}080"
-	gsed -i "s/8005/${port}005/; s/8080/${port}080/; s/8009/${port}009/; s/8443/${port}443/g" server.xml
+	${sed} -i "s/8005/${port}005/; s/8080/${port}080/; s/8009/${port}009/; s/8443/${port}443/g" server.xml
 	echo "Remaking MySQL Database"
 	dbClear
 	echo "$db has been remade"
@@ -322,9 +333,9 @@ pluginsDeploy(){
 	echo "Plugins Branch Selected: $v"
 	echo
 	echo "--Plugins Selected--"
-	echo "CE: ${cePlugins[*]}" | tr " " "\n" | sed 's/.*\///'
+	echo "CE: ${cePlugins[*]}" | tr " " "\n" | ${sed} 's/.*\///'
 	echo
-	echo "EE: ${eePlugins[*]}" | tr " " "\n" | sed 's/.*\///'
+	echo "EE: ${eePlugins[*]}" | tr " " "\n" | ${sed} 's/.*\///'
 	echo
 	updateToHeadOption
 
@@ -446,12 +457,12 @@ poshiRunTest(){
 	cd $dir
 
 	echo "Disabling Poshi Runner"
-	gsed -i "s~test.poshi.runner.enabled=.*~test.poshi.runner.enabled=false~" test.$username.properties
+	${sed} -i "s~test.poshi.runner.enabled=.*~test.poshi.runner.enabled=false~" test.$username.properties
 
 	if [ "$mobile" = "true" ]
 	then
-		gsed -i "s/address}:8080/address}:${port}080/" build-test.xml
-		gsed -i 's/sleep seconds="120"/sleep seconds="30"/' build-test.xml
+		${sed} -i "s/address}:8080/address}:${port}080/" build-test.xml
+		${sed} -i 's/sleep seconds="120"/sleep seconds="30"/' build-test.xml
 		ant -f run.xml run -Dtest.class=$testname -Dmobile.device.enabled=true < /dev/null
 	else
 		ant -f run.xml run -Dtest.class=$testname < /dev/null
@@ -564,7 +575,7 @@ poshiSuite(){
 
 	# STILL DOESNT WORK
 	# url="172.16.19.254:8080"
-	# gsed -i "s/test.url=.*/test.url=$url/" /home/vicnate5/liferay/liferay-portal-ee-6.2.x/test.vicnate5.properties
+	# ${sed} -i "s/test.url=.*/test.url=$url/" /home/vicnate5/liferay/liferay-portal-ee-6.2.x/test.vicnate5.properties
 
 	# cd $dir
 
@@ -645,12 +656,12 @@ poshiRunnerRun(){
 	echo
 	echo "Enabling Poshi Runner"
 	echo
-	gsed -i "s~test.poshi.runner.enabled=.*~test.poshi.runner.enabled=true~" test.$username.properties
+	${sed} -i "s~test.poshi.runner.enabled=.*~test.poshi.runner.enabled=true~" test.$username.properties
 	ant -f build-test.xml run-selenium-test -Dtest.class=$testname < /dev/null
 	echo
 	echo "Finished $testname"
 	echo
-	prTestName=$(echo $testname | sed 's/#/_/')
+	prTestName=$(echo $testname | ${sed} 's/#/_/')
 	open $dir/portal-web/test-results/$prTestName/index.html
 	echo "done"
 	read -rsp $'Press any key to continue...\n' -n1 key
@@ -670,7 +681,7 @@ poshiSetUrl(){
 
 	if grep -q "test.url=" test.$username.properties 
 	then
-		gsed -i "s~test.url=.*~test.url=${url}~" test.$username.properties
+		${sed} -i "s~test.url=.*~test.url=${url}~" test.$username.properties
 	else
 		(echo "" ; echo "test.url=${url}") >>test.$username.properties
 	fi
@@ -709,7 +720,7 @@ updateFixPriorities(){
 	while read testcase testcommand;
 	do
 		testcasefile=$(find . -name "$testcase.testcase")
-		gsed -i "s/name=\"${testcommand}\" priority=\".*\"/name=\"${testcommand}\" priority=\"${priority}\"/" $testcasefile
+		${sed} -i "s/name=\"${testcommand}\" priority=\".*\"/name=\"${testcommand}\" priority=\"${priority}\"/" $testcasefile
 		cd $dir
 		continue
 	done<$resultsDir/addki.txt
@@ -732,7 +743,7 @@ addKnownIssues(){
 	while read testcase testcommand;
 	do
 		testcasefile=$(find . -name "$testcase.testcase")
-		gsed -i "s/name=\"${testcommand}\"/known-issues=\"${ticket}\"\ name=\"${testcommand}\"/" $testcasefile
+		${sed} -i "s/name=\"${testcommand}\"/known-issues=\"${ticket}\"\ name=\"${testcommand}\"/" $testcasefile
 		cd $dir
 		continue
 	done<$resultsDir/addki.txt
