@@ -687,7 +687,7 @@ gitInfoTemplate(){
 updateFixPriorities(){
 	echo
 	echo
-	vim $resultsDir/addki.txt
+	vim $resultsDir/fp.txt
 	echo
 	echo
 	echo -n "Enter Priority and press [ENTER]: "
@@ -701,7 +701,7 @@ updateFixPriorities(){
 		${sed} -i "s/name=\"${testcommand}\" priority=\".*\"/name=\"${testcommand}\" priority=\"${priority}\"/" $testcasefile
 		cd $dir
 		continue
-	done<$resultsDir/addki.txt
+	done<$resultsDir/fp.txt
 	echo "done"
 	echo "$priority's added"
 	read -rsp $'Press any key to continue...\n' -n1 key
