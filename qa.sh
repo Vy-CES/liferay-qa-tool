@@ -140,6 +140,18 @@ else
 	sed=sed
 fi
 
+if [[ ${OS} == "osx" ]]
+then
+	open=open
+elif [[ ${OS} == "linux" ]]
+then
+	open=xdg-open
+elif [[ ${OS} == "windows" ]]
+then
+	open=start
+fi
+
+
 dbClear(){
 	if [[ -n "$mysqlUsername" ]]; then
 		if [[ -n "$mysqlPassword" ]]
@@ -640,7 +652,7 @@ poshiRunnerRun(){
 	echo "Finished $testname"
 	echo
 	prTestName=$(echo $testname | ${sed} 's/#/_/')
-	open $dir/portal-web/test-results/$prTestName/index.html
+	${open} $dir/portal-web/test-results/$prTestName/index.html
 	echo "done"
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
