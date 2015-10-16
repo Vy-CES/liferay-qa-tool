@@ -123,9 +123,6 @@ eePlugins[5]="portlets/calendar-portlet"
 soundDir="/Users/vicnate5/Dropbox/Work/Scripts"
 soundFile="bundleFinished.mp3"
 
-## Run.xml Location ##
-runXMLDir="/Users/vicnate5/Dropbox/Work/files"
-
 ## test.properties Location ##
 testPropsDir="/Users/vicnate5/Dropbox/Work/files"
 
@@ -433,8 +430,6 @@ poshiRunTest(){
 	echo "Running $testname"
 	sleep 2
 	echo
-#	echo "Importing run.xml"
-	#cp $runXMLDir/run.xml $dir/
 	echo "Clearing Old Screenshots"
 	cd $dir/portal-web/test-results/functional/screenshots && rm *.jpg
 	cd $dir
