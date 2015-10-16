@@ -159,7 +159,7 @@ dbClear(){
 updateToHeadOption(){
 	read -p "Update to HEAD? (y/n)?" -n 1 -r
 		echo
-		if [[ $REPLY =~ ^[Yy]$ ]]
+		if [[ $REPLY = y ]]
 		then
 			echo "Yes"
 			echo "Pulling Upstream"
@@ -169,7 +169,7 @@ updateToHeadOption(){
 			echo "Pushing to Origin"
 			echo
 			git push origin $v
-		elif [[ $REPLY =~ ^[Nn]$ ]] 
+		elif [[ $REPLY = n ]]
 		then
 			echo "No"
 		else 
@@ -229,7 +229,7 @@ bundleBuild(){
 
 	read -p "Switch to main branch and update to HEAD? (y/n)?" -n 1 -r
 		echo
-		if [[ $REPLY =~ ^[Yy]$ ]]
+		if [[ $REPLY = y ]]
 		then
 			echo "Switching to branch $v"
 			git checkout $v
@@ -246,10 +246,10 @@ bundleBuild(){
 
 				read -n 1 -r
 					echo
-					if [[ $REPLY =~ ^[Yy]$ ]]
+					if [[ $REPLY = y ]]
 					then
 						echo "Sweetness"
-					elif [[ $REPLY =~ ^[Nn]$ ]] 
+					elif [[ $REPLY = n ]]
 					then
 						echo "No"
 						echo "Come back when you have committed or stashed your modified files."
@@ -277,7 +277,7 @@ bundleBuild(){
 			echo "Pushing to Origin"
 			echo
 			git push origin $v
-		elif [[ $REPLY =~ ^[Nn]$ ]] 
+		elif [[ $REPLY = n ]]
 		then
 			echo "No"
 		else 
@@ -383,7 +383,7 @@ clearEnv(){
 	echo "Portal Version Selected: $v"
 	echo
 	read -p "Do you want to remove all plugins except marketplace? (y/n)?" -n 1 -r
-		if [[ $REPLY =~ ^[Yy]$ ]]
+		if [[ $REPLY = y ]]
 		then
 			echo
 			echo "Clearing Plugins"
@@ -396,7 +396,7 @@ clearEnv(){
 			fi
 			
 			echo "done"
-		elif [[ $REPLY =~ ^[Nn]$ ]] 
+		elif [[ $REPLY = n ]]
 		then
 			echo "No"
 			echo "Plugins untouched"
@@ -430,13 +430,13 @@ poshiFormat(){
 poshiBuildSeleniumOption(){
 	read -p "Do you need to Build Selenium First? (y/n)?" -n 1 -r
 	echo
-	if [[ $REPLY =~ ^[Yy]$ ]]
+	if [[ $REPLY = y ]]
 	then
 		cd $dir/portal-impl
 		echo "Building Selenium"
 		ant build-selenium
 		cd $dir
-	elif [[ $REPLY =~ ^[Nn]$ ]] 
+	elif [[ $REPLY = n ]]
 	then
 		echo "No"
 	else 
@@ -775,7 +775,7 @@ qaPullRequest(){
 	echo "Submit a Pull Request?"
 	echo "[y/n?]"
 	read -n 1 -r
-		if [[ $REPLY =~ ^[Yy]$ ]]
+		if [[ $REPLY = y ]]
 		then
 			$gitpr submit --update-branch=${v} "https://issues.liferay.com/browse/LRQA-${ticket}" "${v}-qa-${ticket}"
 		else
