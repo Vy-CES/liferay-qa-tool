@@ -119,24 +119,6 @@ eePlugins[5]="portlets/calendar-portlet"
 soundDir="/Users/vicnate5/Dropbox/Work/Scripts"
 soundFile="bundleFinished.mp3"
 
-## Jenkins Results Links ##
-baseJenkinsmaster="http://test-2-1.liferay.com/view/test-portal-branch-upstream-frontend-tomcat-mysql%28master%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
-baseJenkinsee62x="http://test-2-2.liferay.com/view/test-portal-branch-upstream-frontend-tomcat-mysql%28ee-6.2.x%29/job/test-portal-branch-upstream-frontend-tomcat-mysql%5Bportal"
-
-endJenkinsmaster="%5D(master)/lastCompletedBuild/testReport/"
-endJenkinsee62x="%5D(ee-6.2.x)/lastCompletedBuild/testReport/"
-
-jenkinsUrlmaster[0]="$baseJenkinsmaster-workflow$endJenkinsmaster"
-jenkinsUrlmaster[1]="$baseJenkinsmaster-web-forms-and-data-lists$endJenkinsmaster"
-jenkinsUrlmaster[2]="$baseJenkinsmaster-calendar$endJenkinsmaster"
-jenkinsUrlmaster[3]="$baseJenkinsmaster-known-issues$endJenkinsmaster"
-
-jenkinsUrlee62x[0]="$baseJenkinsee62x-workflow$endJenkinsee62x"
-jenkinsUrlee62x[1]="$baseJenkinsee62x-web-forms-and-data-lists$endJenkinsee62x"
-jenkinsUrlee62x[2]="$baseJenkinsee62x-calendar$endJenkinsee62x"
-jenkinsUrlee62x[3]="$baseJenkinsee62x-business-productivity-ee$endJenkinsee62x"
-jenkinsUrlee62x[4]="$baseJenkinsee62x-known-issues$endJenkinsee62x"
-
 ## Run.xml Location ##
 runXMLDir=/Users/vicnate5/Dropbox/Work/files
 
@@ -700,15 +682,6 @@ poshiSetTest(){
 	echo "$testname"
 }
 
-openJenkinsURL(){
-	jenkinsUrl=jenkinsUrl$jb[@]
-
-	for url in ${!jenkinsUrl}
-		do
-			open $url &> /dev/null
-		done
-}
-
 gitInfoTemplate(){
 	cd $dir
 	portalID="$(git log --pretty=format:'%H' -n 1)"
@@ -739,33 +712,6 @@ lpsConverter(){
 		echo "$url"
 		continue
 	done<$resultsDir/lps.txt
-
-	echo
-	echo
-	read -rsp $'Press any key to continue...\n' -n1 key
-}
-
-jenkinsToJiraUrlCoverter(){
-	echo
-	echo
-	vim $resultsDir/jenkinsLinks.txt
-
-	while read url;
-	do
-		local IFS=/ 
-		read -a elements <<< "$url"
-
-		testCaseFromUrl=${elements[11]}
-		testFromUrl=${elements[12]}
-
-		testCase=${testCaseFromUrl%TestCase}
-		testCommand=${testFromUrl#test}
-
-		fullTest="${testCase}#${testCommand}"
-		newUrl="[${fullTest}|${url}]"
-		echo "$newUrl"
-		continue
-	done<$resultsDir/jenkinsLinks.txt
 
 	echo
 	echo
@@ -918,7 +864,7 @@ Git Branch: $gitBranch
 --------------------------------------------
 Please choose:
 
-	(1) Build Bundle     (r) Jenkins Results
+	(1) Build Bundle
 	(2) Clear Enviroment (a) Add Known Issues
 	(3) POSHI            (f) Update FP
 	(4) Deploy Plugins
@@ -935,7 +881,6 @@ EOF
 	"3")  poshiSetTest ; poshiOption ;;
 	"4")  pluginsDeploy ;;
 	"5")  gitInfoTemplate ;;
-	"r")  openJenkinsURL ;;
 	"a")  addKnownIssues ;;
 	"f")  updateFixPriorities ;;
 	"Q")  echo "case sensitive!!" ;;
@@ -962,7 +907,7 @@ Main Menu
 Hello $name 
 Please choose a branch version:
 
-	(1) Master             (c) Jenkins-JIRA Coverter
+	(1) Master
 	(2) ee-6.2.x           (l) LPS Coverter
 	(3) ee-7.0.x           (g) Print git info
 	(4) ee-6.1.x
@@ -986,7 +931,6 @@ EOF
 	"m")  dir=$ce70xSourceDir bundleDir=$ce70xBundleDir pluginsDir=$ce70xPluginsDir v="7.0.x" db=$ce70xDB port=$ce70xPort jb="70x" branchMenu ;;
 	"g")  gitInfoFull ;;
 	"t")  bashTester ;;
-	"c")  jenkinsToJiraUrlCoverter ;;
 	"l")  lpsConverter ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
