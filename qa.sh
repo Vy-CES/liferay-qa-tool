@@ -689,7 +689,7 @@ gitInfoTemplate(){
 	pluginsID="$(git log --pretty=format:'%H' -n 1)"
 	echo
 	echo "$v:"
-	echo "Tomcat 7.0.62 + MySQL 5.5. Portal $v GIT ID: $portalID."
+	echo "Tomcat 7.0.62 + MySQL 5.6 Portal $v GIT ID: $portalID."
 	echo "Plugins $v GIT ID: $pluginsID."
 	echo
 	read -rsp $'Press any key to continue...\n' -n1 key
