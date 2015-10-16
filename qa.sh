@@ -686,12 +686,10 @@ gitInfoTemplate(){
 
 updateFixPriorities(){
 	echo
-	echo
+	echo -n "Enter New Priority and press [ENTER]: "
+	read priority
 	vim $resultsDir/fp.txt
 	echo
-	echo
-	echo -n "Enter Priority and press [ENTER]: "
-	read priority
 	cd $dir
 
 	local IFS=#
