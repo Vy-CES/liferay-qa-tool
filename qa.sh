@@ -304,8 +304,11 @@ bundleBuild(){
 	if [[ $v == *ee-6.1* ]]
 	then
 		cd $bundleDir/tomcat-7.0.40/conf
-	else
+	elif [[ $v == *6.2* ]]
+	then
 		cd $bundleDir/tomcat-7.0.62/conf
+	else
+		cd $bundleDir/tomcat-8.0.30/conf
 	fi
 
 	echo "Writing ports to ${port}080"
@@ -381,8 +384,11 @@ clearEnv(){
 			if [[ $v == *ee-6.1* ]]
 			then
 				cd $bundleDir/tomcat-7.0.40/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
-			else
+			elif [[ $v == *6.2* ]]
+			then
 				cd $bundleDir/tomcat-7.0.62/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
+			else
+				cd $bundleDir/tomcat-8.0.30/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			fi
 			
 			echo "done"
