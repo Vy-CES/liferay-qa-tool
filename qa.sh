@@ -188,6 +188,12 @@ setupDatabaseConnection(){
 	echo "Adding properties files"
 	cp $testPropsDir/test.$username.properties $dir/
 	echo app.server.parent.dir=$bundleDir >app.server.$username.properties
+
+	if [[ $wf = "true" ]]
+	then
+		(echo "" ; echo "app.server.type=wildfly") >>app.server.$username.properties
+	fi
+
 	echo "Configuring test.$username.properties for MySQL"
 	cd $dir
 	if [[ -e test.$username.properties ]] 
@@ -297,8 +303,20 @@ bundleBuild(){
 		setupDatabaseConnection
 	fi
 
-	echo "Building $v"
-	ant -f build-dist.xml unzip-tomcat
+	if [[ $wf = "true" ]]
+	then
+		echo
+		echo "Building $v on WILDFLY"
+		echo
+		(echo "" ; echo "app.server.type=wildfly") >>app.server.$username.properties
+		ant -f build-dist.xml unzip-wildfly
+	else
+		echo
+		echo "Building $v on TOMCAT"
+		echo
+		ant -f build-dist.xml unzip-tomcat
+	fi
+
 	ant all
 	
 	if [[ $v == *ee-6.1* ]]
@@ -882,7 +900,7 @@ Hello $name
 Please choose a branch version:
 
 	(1) Master        (r) 7.0.x
-	(2) ee-6.2.x
+	(2) ee-6.2.x      (w) Master Wildfly
 	(3) ee-7.0.x
 	(4) ee-6.1.x
 	(5) ee-6.2.10
@@ -895,7 +913,7 @@ EOF
 	read -n1
 	echo
 	case "$REPLY" in
-	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB port=$masterPort jb="master" public="true" branchMenu ;;
+	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB port=$masterPort jb="master" public="true" wf="false" branchMenu ;;
 	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB port=$ee62xPort jb="ee62x"  branchMenu ;;
 	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB port=$ee70xPort jb="ee70x" branchMenu ;;
 	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB port=$ee61xPort jb="ee61x" branchMenu ;;
@@ -904,6 +922,7 @@ EOF
 	"7")  dir=$ce62xSourceDir bundleDir=$ce62xBundleDir pluginsDir=$ce62xPluginsDir v="6.2.x" db=$ce62xDB port=$ce62xPort jb="62x"  branchMenu ;;
 	"r")  dir=$ce70xSourceDir bundleDir=$ce70xBundleDir pluginsDir=$ce70xPluginsDir v="7.0.x" db=$ce70xDB port=$ce70xPort jb="70x" branchMenu ;;
 	"l")  lpsConverter ;;
+	"w")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB port=$masterPort jb="master" public="true" wf="true" branchMenu ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  echo "quit" 
 		  exit ;; 
