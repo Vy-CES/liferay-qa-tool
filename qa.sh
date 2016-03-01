@@ -340,7 +340,7 @@ bundleBuild(){
 	then
 		cd $bundleDir/tomcat-7.0.62/conf
 	else
-		cd $bundleDir/tomcat-8.0.30/conf
+		cd $bundleDir/tomcat-8.0.32/conf
 	fi
 
 	echo "Writing ports to ${port}080"
@@ -425,7 +425,7 @@ clearEnv(){
 			then
 				cd $bundleDir/tomcat-7.0.62/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			else
-				cd $bundleDir/tomcat-8.0.30/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
+				cd $bundleDir/tomcat-8.0.32/webapps && ls | grep -v "^ROOT\|^marketplace-portlet"  | xargs rm -r
 			fi
 			
 			echo "done"
