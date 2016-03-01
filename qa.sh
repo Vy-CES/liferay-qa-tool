@@ -235,6 +235,20 @@ setupDatabaseConnection(){
 	ant -f build-test.xml prepare-portal-ext-properties
 }
 
+createBundleZip(){
+	cd $dir
+	echo
+	echo "creating upgrade/backup zip"
+	echo
+	portalID="$(git log --pretty=format:'%H' -n 1)"
+	echo $portalID
+	cd ~/bundles
+	zip -rq master-${portalID} master-bundles/
+	mkdir master-upgrade-bundles
+	mv master-${portalID}.zip ./master-upgrade-bundles/
+	export master_zip=master-${portalID}.zip
+}
+
 bundleBuild(){
 	cd $dir
 
@@ -334,6 +348,11 @@ bundleBuild(){
 	echo "Remaking MySQL Database"
 	dbClear
 	echo "$db has been remade"
+
+	if [[ $v == *master* ]]
+	then
+		createBundleZip
+	fi
 
 	# if [[ $v != *ee-6.1* ]]
 	
