@@ -79,7 +79,7 @@ ee62xBundleDir="$bundleDir/ee-6.2.x-bundles"
 ee62xPluginsDir="$sourceDir/liferay-plugins-ee-6.2.x"
 
 ee70xSourceDir="$sourceDir/liferay-portal-ee-7.0.x"
-ee70xBundleDir="$bundleDir/ee-7.0.x"
+ee70xBundleDir="$bundleDir/ee-7.0.x-bundles"
 ee70xPluginsDir="$sourceDir/liferay-plugins-ee-7.0.x"
 
 ee61xSourceDir="$sourceDir/liferay-portal-ee-6.1.x"
@@ -98,7 +98,7 @@ ce62xBundleDir="$bundleDir/6.2.x-bundles"
 ce62xPluginsDir="$sourceDir/liferay-plugins-6.2.x"
 
 ce70xSourceDir="$sourceDir/liferay-portal-7.0.x"
-ce70xBundleDir="$bundleDir/7.0.x"
+ce70xBundleDir="$bundleDir/7.0.x-bundles"
 ce70xPluginsDir="$sourceDir/liferay-plugins-7.0.x"
 
 ## Plugins ##
@@ -243,10 +243,9 @@ createBundleZip(){
 	portalID="$(git log --pretty=format:'%H' -n 1)"
 	echo $portalID
 	cd ~/bundles
-	zip -rq master-${portalID} master-bundles/
+	zip -rq $db-${portalID} $v-bundles/
 	mkdir master-upgrade-bundles
-	mv master-${portalID}.zip ./master-upgrade-bundles/
-	export master_zip=master-${portalID}.zip
+	mv $db-${portalID}.zip ./master-upgrade-bundles
 }
 
 bundleBuild(){
@@ -349,10 +348,7 @@ bundleBuild(){
 	dbClear
 	echo "$db has been remade"
 
-	if [[ $v == *master* ]]
-	then
-		createBundleZip
-	fi
+	createBundleZip
 
 	# if [[ $v != *ee-6.1* ]]
 	
