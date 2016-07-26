@@ -193,6 +193,9 @@ setupDatabaseConnection(){
 	if [[ $wf = "true" ]]
 	then
 		(echo "" ; echo "app.server.type=wildfly") >>app.server.$username.properties
+	elif [[ $jb = "true" ]]
+	then
+		(echo "" ; echo "app.server.type=jboss") >>app.server.$username.properties
 	fi
 
 	echo "Configuring test.$username.properties for MySQL"
@@ -324,6 +327,15 @@ bundleBuild(){
 		echo
 		(echo "" ; echo "app.server.type=wildfly") >>app.server.$username.properties
 		ant -f build-dist.xml unzip-wildfly
+		ant all
+	elif [[ $jb = "true" ]]
+	then
+		echo
+		echo "Building $v on JBOSS"
+		echo
+		(echo "" ; echo "app.server.type=jboss") >>app.server.$username.properties
+		ant -f build-dist.xml unzip-jboss
+		ant all
 	else
 		echo
 		echo "Building $v on TOMCAT"
@@ -931,7 +943,7 @@ EOF
 	case "$REPLY" in
 	"1")  dir=$masterSourceDir bundleDir=$masterBundleDir pluginsDir=$masterPluginsDir v="master" db=$masterDB port=$masterPort jb="master" public="true" wf="false" branchMenu ;;
 	"2")  dir=$ee62xSourceDir bundleDir=$ee62xBundleDir pluginsDir=$ee62xPluginsDir v="ee-6.2.x" db=$ee62xDB port=$ee62xPort jb="ee62x"  branchMenu ;;
-	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB port=$ee70xPort jb="ee70x" branchMenu ;;
+	"3")  dir=$ee70xSourceDir bundleDir=$ee70xBundleDir pluginsDir=$ee70xPluginsDir v="ee-7.0.x" db=$ee70xDB port=$ee70xPort jb="ee70x" wf="false" jb="false" branchMenu ;;
 	"4")  dir=$ee61xSourceDir bundleDir=$ee61xBundleDir pluginsDir=$ee61xPluginsDir v="ee-6.1.x" db=$ee61xDB port=$ee61xPort jb="ee61x" branchMenu ;;
 	"5")  dir=$ee6210SourceDir bundleDir=$ee6210BundleDir pluginsDir=$ee6210PluginsDir v="ee-6.2.10" db=$ee6210DB port=$ee6210Port jb="ee6210"  branchMenu ;;
 	"6")  dir=$eeMasterSourceDir bundleDir=$eeMasterBundleDir pluginsDir=$masterPluginsDir v="master" db=$eeMasterDB port=$eeMasterPort jb="master" branchMenu ;;
