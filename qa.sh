@@ -341,9 +341,14 @@ bundleBuild(){
 		echo "Building $v on TOMCAT"
 		echo
 		ant -f build-dist.xml unzip-tomcat
+		echo "ANT CLEAN" && \
+		ant clean && \
+		echo "ANT COMPILE" && \
+		ant compile && \
+		echo "ANT BUILD-DIST-TOMCAT" && \
+		ant -f build-dist.xml build-dist-tomcat -Dtomcat.keep.app.server.properties=true \
+		-Denv.JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home
 	fi
-
-	ant all
 	
 	if [[ $v == *ee-6.1* ]]
 	then
