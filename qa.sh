@@ -13,10 +13,6 @@ name="Victor"
 # username is the value used to name your test.${username/computername}.properties
 username="vicnate5"
 
-## Operating System ##
-# set to "windows", "osx", or "linux"
-OS="osx"
-
 ## MySQL login ##
 # this can usually be left blank
 mysqlUsername=
@@ -114,20 +110,24 @@ gitpr="/Users/vicnate5/Liferay/git-tools/git-pull-request/git-pull-request.sh"
 #FUNCTIONS############################################################################################################
 ######################################################################################################################
 
-if [[ ${OS} == "osx" ]]
+OS=$(uname)
+
+if [[ ${OS} == *Darwin* ]]
 then
 	open=open
 	sed=gsed
-elif [[ ${OS} == "linux" ]]
+elif [[ ${OS} == *Linux* ]]
 then
 	open=xdg-open
 	sed=sed
-elif [[ ${OS} == "windows" ]]
+elif [[ ${OS} == *NT* ]]
 then
 	open=start
 	sed=sed
+else
+	echo "Could not detect OS"
+	exit
 fi
-
 
 dbClear(){
 	if [[ -n "$mysqlUsername" ]]; then
