@@ -188,6 +188,7 @@ setupDatabaseConnection(){
 	echo "Adding properties files"
 	cp $testPropsDir/test.$username.properties $dir/
 	echo app.server.parent.dir=$bundleDir >app.server.$username.properties
+	echo "jsp.precompile=on" > build.$username.properties
 
 	if [[ $wf = "true" ]]
 	then
