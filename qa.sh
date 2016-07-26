@@ -62,9 +62,9 @@ eeMasterPort="6"
 ce62xPort="8"
 ce70xPort="5"
 
-## Test Results Location ##
-# where you want your test reports to end up
-resultsDir="/Users/vicnate5/RESULTS"
+## Output Directory ##
+# if this script needs to create any files, it will put them here
+outputDir="/Users/vicnate5/"
 
 ## Portal Directories ##
 sourceDir="/Users/vicnate5/Liferay"
@@ -576,7 +576,7 @@ poshiSuite(){
 	mv Results-Pictures-$info.zip $dir
 	rm *.zip
 	cd $dir
-	mv Results-Pictures-$info.zip $resultsDir/Results-$info-PICTURES
+	mv Results-Pictures-$info.zip $outputDir/Results-$info-PICTURES
 	echo "done"
 
 	echo
@@ -597,10 +597,10 @@ poshiSuite(){
 	cd $dir/portal-web/test-results/functional
 	rm -r failed
 
-	echo "Sending your results to $resultsDir"
+	echo "Sending your results to $outputDir"
 	cd $dir
-	unzip Results-$info-PASSED.zip -d $resultsDir/Results-$info-PASSED
-	unzip Results-$info-FAILED.zip -d $resultsDir/Results-$info-FAILED
+	unzip Results-$info-PASSED.zip -d $outputDir/Results-$info-PASSED
+	unzip Results-$info-FAILED.zip -d $outputDir/Results-$info-FAILED
 	echo "done"
 
 	## TO RUN ON ANOTHER ENVIROMENT
@@ -645,7 +645,7 @@ poshiSuite(){
 	# mv Results-Pictures-$info.zip $dir
 	# rm *.zip
 	# cd $dir
-	# mv Results-Pictures-$info.zip $resultsDir/Results-$info-PICTURES
+	# mv Results-Pictures-$info.zip $outputDir/Results-$info-PICTURES
 	# echo "done"
 
 	# echo
@@ -666,10 +666,10 @@ poshiSuite(){
 	# cd $dir/portal-web/test-results/functional
 	# rm -r failed
 
-	# echo "Sending your results to $resultsDir"
+	# echo "Sending your results to $outputDir"
 	# cd $dir
-	# unzip Results-$info-PASSED.zip -d $resultsDir/Results-$info-PASSED
-	# unzip Results-$info-FAILED.zip -d $resultsDir/Results-$info-FAILED
+	# unzip Results-$info-PASSED.zip -d $outputDir/Results-$info-PASSED
+	# unzip Results-$info-FAILED.zip -d $outputDir/Results-$info-FAILED
 	# echo "done"
 
 	echo
@@ -680,7 +680,7 @@ poshiSuite(){
 	echo "done"
 	echo
 	printf "\e[31mResults can be found in $dir\e[0m"
-	printf "\e[31mor in $resultsDir\e[0m"
+	printf "\e[31mor in $outputDir\e[0m"
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
@@ -688,8 +688,8 @@ poshiRun(){
 	echo "Running POSHI test for $v"
 	poshiBuildSeleniumOption
 	poshiRunTest
-	echo "Copying your results to $resultsDir"
-	cp $dir/portal-web/test-results/functional/${v}_$testname.${time}.html $resultsDir/
+	echo "Copying your results to $outputDir"
+	cp $dir/portal-web/test-results/functional/${v}_$testname.${time}.html $outputDir/
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
@@ -753,7 +753,7 @@ updateFixPriorities(){
 	echo
 	echo -n "Enter New Priority and press [ENTER]: "
 	read priority
-	vim $resultsDir/fp.txt
+	vim $outputDir/fp.txt
 	echo
 	cd $dir
 
@@ -764,7 +764,7 @@ updateFixPriorities(){
 		${sed} -i "s/name=\"${testcommand}\" priority=\".*\"/name=\"${testcommand}\" priority=\"${priority}\"/" $testcasefile
 		cd $dir
 		continue
-	done<$resultsDir/fp.txt
+	done<$outputDir/fp.txt
 	echo "done"
 	echo "$priority's added"
 	read -rsp $'Press any key to continue...\n' -n1 key
@@ -773,7 +773,7 @@ updateFixPriorities(){
 addKnownIssues(){
 	echo
 	echo
-	vim $resultsDir/addki.txt
+	vim $outputDir/addki.txt
 	echo
 	echo
 	echo -n "Enter Ticket to Add and press [ENTER]: "
@@ -787,7 +787,7 @@ addKnownIssues(){
 		${sed} -i "s/name=\"${testcommand}\"/known-issues=\"${ticket}\"\ name=\"${testcommand}\"/" $testcasefile
 		cd $dir
 		continue
-	done<$resultsDir/addki.txt
+	done<$outputDir/addki.txt
 	echo "done"
 	echo "known-issues $ticket added"
 	read -rsp $'Press any key to continue...\n' -n1 key
