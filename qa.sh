@@ -472,58 +472,12 @@ poshiBuildSeleniumOption(){
 	fi
 }
 
-poshiRunTest(){
-	echo "Running $testname"
-	sleep 2
-	echo
-	echo "Clearing Old Screenshots"
-	cd $dir/portal-web/test-results/functional/screenshots && rm *.jpg
-	cd $dir
-
-	echo "Disabling Poshi Runner"
-	${sed} -i "s~test.poshi.runner.enabled=.*~test.poshi.runner.enabled=false~" test.$username.properties
-
-	if [ "$mobile" = "true" ]
-	then
-		${sed} -i "s/address}:8080/address}:${port}080/" build-test.xml
-		${sed} -i 's/sleep seconds="120"/sleep seconds="30"/' build-test.xml
-		ant -f run.xml run -Dtest.class=$testname -Dmobile.device.enabled=true < /dev/null
-	else
-		ant -f run.xml run -Dtest.class=$testname < /dev/null
-	fi
-	
-	echo
-	echo "Finished $testname"
-	echo
-	echo "Renaming report.html"
-	time="$(date +"%H.%M")"
-	mv $dir/portal-web/test-results/functional/report.html $dir/portal-web/test-results/functional/${v}_$testname.${time}.html
-	echo "done"
-	echo
-	echo "Zipping Screenshots"
-	echo
-	cd $dir/portal-web/test-results/functional/screenshots
-	zip Pictures$testname.zip *.jpg
-	rm *.jpg
-	echo "done"
-}
-
-poshiRun(){
-	echo "Running POSHI test for $v"
-	poshiBuildSeleniumOption
-	poshiRunTest
-	echo "Copying your results to $outputDir"
-	cp $dir/portal-web/test-results/functional/${v}_$testname.${time}.html $outputDir/
-	read -rsp $'Press any key to continue...\n' -n1 key
-}
-
 poshiRunnerRun(){
 	echo "POSHI Runner test for $v"
 	cd $dir
 	echo
 	echo "Enabling Poshi Runner"
 	echo
-	${sed} -i "s~test.poshi.runner.enabled=.*~test.poshi.runner.enabled=true~" test.$username.properties
 	ant -f build-test.xml run-selenium-test -Dtest.class=$testname < /dev/null
 	echo
 	echo "Finished $testname"
