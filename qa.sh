@@ -116,14 +116,17 @@ if [[ ${OS} == *Darwin* ]]
 then
 	open=open
 	sed=gsed
+	play=afplay
 elif [[ ${OS} == *Linux* ]]
 then
 	open=xdg-open
 	sed=sed
+	play=mpg123
 elif [[ ${OS} == *NT* ]]
 then
 	open=start
 	sed=sed
+	play=start
 else
 	echo "Could not detect OS"
 	exit
@@ -364,7 +367,7 @@ bundleBuild(){
 
 	echo "done"
 	cd $soundDir
-	afplay $soundFile &> /dev/null
+	$play $soundFile &> /dev/null
 	read -rsp $'Press any key to continue...\n' -n1 key
 }
 
