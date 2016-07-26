@@ -22,25 +22,6 @@ OS="osx"
 mysqlUsername=
 mysqlPassword=
 
-## POSHI Suite Function ##
-# There is a function in this tool that runs all tests that are listed in the specified file:
-# suite1.txt
-# or
-# suite2.txt 
-#
-# If you would like to use this function
-# these files needs to be in your base source directory of the branch you want to use.
-#
-# You can list out as many tests as you like in one of these files, one test per line.
-# Example:
-#
-# -suite1.txt-
-# PortalSmoke#Smoke
-# WebContent#AddWebContent
-#
-# These files also must contains a single blank line at the end of the file 
-# to ensure all the tests are read.
-
 ## MySQL Databases ##
 masterDB="master"
 ee62xDB="ee62"
@@ -527,163 +508,6 @@ poshiRunTest(){
 	echo "done"
 }
 
-poshiSuite(){
-	T="$(date +%s)"
-
-	echo "Choose a Test Suite to Run and hit [Enter]:"
-	echo
-	OPTIONS="Suite-1 Suite-2"
-	select opt in $OPTIONS; do
-		if [ "$opt" = "Suite-1" ]; then
-			suiteNumber=1
-			echo "$opt Selected"
-			sleep 2
-			break
-		elif [ "$opt" = "Suite-2" ]; then
-			suiteNumber=2
-			echo "$opt Selected"
-			sleep 2
-			break
-		else
-			echo "Invalid option"
-		fi
-	done
-
-	vim $dir/suite$suiteNumber.txt
-	poshiBuildSeleniumOption	
-	cd $dir
-
-	while read testname;
-	do
-		poshiRunTest
-		cd $dir
-		continue
-	done<suite$suiteNumber.txt
-
-	echo
-	printf "\e[31mALL TESTS COMPLETE\e[0m"
-	echo
-	echo "Zipping up results for you"
-	sleep 2
-
-	date="$(date +"%m-%d-%y")"
-	time="$(date +"%H:%M")"
-
-	info=Suite${suiteNumber}_${date}_${time}
-	cd $dir/portal-web/test-results/functional/screenshots
-	echo "Zipping screenshots"
-	zip Results-Pictures-$info *.zip
-	mv Results-Pictures-$info.zip $dir
-	rm *.zip
-	cd $dir
-	mv Results-Pictures-$info.zip $outputDir/Results-$info-PICTURES
-	echo "done"
-
-	echo
-	echo "Zipping reports"
-	cd $dir/portal-web/test-results/functional
-
-	mkdir failed
-	grep -l -Z -r 'div class="fail"' . | xargs -0 -i{} mv {} ./failed
-
-	cd $dir/portal-web/test-results/functional
-	zip Results-$info-PASSED *.html
-	mv Results-$info-PASSED.zip $dir
-	rm *.html
-
-	cd failed
-	zip Results-$info-FAILED *.html
-	mv Results-$info-FAILED.zip $dir
-	cd $dir/portal-web/test-results/functional
-	rm -r failed
-
-	echo "Sending your results to $outputDir"
-	cd $dir
-	unzip Results-$info-PASSED.zip -d $outputDir/Results-$info-PASSED
-	unzip Results-$info-FAILED.zip -d $outputDir/Results-$info-FAILED
-	echo "done"
-
-	## TO RUN ON ANOTHER ENVIROMENT
-
-	# sleep 2
-	
-	# Needs to be replaced with VIX API cuz this doesn't actually shutdown the VM
-	# killall -9 vmplayer	
-
-	# vmplayer /home/vicnate5/VMs/posgresql/vm-winxp.vmx &> /dev/null &
-	# sleep 60
-
-	# vmplayer /home/vicnate5/VMs/CentOS\ 5/vm-centos5.vmx &> /vdev/null &
-	# sleep 20
-
-	# STILL DOESNT WORK
-	# url="172.16.19.254:8080"
-	# ${sed} -i "s/test.url=.*/test.url=$url/" /home/vicnate5/liferay/liferay-portal-ee-6.2.x/test.vicnate5.properties
-
-	# cd $dir
-
-	# while read testname;
-	# do
-	# 	poshiRunTest
-	# 	cd $dir
-	# 	continue
-	# done<suite$suiteNumber.txt
-
-	# echo
-	# printf "\e[31mALL TESTS COMPLETE\e[0m"
-	# echo
-	# echo "Zipping up results for you"
-	# sleep 2
-
-	# date="$(date +"%m-%d-%y")"
-	# time="$(date +"%H:%M")"
-
-	# info=Suite${suiteNumber}_${date}_${time}
-	# cd $dir/portal-web/test-results/functional/screenshots
-	# echo "Zipping screenshots"
-	# zip Results-Pictures-$info *.zip
-	# mv Results-Pictures-$info.zip $dir
-	# rm *.zip
-	# cd $dir
-	# mv Results-Pictures-$info.zip $outputDir/Results-$info-PICTURES
-	# echo "done"
-
-	# echo
-	# echo "Zipping reports"
-	# cd $dir/portal-web/test-results/functional
-
-	# mkdir failed
-	# grep -l -Z -r 'div class="fail"' . | xargs -0 -I{} mv {} ./failed
-
-	# cd $dir/portal-web/test-results/functional
-	# zip Results-$info-PASSED *.html
-	# mv Results-$info-PASSED.zip $dir
-	# rm *.html
-
-	# cd failed
-	# zip Results-$info-FAILED *.html
-	# mv Results-$info-FAILED.zip $dir
-	# cd $dir/portal-web/test-results/functional
-	# rm -r failed
-
-	# echo "Sending your results to $outputDir"
-	# cd $dir
-	# unzip Results-$info-PASSED.zip -d $outputDir/Results-$info-PASSED
-	# unzip Results-$info-FAILED.zip -d $outputDir/Results-$info-FAILED
-	# echo "done"
-
-	echo
-	T="$(($(date +%s)-T))"
-	echo "Time in seconds: ${T}"
-	echo
-	printf "Pretty format: %02d:%02d:%02d:%02d\n" "$((T/86400))" "$((T/3600%24))" "$((T/60%60))" "$((T%60))"
-	echo "done"
-	echo
-	printf "\e[31mResults can be found in $dir\e[0m"
-	printf "\e[31mor in $outputDir\e[0m"
-	read -rsp $'Press any key to continue...\n' -n1 key
-}
-
 poshiRun(){
 	echo "Running POSHI test for $v"
 	poshiBuildSeleniumOption
@@ -859,7 +683,6 @@ EOF
 	"3")  poshiSetTest ;;
 	"4")  poshiFormat ;;
 	"5")  poshiSetUrl ;;
-	#"s")  poshiSuite ;;
 	"p")  qaPullRequest ;;
 	"Q")  echo "case sensitive!!" ;;
 	"q")  break ;; 
